@@ -6,7 +6,7 @@ Define what each account type can see and do.
 
 ## Completion
 
-Current completion: 25%
+Current completion: 50%
 
 ## Roles
 
@@ -50,4 +50,4 @@ Verified on: 2026-08-03
 Task: M2-001 and M2-003
 Checks: migration authored, direct TypeScript check, direct ESLint check, Next.js production build
 Result: partial pass
-Notes: The role table, protected helper functions and RLS policies are ready for review. They are not yet deployed or tested against a remote Supabase project.
+Notes: Two migrations are deployed to Supabase. All 16 core tables were queried and confirmed with RLS enabled; Supabase security advisors returned no issues after remediation. Cross-user authenticated RLS tests and trusted-admin seeding remain.

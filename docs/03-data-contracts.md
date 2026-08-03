@@ -15,6 +15,14 @@ No table, column, enum, or relationship should be added in code before this file
 - Use RLS on every table in exposed schemas.
 - Do not authorize using user-editable metadata.
 
+## Index Rules
+
+- Every foreign key used for ownership checks, joins, moderation or operational lookup must have a covering index.
+- Unique constraints may satisfy this requirement when the foreign-key column is the leading column.
+- Performance-only advisor findings and their remediation migrations must be recorded before a module reaches `100%`.
+
+Core foreign-key indexes include `user_roles.user_id`, `organizations.owner_id`, `inquiries.sender_user_id`, `inquiries.organization_id`, `membership_subscriptions.user_id`, `membership_subscriptions.organization_id`, `membership_subscriptions.plan_id`, `payment_intents.user_id`, `payment_intents.plan_id`, `sepay_transactions.matched_payment_intent_id`, `content_posts.category_id`, `content_posts.author_id`, `content_pages.author_id`, `app_settings.updated_by`, and `audit_logs.actor_user_id`.
+
 ## Planned Enums
 
 | Enum | Values | Purpose |

@@ -16,6 +16,14 @@ Current completion: `0%`
 - Vercel CLI did not confirm an authenticated account.
 - Dependency installation reported 5 npm audit findings (including 3 high). Their production reachability must be classified and resolved before a production release.
 
+## Verified Infrastructure Evidence
+
+Verified on: 2026-08-03
+Task: M2-001
+Checks: remote migration list, `supabase db advisors --linked --type security`, direct RLS catalog query, direct function-privilege query
+Result: pass
+Notes: Initial schema and advisor remediation migrations are deployed to project `Travel Plan`; all 16 core tables have RLS enabled and security advisors report no issues.
+
 ## Planned Capabilities
 
 - GitHub repository, branch protection and quality checks

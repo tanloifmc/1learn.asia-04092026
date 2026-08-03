@@ -19,7 +19,7 @@ Rules:
 | Design system | 0% | Planned | Define theme tokens and base components |
 | Authentication | 25% | Auth pages, callback route and SSR session proxy compile and build | Connect Supabase and run live auth acceptance including logout |
 | Account profile | 25% | Protected dashboard, current-account query and validated profile API compile and build | Push schema; add profile UI and live account tests |
-| Roles and permissions | 25% | Role contract and RLS migration authored | Push migration; seed trusted admin and run isolation tests |
+| Roles and permissions | 50% | Role table and RLS policies deployed; all core tables confirmed RLS-enabled; security advisors pass | Seed trusted admin and run authenticated isolation tests |
 | Notifications | 0% | Planned | Create notifications table and inbox |
 | Favorites | 0% | Planned | Create generic favorites model |
 | Provider organizations | 0% | Planned | Create organization profile and approval |
