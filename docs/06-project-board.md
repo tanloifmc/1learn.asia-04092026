@@ -49,7 +49,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | --- | --- | --- | --- |
 | Supabase | deployed | All six CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
 | GitHub | verified | `codex/core-foundation` is pushed through commit `fe2a0de`; remote Quality Gate passed for both release commits | Configure branch protection and merge/release policy |
-| Vercel | preview deployed | `core-platform` project has Supabase preview variables and a successful Next.js preview deployment | Configure production variables/domain and production acceptance |
+| Vercel | preview deployed | `core-platform` has a current preview of commit `6bcd8f4` that built 66 routes successfully | Configure production variables/domain and production acceptance |
 
 ## Current Evidence
 
@@ -68,6 +68,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-03 | M4-002 | Partial pass | Admin user/role, provider moderation and audit viewer screens plus guarded APIs passed typecheck, lint and production build | Run multi-role acceptance and add billing operations view |
 | 2026-08-04 | M5-003 | Partial pass | GitHub Actions `Quality Gate` completed successfully for commits `427d49d` and `fe2a0de`; Vercel preview built all 69 routes | Configure production domain/variables, monitoring and production acceptance |
 | 2026-08-04 | M5-001 | Partial pass | Generic membership refactor passed TypeScript, ESLint, production build and zero-vulnerability audit; migration `20260804110000` is remote and security advisors report no issues | Run live administrator and member acceptance |
+| 2026-08-04 | M5-003 | Partial pass | GitHub `Quality Gate` passed for `6bcd8f4`; Vercel preview `core-platform-hqsiv0q3h-le-nguyen2004.vercel.app` built 66 routes | Configure project-specific production domain/variables, monitoring and production acceptance |
 
 ## Update Protocol
 

@@ -31,7 +31,7 @@ Rules:
 | Media storage | 35% | Local bucket/RLS migration plus validated server upload route and avatar/logo UI pass production build | Push migration at release gate and run live owner-isolation/upload tests |
 | Audit logs | 52% | Server-only writer, protected viewer and role/provider/broadcast/settings/CMS/membership-plan/payment audit events pass production build | Cover remaining sensitive actions and run live access acceptance |
 | Testing | 45% | Typecheck, lint, production build, local HTTP checks and Playwright desktop/mobile public-route/redirect smoke checks passed | Add repeatable browser suite and authenticated multi-account acceptance |
-| Deployment | 50% | Vercel project, preview environment, Next.js preview deployment and remote GitHub quality gate are verified | Configure production variables/domain and run production acceptance |
+| Deployment | 50% | Vercel project, current Next.js preview deployment (66 routes) and remote GitHub quality gate are verified | Configure production variables/domain and run production acceptance |
 | Transactional email | 35% | Pinned Resend SDK, server-only idempotent helper, support/membership event emails and verified webhook recorder pass production build | Configure domain and run sandbox delivery acceptance |
 | Security and abuse controls | 25% | Security headers and process-local rate limits for inquiries and support requests pass production build | Add shared rate-limit store, recovery rules and live security tests |
 | Monitoring and operations | 50% | Supabase migrations/security advisors, GitHub quality gate, local health and Vercel preview build pass | Add error monitoring, recovery runbook and production acceptance |
