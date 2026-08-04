@@ -21,7 +21,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const parsed = organizationSchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = organizationSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid organization input" }, { status: 400 });
   const { userId } = await getAuthenticatedSession();
   if (!userId) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
@@ -44,7 +45,8 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  const parsed = organizationSchema.partial().safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = organizationSchema.partial().safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid organization input" }, { status: 400 });
   const { userId } = await getAuthenticatedSession();
   if (!userId) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });

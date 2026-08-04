@@ -20,7 +20,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
 | M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001/M1-003 and the first source-boundary scope are remotely verified; further module migration is incremental |
 | M2: Identity and account | in_progress | 55% | Auth, profile, dashboard, roles and permissions | Live browser login/logout/dashboard and user/admin RLS baseline pass; registration, recovery and multi-role journeys remain |
-| M3: Shared application core | in_progress | 60% | Notifications, favorites, media, inquiry and provider workflows | Favorite/notification RLS baseline passes; remaining workflows need live user journeys |
+| M3: Shared application core | in_progress | 64% | Notifications, favorites, media, inquiry and provider workflows | Favorite/notification RLS and provider onboarding/review browser journeys pass; inquiry/admin workflows remain |
 | M4: Operations and public site | in_progress | 84% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin and public-page suite passes |
 | M5: Membership and production | in_progress | 62% | Membership lifecycle, Resend, GitHub CI, Vercel and monitoring | Production configuration, public-preview access policy, live administrator acceptance and deployment acceptance pass |
 
@@ -36,7 +36,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 50% | M2-001 | Gated live browser suite passes email/password login, logout and post-logout denial on desktop/mobile; registration, verification and recovery remain |
 | M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 45% | M2-002 | Live browser dashboard renders default user role; profile isolation and administrator visibility pass; profile editing and multi-role routes remain |
 | M3-001 | Implement notifications and favorites | Shared core | review | 45% | M2-003 | Live owner-only favorite/notification creation and cross-account read denial pass; browser interaction and mutation coverage remain |
-| M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 35% | M2-003 | Profile, review, inbox and send-inquiry UI/API routes passed typecheck, lint and production build; live role tests remain |
+| M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 55% | M2-003 | Live provider browser suite passes profile creation, provider-role assignment, review submission and dashboard role rendering on desktop/mobile; inquiry and admin workflows remain |
 | M4-001 | Implement design system, layouts and navigation settings | Design/CMS | verified | 40% | M1-002 | Shared accessible button, form field, status message and empty state are used in login/support; GitHub Quality Gate `30885182320` passes typecheck, lint, build and 6 desktop/mobile Playwright tests |
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
 | M5-001 | Implement reusable membership lifecycle | Membership | review | 45% | M2-003 | Plans, currency-neutral pricing and administrator activation/renewal source are implemented; live acceptance remains |
@@ -81,6 +81,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M2-002, M2-003 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-auth` passed 2/2 desktop/mobile: real browser login, dashboard/default role, logout and post-logout `/dashboard` denial. Temporary users were deleted | Add browser registration, verification, recovery and provider/editor/admin journeys |
 | 2026-08-04 | M5-003 | Partial pass | Vercel preview `core-platform-h84uyana7-le-nguyen2004.vercel.app` built 66 routes successfully from `84751dc`; external HTTP checks encounter Vercel Authentication before the application | Preserve or change preview-protection policy deliberately; then run application HTTP checks and production acceptance |
 | 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30886692600` passed `npm ci`, environment contract, typecheck, lint, production build and six public Playwright tests; two secret-gated live tests skipped as intended | Keep live suites explicit and guarded; add provider/editor/admin journeys in their phases |
+| 2026-08-04 | M3-002 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-provider` passed 2/2 desktop/mobile: create provider profile, automatic provider role, submit review and provider role in dashboard. Temporary organizations and users were deleted | Add provider inquiry and administrator moderation browser/RLS journeys |
 
 ## Update Protocol
 

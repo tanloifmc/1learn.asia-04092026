@@ -18,7 +18,8 @@ if (process.env.RUN_LIVE_BROWSER_AUTH !== "true") {
 }
 
 await loadLocalEnvironment();
-const result = spawnSync(process.execPath, ["./node_modules/@playwright/test/cli.js", "test", "tests/e2e/live-auth.spec.ts"], {
+const testFile = process.argv[2] ?? "tests/e2e/live-auth.spec.ts";
+const result = spawnSync(process.execPath, ["./node_modules/@playwright/test/cli.js", "test", testFile], {
   env: process.env,
   stdio: "inherit",
 });
