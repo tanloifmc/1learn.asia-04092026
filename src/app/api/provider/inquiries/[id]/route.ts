@@ -5,7 +5,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 const schema = z.object({ status: z.enum(["read", "responded", "closed", "spam"]) });
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const parsed = schema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid inquiry status" }, { status: 422 });
   const { userId } = await getAuthenticatedSession();
   if (!userId) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });

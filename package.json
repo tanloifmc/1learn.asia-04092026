@@ -12,6 +12,7 @@
     "test:live:auth-rbac": "node ./scripts/verify-live-auth-rbac.mjs",
     "test:live:browser-auth": "node ./scripts/run-live-browser-auth.mjs",
     "test:live:browser-provider": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-provider.spec.ts",
+    "test:live:browser-inquiries": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-inquiries.spec.ts",
     "check:env": "node ./scripts/check-environment-contract.mjs"
   },
   "dependencies": {

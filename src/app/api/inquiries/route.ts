@@ -7,7 +7,8 @@ import { rateLimit } from "@/lib/security/rate-limit";
 const inquirySchema = z.object({ organizationId: z.string().uuid(), subject: z.string().trim().min(2).max(200), message: z.string().trim().min(2).max(5000) });
 
 export async function POST(request: Request) {
-  const parsed = inquirySchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = inquirySchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid inquiry input" }, { status: 400 });
   const { supabase, userId } = await getAuthenticatedSession();
   if (!userId) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
