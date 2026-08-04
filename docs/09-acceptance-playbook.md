@@ -48,6 +48,8 @@ Run `npm run test:live:browser-account` only with `RUN_LIVE_BROWSER_AUTH=true`. 
 
 Run `npm run test:live:browser-cms` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a temporary editor/administrator, publishes uniquely-slugged posts and static pages through admin forms, creates a category, persists an isolated public setting and confirms its audit-console entry, then uses a separate public browser session to read content. It deletes temporary data and users, and must never run in public CI.
 
+Run `npm run test:live:browser-shared-core` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary user and administrator accounts plus an approved provider organization, proves the user can save/list/remove the provider and that a duplicate save returns `409`, then submits a support request. The administrator sends two notifications and updates the support-request status; the user reads one notification, marks all remaining notifications read and sees the updated request status. It deletes all temporary records and users, and must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:

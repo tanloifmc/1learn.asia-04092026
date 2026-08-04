@@ -20,7 +20,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
 | M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001/M1-003 and the first source-boundary scope are remotely verified; further module migration is incremental |
 | M2: Identity and account | in_progress | 62% | Auth, profile, dashboard, roles and permissions | Live browser login/logout/dashboard/profile/preferences/password and user/admin RLS baseline pass; registration, recovery and multi-role journeys remain |
-| M3: Shared application core | in_progress | 72% | Notifications, favorites, media, inquiry and provider workflows | Provider onboarding, inquiry and administrator moderation journeys pass; broader operations remain |
+| M3: Shared application core | in_progress | 78% | Notifications, favorites, media, inquiry and provider workflows | Provider/inquiry workflows plus favorite, support and administrator-notification journeys pass; media, entity registry and large-audience operations remain |
 | M4: Operations and public site | in_progress | 90% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin provider moderation, CMS publishing/static pages and isolated public settings/audit console have live browser evidence; media/runtime navigation suite remains |
 | M5: Membership and production | in_progress | 70% | Membership lifecycle, Resend, GitHub CI, Vercel and monitoring | Production configuration, public-preview access policy, Resend sandbox delivery, membership renewal and deployment acceptance pass |
 
@@ -35,7 +35,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 60% | M1-001 | Live Supabase acceptance proves profile, role, favorite and notification RLS isolation plus administrator visibility; other tables remain |
 | M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 50% | M2-001 | Gated live browser suite passes email/password login, logout and post-logout denial on desktop/mobile; registration, verification and recovery remain |
 | M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 65% | M2-002 | Live desktop/mobile journey saves profile, notification preferences and replacement password, while dashboard role and profile isolation/administrator visibility pass; multi-role routes remain |
-| M3-001 | Implement notifications and favorites | Shared core | review | 45% | M2-003 | Live owner-only favorite/notification creation and cross-account read denial pass; browser interaction and mutation coverage remain |
+| M3-001 | Implement notifications and favorites | Shared core | review | 75% | M2-003 | Live desktop/mobile journey proves favorite save/list/remove/duplicate conflict, repeated administrator broadcast, recipient inbox and single/bulk read mutations; entity registry and large-audience acceptance remain |
 | M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 75% | M2-003 | Live provider, inquiry and admin-moderation suites pass onboarding, role assignment, review, sender inquiry, provider inbox update and admin approval notification on desktop/mobile |
 | M4-001 | Implement design system, layouts and navigation settings | Design/CMS | verified | 40% | M1-002 | Shared accessible button, form field, status message and empty state are used in login/support; GitHub Quality Gate `30885182320` passes typecheck, lint, build and 6 desktop/mobile Playwright tests |
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 60% | M2-003 | Live desktop/mobile suite proves post/static-page publication, category creation, isolated public-setting persistence and audit-console visibility; media/runtime branding/navigation remain |
@@ -47,7 +47,7 @@ This is the operating board for the core platform. Every task has one owner (the
 
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
-| Supabase | deployed | All six CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
+| Supabase | deployed | All eight CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
 | Supabase email | blocked | The linked project's signup confirmation endpoint returned `429 over_email_send_rate_limit` on 2026-08-04 | Registration, verification and recovery delivery cannot be live-accepted until a sender/rate-limit configuration is available |
 | GitHub | verified | `codex/core-foundation` is pushed through commit `e0e4c6b`; remote Quality Gate passed for the latest browser-auth tooling change | Configure branch protection and merge/release policy |
 | Vercel | preview deployed | `core-platform` preview `core-platform-h84uyana7-le-nguyen2004.vercel.app` built 66 routes from commit `84751dc` | Decide whether preview protection stays enabled; configure production variables/domain and production acceptance |
@@ -92,6 +92,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M3-002, M4-002 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-admin-provider` passed 2/2 desktop/mobile: administrator approves provider and provider receives the generated notification. Temporary organizations and users were deleted | Add CMS/settings/admin-user browser acceptance |
 | 2026-08-04 | M4-002 | Verified | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-cms` passed 2/2 desktop/mobile: an editor created a published post through the admin form and a separate public browser read the blog page. Migration `20260804130400` split public RLS policy from content-manager authorization; temporary posts and users were deleted | Add settings, static-page/category and media-storage acceptance |
 | 2026-08-04 | M4-002 | Verified | The CMS suite expanded to 6/6 desktop/mobile: post and static-page publishing render publicly, a category is created, an isolated public setting persists, and its `setting.updated` event appears in the admin audit console. Migration `20260804131707` generalizes audit entity IDs to text | Add media, edit/archive and branding/navigation runtime acceptance |
+| 2026-08-04 | M3-001, Support | Verified | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-shared-core` passed 2/2 desktop/mobile: a user saved/listed/removed a provider, duplicate save returned `409`, the user sent a support request, an administrator sent two notifications and marked the request `responded`, then the user read one, marked all remaining notifications read and saw the updated support status. Temporary data and users were deleted | Add support RLS/validation, entity registry and large-audience delivery acceptance |
 
 ## Update Protocol
 
@@ -104,4 +105,4 @@ This is the operating board for the core platform. Every task has one owner (the
 
 Release batch `CORE-1` includes M1 through M5: app foundation, identity, shared core modules, public/CMS/admin operations, generic membership lifecycle, Resend integration and deployment configuration. Source changes are pushed only after local quality evidence is recorded, and their GitHub Quality Gate becomes the release evidence. Supabase migrations are pushed only after their local contract and migration review are complete.
 
-All six CORE-1 migrations currently in `supabase/migrations` are deployed to the linked Supabase project. Future schema changes must be new ordered migrations; deployed migrations are immutable remote state.
+All eight CORE-1 migrations currently in `supabase/migrations` are deployed to the linked Supabase project. Future schema changes must be new ordered migrations; deployed migrations are immutable remote state.

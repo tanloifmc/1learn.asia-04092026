@@ -15,9 +15,17 @@ export async function DELETE(_request: Request, context: { params: Promise<{ id:
     return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
   }
 
-  const { error } = await supabase.from("favorites").delete().eq("id", parsed.data.id);
+  const { data, error } = await supabase
+    .from("favorites")
+    .delete()
+    .eq("id", parsed.data.id)
+    .select("id")
+    .maybeSingle();
   if (error) {
     return NextResponse.json({ error: "Unable to remove favorite" }, { status: 400 });
+  }
+  if (!data) {
+    return NextResponse.json({ error: "Favorite not found" }, { status: 404 });
   }
 
   return new NextResponse(null, { status: 204 });

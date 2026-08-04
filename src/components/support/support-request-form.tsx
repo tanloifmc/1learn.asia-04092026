@@ -36,7 +36,8 @@ export function SupportRequestForm() {
       return;
     }
     const result = await response.json();
-    setRequests((current) => [{ ...result.request, message: String(formData.get("message")), status: "new", created_at: new Date().toISOString() }, ...(current ?? [])]);
+    const createdRequest = { ...result.request, message: String(formData.get("message")), status: "new", created_at: new Date().toISOString() };
+    setRequests((current) => [createdRequest, ...(current ?? []).filter((request) => request.id !== createdRequest.id)]);
     setMessageTone("success");
     setMessage("Da gui yeu cau ho tro. Quan tri vien da nhan thong bao.");
   }

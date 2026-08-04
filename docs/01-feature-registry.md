@@ -33,19 +33,19 @@ Status values:
 | PROVIDER-002 | Provider | Provider onboarding | implemented | 35% | Draft-to-review API and provider screen |
 | PROVIDER-003 | Provider | Provider approval workflow | implemented | 45% | Admin moderation API/UI, provider notification and public approved visibility |
 | PROVIDER-004 | Provider | Provider dashboard | implemented | 50% | Profile/review state and inquiry inbox/status lifecycle |
-| NOTIFY-001 | Notifications | Notification inbox | implemented | 35% | Per-account inbox; live RLS check proves a recipient can read only their notification |
-| NOTIFY-002 | Notifications | Mark notification as read | implemented | 25% | Single and bulk |
-| NOTIFY-003 | Notifications | Admin broadcast notification | implemented | 35% | Admin-selected recipient broadcast, validation, rate-safe batch limit and audit log |
-| FAVORITE-001 | Favorites | Add item to favorites | implemented | 50% | Generic entity model integrated on provider/blog detail; live RLS check creates an owner-only record |
-| FAVORITE-002 | Favorites | Remove item from favorites | implemented | 40% | Ownership-protected API integrated on provider/blog detail |
-| FAVORITE-003 | Favorites | Favorites list page | implemented | 45% | User dashboard area and entity lookup flow; live RLS check confirms another account cannot list the record |
+| NOTIFY-001 | Notifications | Notification inbox | verified | 70% | Recipient-only RLS passes live; desktop/mobile browser journey receives and displays two administrator broadcasts |
+| NOTIFY-002 | Notifications | Mark notification as read | verified | 70% | Single and bulk mutations pass live desktop/mobile; unread-count integration remains |
+| NOTIFY-003 | Notifications | Admin broadcast notification | verified | 65% | Repeated admin-selected recipient broadcasts pass live desktop/mobile; large-audience delivery and audit inspection remain |
+| FAVORITE-001 | Favorites | Add item to favorites | verified | 80% | Generic provider/blog model; owner-only RLS, live save interaction and duplicate `409` contract pass |
+| FAVORITE-002 | Favorites | Remove item from favorites | verified | 75% | Ownership-protected API reports `404` for missing/non-visible records; live desktop/mobile remove interaction passes |
+| FAVORITE-003 | Favorites | Favorites list page | verified | 75% | User dashboard list/entity lookup and owner-only RLS; live desktop/mobile list interaction passes |
 | INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
 | INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
 | BILLING-001 | Membership | Membership plans | implemented | 65% | Administrator create/update and public active-plan API with currency-neutral amount model; live desktop/mobile membership journey passes |
-| SUPPORT-001 | Support | Submit application support request | implemented | 35% | Authenticated contact form, validation, rate limit and administrator notification pass production build |
-| SUPPORT-002 | Support | User support request history | implemented | 35% | Owner-only RLS contract and contact-page history UI pass production build |
-| SUPPORT-003 | Support | Administrator support request handling | implemented | 35% | Admin list/status API, UI and audit logging pass production build |
+| SUPPORT-001 | Support | Submit application support request | verified | 60% | Authenticated contact form creates a live request on desktop/mobile; validation-boundary coverage remains |
+| SUPPORT-002 | Support | User support request history | verified | 55% | Sender sees the live request and its administrator-updated status in contact history |
+| SUPPORT-003 | Support | Administrator support request handling | verified | 60% | Administrator list and status update pass live desktop/mobile; audit-log inspection remains |
 | BILLING-002 | Membership | Administrator activation and renewal | implemented | 70% | Protected administrator flow creates, extends, suspends and reactivates subscriptions with audit logs; live desktop/mobile activation, suspension, reactivation and member-read journey passes |
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |

@@ -13,6 +13,7 @@ No endpoint should be implemented before it is listed here.
 - Every admin endpoint must check admin permissions server-side.
 - Webhook endpoints must be idempotent.
 - Webhook secrets must never be exposed to the browser.
+- Ownership-protected mutations return `404` when the record does not exist or is not visible to the authenticated account; they must not report success after updating zero rows.
 
 ## Planned API Routes
 

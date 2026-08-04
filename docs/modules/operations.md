@@ -24,7 +24,7 @@ Verified on: 2026-08-04
 Task: CORE-1 release gate
 Checks: remote migration list, `supabase db advisors --linked --type security`, GitHub branch push, Vercel Next.js preview build, TypeScript, ESLint, production build and `npm audit`
 Result: pass
-Notes: All six migrations are deployed to project `Travel Plan` and security advisors report no issues. Commits through `6bcd8f4` are pushed to `codex/core-foundation`, and the remote `Quality Gate` passed for the membership refactor. The current Vercel `core-platform` preview deployment built all 66 routes successfully. `npm audit` reports zero vulnerabilities after dependency upgrades.
+Notes: All eight migrations are deployed to project `Travel Plan` and security advisors report no issues. The pushed `codex/core-foundation` branch has a passing remote Quality Gate for the preceding membership refactor. The current Vercel `core-platform` preview deployment built all 66 routes successfully. `npm audit` reports zero vulnerabilities after dependency upgrades.
 
 ## Planned Capabilities
 

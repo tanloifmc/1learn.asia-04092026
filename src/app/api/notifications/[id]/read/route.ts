@@ -15,13 +15,18 @@ export async function PATCH(_request: Request, context: { params: Promise<{ id: 
     return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("notifications")
     .update({ read_at: new Date().toISOString() })
-    .eq("id", parsed.data.id);
+    .eq("id", parsed.data.id)
+    .select("id")
+    .maybeSingle();
 
   if (error) {
     return NextResponse.json({ error: "Unable to mark notification as read" }, { status: 400 });
+  }
+  if (!data) {
+    return NextResponse.json({ error: "Notification not found" }, { status: 404 });
   }
 
   return NextResponse.json({ ok: true });
