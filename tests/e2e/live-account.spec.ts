@@ -74,5 +74,18 @@ test.describe("live account journey", () => {
         && preferences?.email_notifications === false
         && preferences.product_updates === true;
     }, { timeout: 20_000 }).toBe(true);
+
+    const updatedPassword = `CoreUpdated!${randomUUID()}`;
+    await page.getByLabel("Mat khau moi").fill(updatedPassword);
+    await page.getByLabel("Xac nhan mat khau").fill(updatedPassword);
+    const passwordResponse = page.waitForResponse((item) => item.url().includes("/api/account/password") && item.request().method() === "PATCH", { timeout: 30_000 });
+    await page.getByRole("button", { name: "Doi mat khau" }).click();
+    expect((await passwordResponse).status()).toBe(200);
+    await expect(page.getByText("Da cap nhat mat khau.", { exact: true })).toBeVisible();
+
+    user.password = updatedPassword;
+    await page.getByRole("button", { name: "Dang xuat" }).click();
+    await expect(page).toHaveURL(/\/login$/, { timeout: 15_000 });
+    await login(page);
   });
 });
