@@ -15,17 +15,17 @@ Status values:
 | ID | Module | Feature | Status | Completion | Notes |
 | --- | --- | --- | --- | --- | --- |
 | AUTH-001 | Auth | Register with email and password | implemented | 35% | Supabase Auth register form and callback source |
-| AUTH-002 | Auth | Login with email and password | implemented | 45% | Supabase Auth login form and SSR session source; live password sign-in passes with a temporary confirmed user |
-| AUTH-003 | Auth | Logout | implemented | 35% | Client sign-out control and redirect |
+| AUTH-002 | Auth | Login with email and password | verified | 60% | Live browser login reaches the dashboard on desktop and mobile with a temporary confirmed user |
+| AUTH-003 | Auth | Logout | verified | 60% | Live browser logout returns to login and protected dashboard access is denied after session removal |
 | AUTH-004 | Auth | Forgot password request | implemented | 35% | Password recovery form source |
 | AUTH-005 | Auth | Reset password | implemented | 35% | Reset-password form source |
 | AUTH-006 | Auth | Email verification | implemented | 25% | Auth callback processes verification redirects; live email acceptance remains |
-| AUTH-007 | Auth | Protected routes | implemented | 50% | SSR proxy and server route guards verified by local redirect check |
+| AUTH-007 | Auth | Protected routes | verified | 65% | Anonymous and post-logout browser access to `/dashboard` redirects to login; multi-role routes remain |
 | AUTH-008 | Auth | Session refresh and expiry handling | implemented | 35% | Supabase SSR proxy session refresh source |
 | ACCOUNT-001 | Account | Personal profile | implemented | 45% | Profile API/UI, avatar upload and local build evidence |
 | ACCOUNT-002 | Account | Account preferences | implemented | 35% | Local RLS migration plus notification preference UI/API |
 | ACCOUNT-003 | Account | Security settings | implemented | 35% | Authenticated password change API and account UI |
-| ACCOUNT-004 | Account | User dashboard | implemented | 35% | Protected account dashboard and role display |
+| ACCOUNT-004 | Account | User dashboard | verified | 55% | Live browser login renders protected dashboard and default user role on desktop and mobile |
 | ROLE-001 | Roles | Role model | implemented | 60% | Default user role and temporary administrator role both pass live Supabase acceptance |
 | ROLE-002 | Roles | Permission matrix | implemented | 60% | Live RLS check proves standard-user isolation and administrator profile visibility; provider/editor cases remain |
 | ROLE-003 | Roles | Admin role assignment | implemented | 35% | Server-guarded role API, audit logging and admin screen; live tests remain |

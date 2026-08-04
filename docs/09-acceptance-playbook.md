@@ -34,6 +34,8 @@ The committed Playwright suite currently covers desktop and mobile rendering of 
 
 Run `npm run test:live:auth-rbac` only with `RUN_LIVE_AUTH_RBAC=true`. The script loads local Supabase configuration, creates two temporary confirmed users, verifies password sign-in, profile and role isolation, favorite and notification isolation, and administrator access. It always deletes those users in `finally`, does not print credentials, and must never run in public CI.
 
+Run `npm run test:live:browser-auth` only with `RUN_LIVE_BROWSER_AUTH=true`. The guarded Playwright suite creates one temporary confirmed user, proves login through the real browser form, dashboard access with the default role, logout and post-logout protected-route denial, then deletes the user. It also must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:
