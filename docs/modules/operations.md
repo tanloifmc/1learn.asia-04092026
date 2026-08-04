@@ -6,27 +6,26 @@ Provide reliable delivery and support practices for a solo-operated production a
 
 ## Release Policy
 
-`CORE-1` is assembled and verified locally before any further cloud operation. The remote Supabase baseline is frozen; the GitHub branch remains unpushed; and Vercel remains undeployed until the full release batch is accepted.
+`CORE-1` source is assembled locally, then released through Supabase migration, GitHub branch push and Vercel preview before production promotion. Secrets remain environment-only and production promotion requires explicit acceptance.
 
 ## Completion
 
-Current completion: `25%`
+Current completion: `45%`
 
 ## Current Blockers
 
-- On 2026-08-03, Windows initially denied creation of `.git/HEAD.lock`; this was resolved with approved local Git access and the foundation is committed on `codex/core-foundation`.
-- Supabase management access can list project `Travel Plan`. The local CLI is v2.33.7 while v2.111.0 is available, and its OAuth login was interrupted before browser authentication completed. Upgrade, complete login, then link with the remote database password.
-- Git remote is configured as `https://github.com/lenguyen02042004-lang/Core-platform.git`, but push is denied because the current local Git credential belongs to `1weddingasia`.
-- Vercel CLI did not confirm an authenticated account.
-- Dependency installation reported 11 npm audit findings (including 6 high) after Resend was added. Their production reachability must be classified and resolved before a production release.
+- Production Supabase Auth redirect URLs, administrator seeding and multi-account RLS acceptance remain.
+- Production Vercel variables, domain `clientpulse.asia`, and external webhook/email configuration remain.
+- GitHub CI must run remotely on the pushed branch.
+- SePay and Resend sandbox credentials are still needed for live integration acceptance.
 
 ## Verified Infrastructure Evidence
 
-Verified on: 2026-08-03
-Task: M2-001
-Checks: remote migration list, `supabase db advisors --linked --type security`, direct RLS catalog query, direct function-privilege query
+Verified on: 2026-08-04
+Task: CORE-1 release gate
+Checks: remote migration list, `supabase db advisors --linked --type security`, GitHub branch push, Vercel Next.js preview build, TypeScript, ESLint, production build and `npm audit`
 Result: pass
-Notes: Initial schema and advisor remediation migrations are deployed to project `Travel Plan`; all 16 core tables have RLS enabled and security advisors report no issues.
+Notes: All five migrations are deployed to project `Travel Plan` and security advisors report no issues. Commit `427d49d` is pushed to `codex/core-foundation`. The Vercel `core-platform` preview deployment built all 69 routes successfully. `npm audit` reports zero vulnerabilities after dependency upgrades.
 
 ## Planned Capabilities
 

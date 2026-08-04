@@ -22,7 +22,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M2: Identity and account | in_progress | 45% | Auth, profile, dashboard, roles and permissions | Account preference/security source and local migration build; live user journeys remain |
 | M3: Shared application core | in_progress | 58% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
 | M4: Operations and public site | in_progress | 83% | CMS, typed public settings, header/footer, admin console, audit trail | Admin and public-page suite passes |
-| M5: Membership and production | in_progress | 45% | SePay, Resend, GitHub CI, Vercel and monitoring | Staging webhook and deployment acceptance pass |
+| M5: Membership and production | in_progress | 58% | SePay, Resend, GitHub CI, Vercel and monitoring | Production configuration, sandbox webhooks and deployment acceptance pass |
 
 ## Active Backlog
 
@@ -41,15 +41,15 @@ This is the operating board for the core platform. Every task has one owner (the
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
 | M5-001 | Implement SePay membership payment confirmation | Billing | review | 25% | M2-003 | Member payment flow, signed idempotent webhook and membership activation passed typecheck, lint and production build; sandbox acceptance remains |
 | M5-002 | Implement Resend transactional emails | Email | review | 25% | M2-002 | Server-only send helper and signed webhook recorder passed typecheck/lint; sandbox delivery remains |
-| M5-003 | Configure GitHub CI, Vercel environments and monitoring | Operations | backlog | 0% | M1-001 | Preview deploy and production-readiness checklist |
+| M5-003 | Configure GitHub CI, Vercel environments and monitoring | Operations | review | 45% | M1-001 | GitHub branch push, Vercel project/preview environment and Next.js preview deployment pass; production configuration remains |
 
 ## External Access Blockers
 
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
-| Supabase | ready for release gate | Project `Travel Plan` is linked locally; two baseline migrations are already remote and further changes remain frozen by `CORE-1` policy | Live Auth/RLS acceptance and final migration batch await release gate |
-| GitHub | blocked | Switch local Git credentials from `1weddingasia` to an account with write access to `lenguyen02042004-lang/Core-platform` | Core is committed locally but push returned GitHub 403 |
-| Vercel | blocked | Authenticate Vercel CLI, then provide project environment values after Supabase is linked | A managed deployment with Supabase credentials cannot be configured |
+| Supabase | deployed | All five CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
+| GitHub | deployed | `codex/core-foundation` release-candidate branch pushed as commit `427d49d` | Observe remote CI and merge/release policy |
+| Vercel | preview deployed | `core-platform` project has Supabase preview variables and a successful Next.js preview deployment | Configure production variables/domain and production acceptance |
 
 ## Current Evidence
 

@@ -5,5 +5,8 @@ coverage/
 .env
 .env.local
 .env.*.local
-!.env.example
 *.tsbuildinfo
+
+.vercel
+.env*
+!.env.example
