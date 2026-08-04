@@ -50,7 +50,7 @@ Status values:
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
 | CMS-002 | CMS | Static pages | implemented | 70% | Editor create/publish and public rendering pass live desktop/mobile acceptance |
-| CMS-003 | CMS | Blog posts | implemented | 75% | Editor publish-to-public browser journey passes on desktop/mobile; authoring, category/media control and public list/detail remain |
+| CMS-003 | CMS | Blog posts | verified | 82% | Editor uploads a cover image, publishes it with the post and public blog rendering passes live desktop/mobile |
 | CMS-004 | CMS | Blog categories | implemented | 50% | Public CRUD API and editor create/edit UI |
 | CMS-005 | CMS | SEO metadata | implemented | 60% | Post/page author controls and public route metadata |
 | CMS-006 | CMS | Static page publishing | implemented | 40% | CMS-published pages render publicly; privacy and terms have code fallbacks until an editor publishes their final content |
@@ -58,9 +58,9 @@ Status values:
 | SETTINGS-002 | Settings | Header menu settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime header consumption pass production build |
 | SETTINGS-003 | Settings | Footer menu settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime footer consumption pass production build |
 | SETTINGS-004 | Settings | Social links | implemented | 50% | Typed admin form, URL validation, audit log and shared footer rendering pass production build |
-| MEDIA-001 | Media | Avatar upload | implemented | 35% | Validated server upload and profile update UI/API |
-| MEDIA-002 | Media | Provider logo upload | implemented | 35% | Validated server upload and organization update UI/API |
-| MEDIA-003 | Media | CMS image upload | implemented | 25% | Role-guarded server upload route; author UI remains |
+| MEDIA-001 | Media | Avatar upload | verified | 70% | Authenticated desktop/mobile UI upload creates a real Storage object and persists the profile URL |
+| MEDIA-002 | Media | Provider logo upload | verified | 70% | Provider desktop/mobile UI upload creates a real Storage object and persists the organization URL |
+| MEDIA-003 | Media | CMS image upload | verified | 65% | Editor desktop/mobile UI upload auto-fills the post cover URL and public post rendering passes live |
 | AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and subscription actions; live verification remains |
 | AUDIT-002 | Audit | Admin audit log viewer | implemented | 40% | Admin-only API and viewer screen pass production build; live access/filtering acceptance remains |
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |

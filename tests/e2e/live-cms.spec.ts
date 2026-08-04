@@ -15,6 +15,7 @@ test.describe("live CMS publishing journey", () => {
   let categoryId = "";
   let pageId = "";
   let settingKey = "";
+  let contentMediaPath = "";
 
   test.beforeAll(async () => {
     if (!url || !serviceRoleKey) throw new Error("Live Supabase configuration is required.");
@@ -32,6 +33,7 @@ test.describe("live CMS publishing journey", () => {
     if (pageId) await adminClient.from("content_pages").delete().eq("id", pageId);
     if (categoryId) await adminClient.from("content_categories").delete().eq("id", categoryId);
     if (settingKey) await adminClient.from("app_settings").delete().eq("key", settingKey);
+    if (contentMediaPath) await adminClient.storage.from("content-media").remove([contentMediaPath]);
     await adminClient.auth.admin.deleteUser(editor.id);
   });
 
@@ -51,6 +53,14 @@ test.describe("live CMS publishing journey", () => {
     const body = `Noi dung nghiem thu ${randomUUID().slice(0, 8)}`;
     await login(page);
     await page.goto("/admin/content/posts");
+    const uploadResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
+    await page.getByRole("heading", { name: "Tai anh CMS" }).locator("..").getByLabel("Chon anh").setInputFiles({ name: "cover.png", mimeType: "image/png", buffer: Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]) });
+    const uploadResult = await uploadResponse;
+    expect(uploadResult.status(), await uploadResult.text()).toBe(201);
+    const coverImageUrl = (await uploadResult.json()).url as string;
+    contentMediaPath = decodeURIComponent(new URL(coverImageUrl).pathname.split("/content-media/")[1] ?? "");
+    expect(contentMediaPath).toMatch(/^uploads\//);
+    await expect(page.getByLabel("URL anh bia")).toHaveValue(coverImageUrl);
     await page.getByLabel("Tieu de").fill(title);
     await page.getByLabel("Slug").fill(slug);
     await page.getByLabel("Noi dung").fill(body);
@@ -66,6 +76,7 @@ test.describe("live CMS publishing journey", () => {
     try {
       await publicPage.goto(`/blog/${slug}`);
       await expect(publicPage.getByRole("heading", { name: title })).toBeVisible({ timeout: 30_000 });
+      await expect(publicPage.locator("img").first()).toHaveAttribute("src", coverImageUrl);
       await expect(publicPage.getByText(body)).toBeVisible();
     } finally { await publicContext.close(); }
   });

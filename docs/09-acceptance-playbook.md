@@ -46,9 +46,11 @@ Run `npm run test:live:browser-register` only with both `RUN_LIVE_BROWSER_AUTH=t
 
 Run `npm run test:live:browser-account` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a confirmed temporary account, uses the real login and account forms to save profile and notification preferences, verifies the stored records with the trusted test client, then deletes the account. It must never run in public CI.
 
-Run `npm run test:live:browser-cms` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a temporary editor/administrator, publishes uniquely-slugged posts and static pages through admin forms, creates a category, persists an isolated public setting and confirms its audit-console entry, then uses a separate public browser session to read content. It deletes temporary data and users, and must never run in public CI.
+Run `npm run test:live:browser-cms` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a temporary editor/administrator, uploads a PNG CMS cover image and proves its URL auto-fills the post form, publishes the post/static page, creates a category, persists an isolated public setting and confirms its audit-console entry, then uses a separate public browser session to read content and the post image. It deletes temporary data, the Storage object and users, and must never run in public CI.
 
 Run `npm run test:live:browser-shared-core` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary user and administrator accounts plus an approved provider organization, proves the user can save/list/remove the provider and that a duplicate save returns `409`, then submits a support request. The administrator sends two notifications and updates the support-request status; the user reads one notification, marks all remaining notifications read and sees the updated request status. It deletes all temporary records and users, and must never run in public CI.
+
+Run `npm run test:live:browser-media` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary user and provider accounts, uploads PNG avatar and organization-logo files through the real account/provider screens, verifies the persisted public URLs, then removes Storage objects, the organization and users. It must never run in public CI.
 
 ## Evidence Record Format
 
