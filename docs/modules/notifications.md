@@ -6,7 +6,7 @@ Provide an in-app notification inbox for every account.
 
 ## Completion
 
-Current completion: 25%
+Current completion: 35%
 
 ## Feature Checklist
 
@@ -33,4 +33,4 @@ Verified on: 2026-08-03
 Task: M3-001
 Checks: direct TypeScript check, direct ESLint check, Next.js production build
 Result: partial pass
-Notes: Per-account RLS is deployed. The inbox API and UI are implemented; system event creation and browser/RLS acceptance remain.
+Notes: Per-account RLS is deployed. On 2026-08-04, the gated live check inserted a temporary recipient notification and confirmed a second account could not read it; inbox mutation, events and browser acceptance remain.

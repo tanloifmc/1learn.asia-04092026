@@ -15,7 +15,7 @@ Status values:
 | ID | Module | Feature | Status | Completion | Notes |
 | --- | --- | --- | --- | --- | --- |
 | AUTH-001 | Auth | Register with email and password | implemented | 35% | Supabase Auth register form and callback source |
-| AUTH-002 | Auth | Login with email and password | implemented | 35% | Supabase Auth login form and SSR session source |
+| AUTH-002 | Auth | Login with email and password | implemented | 45% | Supabase Auth login form and SSR session source; live password sign-in passes with a temporary confirmed user |
 | AUTH-003 | Auth | Logout | implemented | 35% | Client sign-out control and redirect |
 | AUTH-004 | Auth | Forgot password request | implemented | 35% | Password recovery form source |
 | AUTH-005 | Auth | Reset password | implemented | 35% | Reset-password form source |
@@ -26,19 +26,19 @@ Status values:
 | ACCOUNT-002 | Account | Account preferences | implemented | 35% | Local RLS migration plus notification preference UI/API |
 | ACCOUNT-003 | Account | Security settings | implemented | 35% | Authenticated password change API and account UI |
 | ACCOUNT-004 | Account | User dashboard | implemented | 35% | Protected account dashboard and role display |
-| ROLE-001 | Roles | Role model | implemented | 50% | Database enum/role table and server checks |
-| ROLE-002 | Roles | Permission matrix | implemented | 50% | RLS and route guard model documented and source-built |
+| ROLE-001 | Roles | Role model | implemented | 60% | Default user role and temporary administrator role both pass live Supabase acceptance |
+| ROLE-002 | Roles | Permission matrix | implemented | 60% | Live RLS check proves standard-user isolation and administrator profile visibility; provider/editor cases remain |
 | ROLE-003 | Roles | Admin role assignment | implemented | 35% | Server-guarded role API, audit logging and admin screen; live tests remain |
 | PROVIDER-001 | Provider | Organization profile | implemented | 35% | API plus authenticated create/update profile UI |
 | PROVIDER-002 | Provider | Provider onboarding | implemented | 35% | Draft-to-review API and provider screen |
 | PROVIDER-003 | Provider | Provider approval workflow | implemented | 45% | Admin moderation API/UI, provider notification and public approved visibility |
 | PROVIDER-004 | Provider | Provider dashboard | implemented | 50% | Profile/review state and inquiry inbox/status lifecycle |
-| NOTIFY-001 | Notifications | Notification inbox | implemented | 25% | Per-account in-app inbox |
+| NOTIFY-001 | Notifications | Notification inbox | implemented | 35% | Per-account inbox; live RLS check proves a recipient can read only their notification |
 | NOTIFY-002 | Notifications | Mark notification as read | implemented | 25% | Single and bulk |
 | NOTIFY-003 | Notifications | Admin broadcast notification | implemented | 35% | Admin-selected recipient broadcast, validation, rate-safe batch limit and audit log |
-| FAVORITE-001 | Favorites | Add item to favorites | implemented | 40% | Generic entity model integrated on provider/blog detail |
+| FAVORITE-001 | Favorites | Add item to favorites | implemented | 50% | Generic entity model integrated on provider/blog detail; live RLS check creates an owner-only record |
 | FAVORITE-002 | Favorites | Remove item from favorites | implemented | 40% | Ownership-protected API integrated on provider/blog detail |
-| FAVORITE-003 | Favorites | Favorites list page | implemented | 40% | User dashboard area and entity lookup flow |
+| FAVORITE-003 | Favorites | Favorites list page | implemented | 45% | User dashboard area and entity lookup flow; live RLS check confirms another account cannot list the record |
 | INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
 | INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
@@ -64,12 +64,12 @@ Status values:
 | AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and subscription actions; live verification remains |
 | AUDIT-002 | Audit | Admin audit log viewer | implemented | 40% | Admin-only API and viewer screen pass production build; live access/filtering acceptance remains |
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
-| DESIGN-002 | Design System | Reusable components | implemented | 50% | Accessible button, form field, status message and empty state are implemented and used by login/support flows; table, modal and toast remain |
+| DESIGN-002 | Design System | Reusable components | verified | 50% | Accessible button, form field, status message and empty state are implemented and used by login/support flows; GitHub CI passes; table, modal and toast remain |
 | DESIGN-003 | Design System | Theme tokens | implemented | 25% | CSS color, spacing, typography and responsive layout tokens |
 | ARCH-001 | App scaffold | Feature-module boundaries | implemented | 50% | `account` and `settings` queries are owned by `src/features`; remaining capabilities will migrate incrementally |
 | TEST-001 | Testing | Typecheck | verified | 100% | Local and remote GitHub Quality Gate checks pass |
 | TEST-002 | Testing | Production build | verified | 100% | Local and remote GitHub Quality Gate builds pass |
-| TEST-003 | Testing | Playwright public and access tests | implemented | 75% | Desktop/mobile public shell, anonymous protected routes and accessible login controls pass locally; the expanded six-test suite awaits GitHub CI; real auth remains |
+| TEST-003 | Testing | Playwright public and access tests | verified | 75% | GitHub Quality Gate `30885182320` passes six desktop/mobile tests for public shell, anonymous protected routes and labelled login controls; real auth remains |
 | TEST-004 | Testing | Permission tests | in_progress | 25% | Anonymous protected-route denial is automated; user/provider/admin and RLS cases remain |
 | EMAIL-001 | Transactional email | Send account and operational emails | implemented | 35% | Server-only idempotent Resend helper is wired to support-request receipt; application modules may add membership events |
 | EMAIL-002 | Transactional email | Track delivery, bounce and complaint events | implemented | 25% | Raw-body verified Resend webhook stores permitted events idempotently |

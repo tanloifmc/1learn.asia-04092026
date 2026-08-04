@@ -16,7 +16,7 @@ The design system provides shared visual tokens, layouts and reusable interface 
 
 ## Verification Evidence
 
-On 2026-08-04, direct TypeScript checking, ESLint and the Next.js production build passed after the shared layouts and UI primitives were added. Six Playwright checks across desktop and 390px mobile verified the public home/header/footer, anonymous protected-route redirects and labelled login controls without horizontal overflow.
+On 2026-08-04, direct TypeScript checking, ESLint and the Next.js production build passed after the shared layouts and UI primitives were added. GitHub Quality Gate `30885182320` also passed six Playwright checks across desktop and 390px mobile for the public home/header/footer, anonymous protected-route redirects and labelled login controls without horizontal overflow.
 
 ## Remaining Work
 

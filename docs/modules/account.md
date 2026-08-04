@@ -6,7 +6,7 @@ Allow every authenticated user to manage their own profile, preferences, securit
 
 ## Completion
 
-Current completion: 25%
+Current completion: 30%
 
 ## Feature Checklist
 
@@ -38,4 +38,4 @@ Verified on: 2026-08-03
 Task: M2-003
 Checks: direct TypeScript check, direct ESLint check, Next.js production build
 Result: pass
-Notes: The profile API and account-editing UI are implemented; live database acceptance remains.
+Notes: The profile API and account-editing UI are implemented. On 2026-08-04, the gated live check verified each temporary user can read only their own profile, while a temporary administrator can read a managed profile. Profile edit and preference browser acceptance remain.

@@ -6,7 +6,7 @@ Define what each account type can see and do.
 
 ## Completion
 
-Current completion: 50%
+Current completion: 60%
 
 ## Roles
 
@@ -50,4 +50,4 @@ Verified on: 2026-08-03
 Task: M2-001 and M2-003
 Checks: migration authored, direct TypeScript check, direct ESLint check, Next.js production build
 Result: partial pass
-Notes: Two migrations are deployed to Supabase. All 16 core tables were queried and confirmed with RLS enabled; Supabase security advisors returned no issues after remediation. Cross-user authenticated RLS tests and trusted-admin seeding remain.
+Notes: All six migrations are deployed to Supabase. Security advisors returned no issues after remediation. On 2026-08-04, the gated live check verified standard-user profile and role isolation, then granted a temporary administrator role and verified managed-profile visibility before deleting both test users. Provider/editor and route-level role acceptance remain.

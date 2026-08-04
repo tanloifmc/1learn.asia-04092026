@@ -28,7 +28,11 @@ No feature is considered complete because its screen appears to work once. Compl
 
 ## Automated Baseline
 
-The committed Playwright suite currently covers desktop and mobile rendering of the public shell, horizontal-overflow regression, and anonymous denial for `/dashboard` and `/admin`. Authenticated user, provider, editor and administrator journeys remain separate acceptance work and must use real Supabase accounts.
+The committed Playwright suite currently covers desktop and mobile rendering of the public shell, horizontal-overflow regression, anonymous denial for `/dashboard` and `/admin`, and labelled login controls. Authenticated user, provider, editor and administrator journeys remain separate acceptance work and must use real Supabase accounts.
+
+## Live Supabase Auth/RLS Check
+
+Run `npm run test:live:auth-rbac` only with `RUN_LIVE_AUTH_RBAC=true`. The script loads local Supabase configuration, creates two temporary confirmed users, verifies password sign-in, profile and role isolation, favorite and notification isolation, and administrator access. It always deletes those users in `finally`, does not print credentials, and must never run in public CI.
 
 ## Evidence Record Format
 

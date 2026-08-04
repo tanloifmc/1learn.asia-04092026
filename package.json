@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:e2e": "node ./node_modules/@playwright/test/cli.js test",
+    "test:live:auth-rbac": "node ./scripts/verify-live-auth-rbac.mjs",
     "check:env": "node ./scripts/check-environment-contract.mjs"
   },
   "dependencies": {

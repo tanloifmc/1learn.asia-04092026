@@ -8,7 +8,7 @@ This module must stay generic and reusable. It should not assume travel-specific
 
 ## Completion
 
-Current completion: 25%
+Current completion: 35%
 
 ## Feature Checklist
 
@@ -36,4 +36,4 @@ Verified on: 2026-08-03
 Task: M3-001
 Checks: direct TypeScript check, direct ESLint check, Next.js production build
 Result: partial pass
-Notes: Generic entity-type/entity-id API and list UI are implemented. Two-account RLS acceptance remains for CORE-1.
+Notes: Generic entity-type/entity-id API and list UI are implemented. On 2026-08-04, the gated live check created an owner favorite and confirmed a second account could not read it; browser mutation and duplicate acceptance remain.

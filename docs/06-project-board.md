@@ -19,8 +19,8 @@ This is the operating board for the core platform. Every task has one owner (the
 | --- | --- | --- | --- | --- |
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
 | M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001 and M1-003 are remotely verified; source architecture migration is under review |
-| M2: Identity and account | in_progress | 45% | Auth, profile, dashboard, roles and permissions | Account preference/security source and local migration build; live user journeys remain |
-| M3: Shared application core | in_progress | 58% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
+| M2: Identity and account | in_progress | 50% | Auth, profile, dashboard, roles and permissions | Live password sign-in and user/admin RLS baseline pass; browser lifecycle journeys remain |
+| M3: Shared application core | in_progress | 60% | Notifications, favorites, media, inquiry and provider workflows | Favorite/notification RLS baseline passes; remaining workflows need live user journeys |
 | M4: Operations and public site | in_progress | 84% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin and public-page suite passes |
 | M5: Membership and production | in_progress | 60% | Membership lifecycle, Resend, GitHub CI, Vercel and monitoring | Production configuration, live administrator acceptance and deployment acceptance pass |
 
@@ -32,12 +32,12 @@ This is the operating board for the core platform. Every task has one owner (the
 | M1-001 | Scaffold application repository | App scaffold | verified | 100% | M0-001 | Local and GitHub CI typecheck, lint, production build, audit and four Playwright desktop/mobile public/protected-route tests pass |
 | M1-002 | Add source folder architecture and shared configuration | App scaffold | verified | 50% | M1-001 | `account` and `settings` are real feature modules; GitHub Quality Gate `30884673478` passed environment contract, typecheck, lint, build and 4 Playwright tests |
 | M1-003 | Configure local environment examples and secret guardrails | Operations | verified | 100% | M1-001 | Local and GitHub CI environment-contract validation passes |
-| M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 50% | M1-001 | Two migrations applied; all 16 core tables have RLS and security advisors pass | Run authenticated cross-user RLS isolation tests |
-| M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 25% | M2-001 | UI and callback source built; live auth journey awaits Supabase connection |
-| M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 25% | M2-002 | Dashboard, profile API and RBAC migration built; live role isolation awaits database |
-| M3-001 | Implement notifications and favorites | Shared core | review | 25% | M2-003 | Source/API/UI build passed; cross-account RLS and browser acceptance remain |
+| M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 60% | M1-001 | Live Supabase acceptance proves profile, role, favorite and notification RLS isolation plus administrator visibility; other tables remain |
+| M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 35% | M2-001 | Live temporary-user email/password sign-in passes; registration, browser login/logout, verification and recovery remain |
+| M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 40% | M2-002 | Live default role, profile isolation and administrator visibility pass; profile editing and role-aware browser routes remain |
+| M3-001 | Implement notifications and favorites | Shared core | review | 45% | M2-003 | Live owner-only favorite/notification creation and cross-account read denial pass; browser interaction and mutation coverage remain |
 | M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 35% | M2-003 | Profile, review, inbox and send-inquiry UI/API routes passed typecheck, lint and production build; live role tests remain |
-| M4-001 | Implement design system, layouts and navigation settings | Design/CMS | review | 40% | M1-002 | Shared accessible button, form field, status message and empty state are used in login/support; local typecheck, lint, production build and 6 desktop/mobile Playwright tests pass |
+| M4-001 | Implement design system, layouts and navigation settings | Design/CMS | verified | 40% | M1-002 | Shared accessible button, form field, status message and empty state are used in login/support; GitHub Quality Gate `30885182320` passes typecheck, lint, build and 6 desktop/mobile Playwright tests |
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
 | M5-001 | Implement reusable membership lifecycle | Membership | review | 45% | M2-003 | Plans, currency-neutral pricing and administrator activation/renewal source are implemented; live acceptance remains |
 | M5-002 | Implement Resend transactional emails | Email | review | 25% | M2-002 | Server-only send helper and signed webhook recorder passed typecheck/lint; sandbox delivery remains |
@@ -76,6 +76,8 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M1-002 | Partial pass | `account` and `settings` moved into `src/features`; local environment contract, TypeScript, ESLint, production build (66 routes), 4 desktop/mobile Playwright tests and zero-vulnerability audit pass | Push and verify this architectural change in GitHub CI; migrate remaining capabilities incrementally |
 | 2026-08-04 | M1-002 | Verified | GitHub Quality Gate `30884673478` passed `npm ci`, environment contract, typecheck, lint, production build, Chromium installation and 4 Playwright tests for commit `77a8c4c` | Migrate remaining capabilities incrementally when their phase changes them |
 | 2026-08-04 | M4-001 | Partial pass | Added reusable accessible UI primitives (button, form field, status message, empty state), applied them to login/support and expanded Playwright to 6 desktop/mobile tests; local contract, typecheck, lint, build and audit pass | Verify the expanded suite in GitHub CI; add table, modal, toast and protected-screen acceptance |
+| 2026-08-04 | M4-001 | Verified | GitHub Quality Gate `30885182320` passed `npm ci`, environment contract, typecheck, lint, production build, Chromium installation and all 6 Playwright tests for commit `84ee30c` | Add table, modal, toast and protected-screen acceptance |
+| 2026-08-04 | M2-001, M2-002, M2-003, M3-001 | Partial pass | `RUN_LIVE_AUTH_RBAC=true npm run test:live:auth-rbac` passed against linked Supabase: temporary confirmed password sign-in, default user role, user isolation for profiles/roles/favorites/notifications, and administrator profile visibility; both temporary users were deleted | Add browser registration/logout/recovery and provider/editor/RLS workflows |
 
 ## Update Protocol
 
