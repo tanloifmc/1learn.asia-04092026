@@ -42,6 +42,8 @@ Run `npm run test:live:browser-inquiries` only with `RUN_LIVE_BROWSER_AUTH=true`
 
 Run `npm run test:live:browser-membership` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary administrator and member users, proves the administrator can create a plan and activate the member, suspends and reactivates the subscription, then proves a separate member browser session reads the corresponding active state. It deletes temporary subscriptions, plans and users, and must never run in public CI.
 
+Run `npm run test:live:browser-register` only with both `RUN_LIVE_BROWSER_AUTH=true` and `RUN_LIVE_EMAIL_AUTH=true`, after the Supabase/Resend sender and email rate limit have been configured. It submits the actual register form, checks the Auth response, then verifies the created profile and default `user` role before deleting the temporary account. It must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:

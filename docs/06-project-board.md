@@ -48,6 +48,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
 | Supabase | deployed | All six CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
+| Supabase email | blocked | The linked project's signup confirmation endpoint returned `429 over_email_send_rate_limit` on 2026-08-04 | Registration, verification and recovery delivery cannot be live-accepted until a sender/rate-limit configuration is available |
 | GitHub | verified | `codex/core-foundation` is pushed through commit `e0e4c6b`; remote Quality Gate passed for the latest browser-auth tooling change | Configure branch protection and merge/release policy |
 | Vercel | preview deployed | `core-platform` preview `core-platform-h84uyana7-le-nguyen2004.vercel.app` built 66 routes from commit `84751dc` | Decide whether preview protection stays enabled; configure production variables/domain and production acceptance |
 
@@ -70,6 +71,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M5-001 | Partial pass | Generic membership refactor passed TypeScript, ESLint, production build and zero-vulnerability audit; migration `20260804110000` is remote and security advisors report no issues | Run live administrator and member acceptance |
 | 2026-08-04 | M5-001 | Verified | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-membership` passed 2/2 desktop/mobile: an administrator creates a plan, selects a user, activates membership, then a separate member browser session reads the active plan. Temporary users, plans and subscriptions are deleted | Add suspension/reactivation and plan-deletion browser coverage |
 | 2026-08-04 | M5-001 | Verified | The live membership suite now also suspended the generated subscription, confirmed the member's active-state panel disappeared, reactivated it and confirmed the panel returned. It passed 2/2 desktop/mobile and temporary data was deleted | Add renewal-extension and plan-deletion browser coverage |
+| 2026-08-04 | M2-002 | Blocked | Live `/register` UI acceptance reached the real Supabase signup endpoint but received `429 over_email_send_rate_limit`; no account was created | Configure Supabase/Resend sender and email rate limit, then run the gated registration suite |
 | 2026-08-04 | M5-003 | Partial pass | GitHub `Quality Gate` passed for `6bcd8f4`; Vercel preview `core-platform-hqsiv0q3h-le-nguyen2004.vercel.app` built 66 routes | Configure project-specific production domain/variables, monitoring and production acceptance |
 | 2026-08-04 | M1-001 | Partial pass | Committed Playwright suite passed 4/4 desktop/mobile public-shell and anonymous protected-route tests; TypeScript, ESLint, build and audit also pass | Verify the updated suite in remote CI; add authenticated and RLS tests |
 | 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30883245757` passed typecheck, lint, production build, Chromium installation and 4 Playwright tests | Authenticated and RLS tests belong to later identity/shared-core acceptance |

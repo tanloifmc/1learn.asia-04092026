@@ -51,4 +51,4 @@ Verified on: 2026-08-03
 Task: M2-002
 Checks: direct TypeScript check, direct ESLint check, Next.js production build
 Result: pass
-Notes: UI includes registration, login, logout, verification callback and password recovery. On 2026-08-04, the gated browser acceptance created a confirmed temporary account, passed login/dashboard/logout/post-logout denial on desktop and mobile, then deleted the account. Registration, email verification, recovery and session-expiry flows still require their own acceptance.
+Notes: UI includes registration, login, logout, verification callback and password recovery. On 2026-08-04, the gated browser acceptance created a confirmed temporary account, passed login/dashboard/logout/post-logout denial on desktop and mobile, then deleted the account. A separate registration suite is prepared but the linked Supabase project returned `429 over_email_send_rate_limit` from the real signup endpoint; registration, email verification, recovery and session-expiry flows remain unverified until email delivery is configured.
