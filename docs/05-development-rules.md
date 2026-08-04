@@ -88,4 +88,4 @@ Recommended checks before marking a feature as verified:
 - Playwright happy path
 - Playwright permission denial path
 - Supabase RLS tests for data isolation
-- Payment webhook idempotency test for billing features
+- Payment-provider idempotency test only when a consuming application adds a payment adapter

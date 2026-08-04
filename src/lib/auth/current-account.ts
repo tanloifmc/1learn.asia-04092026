@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
+import { hasPublicSupabaseConfig } from "@/lib/supabase/config";
 
 export async function getCurrentAccount() {
+  if (!hasPublicSupabaseConfig()) return null;
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
   const claims = claimsData?.claims;

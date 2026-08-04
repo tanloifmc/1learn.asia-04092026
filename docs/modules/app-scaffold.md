@@ -6,7 +6,7 @@ Provide the executable, domain-neutral Next.js foundation where all future core 
 
 ## Completion
 
-Current completion: `65%`
+Current completion: `70%`
 
 ## Implemented
 
@@ -21,12 +21,12 @@ Current completion: `65%`
 
 Verified on: 2026-08-04
 Task: M1-001
-Checks: direct TypeScript check, direct ESLint check, Next.js production build, local HTTP health check and Playwright browser smoke checks
+Checks: direct TypeScript check, direct ESLint check, Next.js production build, `npm audit`, and committed Playwright browser suite
 Result: pass
-Notes: `npm run` is unreliable in the current Windows path because its name contains `&`; direct Node checks were used and documented. Playwright verified the public home/header/footer and login route, confirmed `/dashboard` redirects an unauthenticated visitor to `/login`, and found no browser console errors after the favicon was added.
+Notes: `npx` is unreliable in the current Windows path because its name contains `&`; the project invokes Playwright directly through Node. The committed suite passed 4/4 tests across desktop and mobile: public shell, no horizontal overflow, and anonymous `/dashboard` and `/admin` redirects to `/login`.
 
 ## Remaining Acceptance Criteria
 
-- Add a repeatable Playwright acceptance harness committed with the project.
 - Create the initial source directories described in `07-source-architecture.md` when their first modules are implemented.
-- Move M1-001 from `review` to `verified` only after the browser check passes.
+- Verify the new Playwright step in remote CI.
+- Add authenticated and multi-role browser acceptance before moving M1-001 to `verified`.

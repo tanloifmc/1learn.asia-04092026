@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { hasPublicSupabaseConfig } from "@/lib/supabase/config";
 
 const linksSchema = z.array(z.object({ href: z.string().startsWith("/").max(500), label: z.string().trim().min(1).max(80) })).max(12);
 const brandingSchema = z.object({ appName: z.string().trim().min(1).max(80) });
@@ -7,6 +8,8 @@ const homeContentSchema = z.object({ eyebrow: z.string().trim().max(80), title: 
 const socialLinksSchema = z.array(z.object({ label: z.string().trim().min(1).max(80), href: z.string().url().max(500) })).max(8);
 
 export async function getPublicNavigationSettings() {
+  const fallback = { branding: { appName: "Core Platform" }, headerLinks: null, footerLinks: null, socialLinks: [] };
+  if (!hasPublicSupabaseConfig()) return fallback;
   const supabase = await createClient();
   const { data } = await supabase.from("app_settings").select("key, value").eq("is_public", true).in("key", ["branding", "header_navigation", "footer_navigation", "social_links"]);
   const values = new Map(data?.map((setting) => [setting.key, setting.value]) ?? []);
@@ -19,8 +22,9 @@ export async function getPublicNavigationSettings() {
 }
 
 export async function getPublicHomeContent() {
+  const fallback = { eyebrow: "Ung dung cua ban", title: "Core Platform", description: "Nen tang tai khoan, noi dung, quan tri va thanh vien co the tai su dung cho moi san pham.", primaryCtaLabel: "Tao tai khoan", primaryCtaHref: "/register" };
+  if (!hasPublicSupabaseConfig()) return fallback;
   const supabase = await createClient();
   const { data } = await supabase.from("app_settings").select("value").eq("key", "home_content").eq("is_public", true).maybeSingle();
-  const fallback = { eyebrow: "Ung dung cua ban", title: "Core Platform", description: "Nen tang tai khoan, noi dung, quan tri va thanh vien co the tai su dung cho moi san pham.", primaryCtaLabel: "Tao tai khoan", primaryCtaHref: "/register" };
   return homeContentSchema.safeParse(data?.value).success ? homeContentSchema.parse(data?.value) : fallback;
 }

@@ -20,15 +20,15 @@ The goal of this project is to create a reusable application core that can be co
 
 ## Current Build Status
 
-No production code has been implemented yet. The project is currently in the planning and architecture phase.
+The reusable core is implemented and deployed to Supabase/GitHub/Vercel Preview. The exact module percentages and acceptance evidence are maintained in `02-module-completion-tracker.md` and `06-project-board.md`; this summary must not override them.
 
 | Area | Status | Completion |
 | --- | --- | --- |
-| Documentation foundation | In progress | 75% |
-| Application code | Not started | 0% |
-| Database schema | Planned only | 0% |
-| API routes | Planned only | 0% |
-| Automated tests | Not started | 0% |
+| Documentation foundation | Verified and synchronized | 100% |
+| Application code | Implemented, under staged acceptance | See module tracker |
+| Database schema | Six migrations deployed to Supabase | See data contracts |
+| API routes | Implemented by module | See API contracts |
+| Automated tests | Repeatable Playwright browser harness passes locally | See project board |
 
 ## Documentation Rules
 

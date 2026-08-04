@@ -22,9 +22,13 @@ No feature is considered complete because its screen appears to work once. Compl
 | Notifications and favorites | Own records visible; another account cannot read, edit or delete them |
 | Provider and inquiries | Provider lifecycle, inquiry delivery, notification/email, no provider checkout endpoint or UI |
 | CMS and settings | Draft is private, published content is public, editor/admin limits, header/footer changes render correctly |
-| Billing | Payment reference creation, signed webhook, duplicate webhook, wrong amount/reference rejection, subscription activation |
+| Membership | Plan management, administrator activation/renewal/suspension, member read access and audit record |
 | Email | Verified sender, template render, sandbox send, webhook signature when event tracking is enabled |
 | Admin and audit | Authorization denial, every sensitive change creates a correct audit record |
+
+## Automated Baseline
+
+The committed Playwright suite currently covers desktop and mobile rendering of the public shell, horizontal-overflow regression, and anonymous denial for `/dashboard` and `/admin`. Authenticated user, provider, editor and administrator journeys remain separate acceptance work and must use real Supabase accounts.
 
 ## Evidence Record Format
 
