@@ -21,7 +21,7 @@ No table, column, enum, or relationship should be added in code before this file
 - Unique constraints may satisfy this requirement when the foreign-key column is the leading column.
 - Performance-only advisor findings and their remediation migrations must be recorded before a module reaches `100%`.
 
-Core foreign-key indexes include `user_roles.user_id`, `organizations.owner_id`, `inquiries.sender_user_id`, `inquiries.organization_id`, `support_requests.sender_user_id`, `membership_subscriptions.user_id`, `membership_subscriptions.organization_id`, `membership_subscriptions.plan_id`, `payment_intents.user_id`, `payment_intents.plan_id`, `sepay_transactions.matched_payment_intent_id`, `content_posts.category_id`, `content_posts.author_id`, `content_pages.author_id`, `app_settings.updated_by`, and `audit_logs.actor_user_id`.
+Core foreign-key indexes include `user_roles.user_id`, `organizations.owner_id`, `inquiries.sender_user_id`, `inquiries.organization_id`, `support_requests.sender_user_id`, `membership_subscriptions.user_id`, `membership_subscriptions.organization_id`, `membership_subscriptions.plan_id`, `content_posts.category_id`, `content_posts.author_id`, `content_pages.author_id`, `app_settings.updated_by`, and `audit_logs.actor_user_id`.
 
 ## Planned Enums
 
@@ -31,7 +31,6 @@ Core foreign-key indexes include `user_roles.user_id`, `organizations.owner_id`,
 | `organization_status` | `draft`, `pending_review`, `approved`, `rejected`, `suspended` | Provider lifecycle |
 | `content_status` | `draft`, `published`, `archived` | CMS lifecycle |
 | `notification_type` | `system`, `account`, `billing`, `inquiry`, `content` | Notification classification |
-| `payment_status` | `pending`, `confirmed`, `failed`, `expired`, `refunded` | Payment lifecycle |
 | `inquiry_status` | `new`, `read`, `responded`, `closed`, `spam` | Inquiry lifecycle |
 | `email_event_type` | `sent`, `delivered`, `bounced`, `complained`, `failed` | Transactional email lifecycle |
 
@@ -165,7 +164,8 @@ Admin-configurable membership plans.
 | `code` | `text` | Unique stable identifier |
 | `name` | `text` | Required |
 | `description` | `text` | Optional |
-| `price_vnd` | `integer` | Required |
+| `price_amount` | `integer` | Required positive minor-unit amount |
+| `currency` | `text` | Required ISO 4217 uppercase code |
 | `duration_days` | `integer` | Required |
 | `is_active` | `boolean` | Required |
 | `created_at` | `timestamptz` | Required |
@@ -184,42 +184,6 @@ Tracks active or historical user/provider memberships.
 | `starts_at` | `timestamptz` | Required |
 | `ends_at` | `timestamptz` | Required |
 | `is_active` | `boolean` | Required |
-| `created_at` | `timestamptz` | Required |
-
-### `payment_intents`
-
-Internal payment requests before bank transfer confirmation.
-
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `uuid` | Primary key |
-| `user_id` | `uuid` | References `auth.users(id)` |
-| `plan_id` | `uuid` | References `membership_plans(id)` |
-| `amount_vnd` | `integer` | Required |
-| `payment_reference` | `text` | Unique transfer content code |
-| `status` | `payment_status` | Required |
-| `expires_at` | `timestamptz` | Required |
-| `confirmed_at` | `timestamptz` | Optional |
-| `created_at` | `timestamptz` | Required |
-| `updated_at` | `timestamptz` | Required |
-
-### `sepay_transactions`
-
-Raw transaction records from SePay webhooks.
-
-| Column | Type | Notes |
-| --- | --- | --- |
-| `id` | `uuid` | Primary key |
-| `sepay_transaction_id` | `text` | Unique |
-| `gateway` | `text` | Bank gateway |
-| `transaction_date` | `timestamptz` | From SePay |
-| `account_number` | `text` | From SePay |
-| `transfer_type` | `text` | Expected `in` for incoming payment |
-| `transfer_amount` | `integer` | VND amount |
-| `reference_code` | `text` | From SePay |
-| `content` | `text` | Transfer content |
-| `raw_payload` | `jsonb` | Full webhook body |
-| `matched_payment_intent_id` | `uuid` | Optional |
 | `created_at` | `timestamptz` | Required |
 
 ### `content_categories`

@@ -83,15 +83,12 @@ Supabase Auth handles register, login, logout, email verification, forgot passwo
 | --- | --- | --- | --- |
 | `POST` | `/api/media/upload` | User/Provider/Editor | Upload validated avatar, provider logo or CMS image |
 
-### Billing and SePay
+### Membership
 
 | Method | Route | Auth | Purpose |
 | --- | --- | --- | --- |
 | `GET` | `/api/billing/plans` | Public | List active membership plans |
-| `POST` | `/api/billing/payment-intents` | User | Create SePay payment reference |
 | `GET` | `/api/billing/subscription` | User | Read current subscription |
-| `POST` | `/api/webhooks/sepay` | Webhook secret | Receive SePay transaction webhook |
-| `POST` | `/hooks/sepay-payment` | Webhook secret | Public SePay endpoint alias for `https://www.clientpulse.asia/hooks/sepay-payment` |
 
 ### CMS
 
@@ -137,4 +134,6 @@ Supabase Auth handles register, login, logout, email verification, forgot passwo
 | `GET` | `/api/admin/billing/plans` | Admin | List membership plans |
 | `POST` | `/api/admin/billing/plans` | Admin | Create membership plan |
 | `PATCH` | `/api/admin/billing/plans/[id]` | Admin | Update membership plan |
-| `GET` | `/api/admin/billing/payment-intents` | Admin | Inspect membership payment intents |
+| `GET` | `/api/admin/billing/subscriptions` | Admin | List memberships |
+| `POST` | `/api/admin/billing/subscriptions` | Admin | Activate or renew a membership |
+| `PATCH` | `/api/admin/billing/subscriptions/[id]` | Admin | Suspend or reactivate a membership |

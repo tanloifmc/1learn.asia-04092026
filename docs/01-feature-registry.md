@@ -42,14 +42,12 @@ Status values:
 | INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
 | INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
-| BILLING-001 | Billing | Membership plans | implemented | 40% | Admin CRUD, public active-plan API, member selection and current-subscription UI pass production build |
+| BILLING-001 | Membership | Membership plans | implemented | 45% | Admin CRUD, public active-plan API and currency-neutral amount model |
 | SUPPORT-001 | Support | Submit application support request | implemented | 35% | Authenticated contact form, validation, rate limit and administrator notification pass production build |
 | SUPPORT-002 | Support | User support request history | implemented | 35% | Owner-only RLS contract and contact-page history UI pass production build |
 | SUPPORT-003 | Support | Administrator support request handling | implemented | 35% | Admin list/status API, UI and audit logging pass production build |
-| BILLING-002 | Billing | Generate payment reference | implemented | 35% | Server-generated unique reference, amount and expiry from trusted plan data with audit logging |
-| BILLING-003 | Billing | SePay webhook endpoint | implemented | 25% | HMAC raw-body validation, amount/reference matching and safe responses |
-| BILLING-004 | Billing | Payment transaction log | implemented | 35% | Unique SePay transaction record and protected admin payment-intent viewer |
-| BILLING-005 | Billing | Activate membership after payment | implemented | 35% | Server-only confirmation, subscription create/extend, user notification and audit flow pass production build |
+| BILLING-002 | Membership | Administrator activation and renewal | implemented | 45% | Protected admin flow creates, extends, suspends and reactivates subscriptions with audit logs |
+| BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
 | CMS-002 | CMS | Static pages | implemented | 50% | Public rendering plus editor create/edit/publish UI and API |
 | CMS-003 | CMS | Blog posts | implemented | 60% | Full editor create/edit/publish UI, category/media control and public list/detail |
@@ -63,7 +61,7 @@ Status values:
 | MEDIA-001 | Media | Avatar upload | implemented | 35% | Validated server upload and profile update UI/API |
 | MEDIA-002 | Media | Provider logo upload | implemented | 35% | Validated server upload and organization update UI/API |
 | MEDIA-003 | Media | CMS image upload | implemented | 25% | Role-guarded server upload route; author UI remains |
-| AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and payment actions; live verification remains |
+| AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and subscription actions; live verification remains |
 | AUDIT-002 | Audit | Admin audit log viewer | implemented | 40% | Admin-only API and viewer screen pass production build; live access/filtering acceptance remains |
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
 | DESIGN-002 | Design System | Reusable components | in_progress | 25% | Navigation, sidebar and base button styles exist; form, table, modal and toast remain |
@@ -72,11 +70,11 @@ Status values:
 | TEST-002 | Testing | Production build | planned | 0% | Required before completion |
 | TEST-003 | Testing | Playwright auth tests | planned | 0% | Register/login/protected route |
 | TEST-004 | Testing | Permission tests | planned | 0% | User/provider/admin access |
-| EMAIL-001 | Transactional email | Send account and operational emails | implemented | 35% | Server-only idempotent Resend helper is wired to support-request receipt and membership activation events |
+| EMAIL-001 | Transactional email | Send account and operational emails | implemented | 35% | Server-only idempotent Resend helper is wired to support-request receipt; application modules may add membership events |
 | EMAIL-002 | Transactional email | Track delivery, bounce and complaint events | implemented | 25% | Raw-body verified Resend webhook stores permitted events idempotently |
 | OPS-001 | Operations | Environment variable contract | implemented | 35% | Local `.env.local`, template and health configuration check |
 | OPS-002 | Operations | GitHub quality gate | implemented | 25% | Workflow source exists; first remote run remains |
 | OPS-003 | Operations | Vercel deployment configuration | planned | 0% | Preview and production |
 | OPS-004 | Operations | Production monitoring and incident runbook | planned | 0% | Solo-operator friendly |
-| SECURITY-001 | Security | Rate limiting and abuse protection | implemented | 25% | Process-local limiter protects inquiry, payment and SePay webhook routes |
+| SECURITY-001 | Security | Rate limiting and abuse protection | implemented | 25% | Process-local limiter protects inquiry and support-request routes |
 | SECURITY-002 | Security | Security headers and secret handling | implemented | 25% | Next headers configured; secrets remain server-only environment values |

@@ -35,7 +35,7 @@ src/
     auth/
     permissions/
     validation/
-    sepay/
+    billing/
     resend/
     utils/
   config/
@@ -71,6 +71,6 @@ A future travel module belongs in `src/features/travel/` and may depend on the c
 ## Required Integration Boundaries
 
 - Browser code can use only public configuration and the Supabase publishable key.
-- SePay and Resend adapters live under `src/lib/` and are called only by trusted server code.
+- Resend adapters live under `src/lib/` and are called only by trusted server code. Payment adapters are intentionally excluded from the reusable core.
 - Route handlers validate external input, call a feature service, write audit data where necessary, and return a typed result.
 - Direct database access from page components is prohibited; use feature query/service boundaries.

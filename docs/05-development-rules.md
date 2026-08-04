@@ -53,8 +53,6 @@ Use environment variables for:
 - Supabase publishable key
 - Supabase service role key
 - Supabase access token
-- SePay webhook secret
-- SePay API key
 - Vercel tokens
 
 If a secret is shared in chat, assume it may need to be rotated before production use.

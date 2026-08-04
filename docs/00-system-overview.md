@@ -56,7 +56,7 @@ Domain modules should be added later without rewriting the core.
 | Database | Supabase Postgres |
 | Auth | Supabase Auth |
 | Authorization | RBAC plus Supabase RLS |
-| Payments | SePay webhook-based payment confirmation |
+| Membership lifecycle | Reusable plans, subscriptions and administrator-controlled activation |
 | Transactional email | Resend |
 | Hosting | Vercel |
 | Source control and CI | GitHub Actions plus Vercel deployment checks |
@@ -68,7 +68,7 @@ Domain modules should be added later without rewriting the core.
 
 ## Scope Boundary
 
-This platform does not process a transaction between an end user and a provider. An inquiry only creates a contact request and notification. The only payment flow in the core is an application membership plan paid by bank transfer and confirmed through SePay.
+This platform does not process a transaction between an end user and a provider. An inquiry only creates a contact request and notification. The core does not embed a payment gateway; a concrete payment adapter is added only by the application that needs it.
 
 ## High-Level Routes
 
