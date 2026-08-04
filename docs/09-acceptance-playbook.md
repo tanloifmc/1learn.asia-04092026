@@ -46,6 +46,8 @@ Run `npm run test:live:browser-register` only with both `RUN_LIVE_BROWSER_AUTH=t
 
 Run `npm run test:live:browser-account` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a confirmed temporary account, uses the real login and account forms to save profile and notification preferences, verifies the stored records with the trusted test client, then deletes the account. It must never run in public CI.
 
+Run `npm run test:live:browser-cms` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a temporary editor, publishes a uniquely-slugged post through the admin form, then uses a separate public browser session to read the blog detail page. It deletes the post and user, and must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:

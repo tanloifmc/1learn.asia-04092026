@@ -50,7 +50,7 @@ Status values:
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
 | CMS-002 | CMS | Static pages | implemented | 50% | Public rendering plus editor create/edit/publish UI and API |
-| CMS-003 | CMS | Blog posts | implemented | 60% | Full editor create/edit/publish UI, category/media control and public list/detail |
+| CMS-003 | CMS | Blog posts | implemented | 70% | Editor publish-to-public browser journey passes on desktop/mobile; authoring, category/media control and public list/detail remain |
 | CMS-004 | CMS | Blog categories | implemented | 50% | Public CRUD API and editor create/edit UI |
 | CMS-005 | CMS | SEO metadata | implemented | 60% | Post/page author controls and public route metadata |
 | CMS-006 | CMS | Static page publishing | implemented | 40% | CMS-published pages render publicly; privacy and terms have code fallbacks until an editor publishes their final content |

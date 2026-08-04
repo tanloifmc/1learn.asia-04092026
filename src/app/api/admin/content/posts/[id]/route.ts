@@ -16,7 +16,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const account = await getContentManagerForApi();
   if (!account) return forbiddenResponse();
   const { id } = await params;
-  const parsed = patchSchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = patchSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid post input" }, { status: 422 });
 
   const input = parsed.data;

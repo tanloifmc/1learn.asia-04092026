@@ -35,7 +35,8 @@ export async function POST(request: Request) {
   const account = await getContentManagerForApi();
   if (!account) return forbiddenResponse();
 
-  const parsed = postSchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = postSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid post input" }, { status: 422 });
 
   const post = parsed.data;

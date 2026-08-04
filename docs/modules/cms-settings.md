@@ -6,7 +6,7 @@ Let admins manage public-facing content and application configuration without co
 
 ## Completion
 
-Current completion: 50%
+Current completion: 60%
 
 ## Feature Checklist
 
@@ -15,7 +15,7 @@ Current completion: 50%
 | Homepage content settings | implemented | 35% | Typed admin form and server-rendered public home content pass production build; live editor acceptance remains |
 | Static pages | implemented | 60% | Protected create/edit/publish manager and public published-page rendering pass production build; privacy/terms render from code fallbacks until CMS overrides exist |
 | Blog categories | implemented | 50% | Protected category manager and public category API pass production build |
-| Blog posts | implemented | 55% | Protected authoring/publishing manager, cover media upload and public rendering pass production build |
+| Blog posts | implemented | 70% | Protected authoring/publishing manager and public rendering pass live editor-to-public desktop/mobile acceptance; cover-media storage remains |
 | SEO metadata | implemented | 50% | Post/page author controls and public route metadata, including default legal page metadata, pass production build; SEO review remains |
 | Branding settings | implemented | 55% | Typed admin form, server validation, audit logging and shared-layout consumption pass production build |
 | Header menu | implemented | 55% | Typed admin form, internal-link validation and shared-header consumption pass production build |
@@ -31,4 +31,4 @@ Current completion: 50%
 
 ## Verification Evidence
 
-On 2026-08-04, TypeScript, ESLint and the Next.js production build passed with the CMS/settings routes, typed branding/navigation/social forms, key-specific server validation and settings audit logging. Playwright additionally verified that the default privacy and terms pages render without browser console errors when no CMS data exists. No live administrator, media-storage or publishing acceptance has been recorded yet.
+On 2026-08-04, TypeScript, ESLint and the Next.js production build passed with the CMS/settings routes, typed branding/navigation/social forms, key-specific server validation and settings audit logging. Playwright additionally verified that the default privacy and terms pages render without browser console errors when no CMS data exists. `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-cms` passed 2/2 desktop/mobile: an editor published a uniquely-slugged post via the admin form and a separate public browser read it. Migration `20260804130400_split_public_content_policies.sql` is deployed to Supabase; it prevents anon readers from evaluating the private content-manager authorization function. Live settings, static-page/category and media-storage acceptance remain.

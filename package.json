@@ -17,6 +17,7 @@
     "test:live:browser-membership": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-membership.spec.ts",
     "test:live:browser-register": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-registration.spec.ts",
     "test:live:browser-account": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-account.spec.ts",
+    "test:live:browser-cms": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-cms.spec.ts",
     "check:env": "node ./scripts/check-environment-contract.mjs"
   },
   "dependencies": {
