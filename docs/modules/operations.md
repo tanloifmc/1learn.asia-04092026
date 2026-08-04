@@ -10,13 +10,12 @@ Provide reliable delivery and support practices for a solo-operated production a
 
 ## Completion
 
-Current completion: `45%`
+Current completion: `50%`
 
 ## Current Blockers
 
 - Production Supabase Auth redirect URLs, administrator seeding and multi-account RLS acceptance remain.
 - Production Vercel variables, domain `clientpulse.asia`, and external webhook/email configuration remain.
-- GitHub CI must run remotely on the pushed branch.
 - SePay and Resend sandbox credentials are still needed for live integration acceptance.
 
 ## Verified Infrastructure Evidence
@@ -25,7 +24,7 @@ Verified on: 2026-08-04
 Task: CORE-1 release gate
 Checks: remote migration list, `supabase db advisors --linked --type security`, GitHub branch push, Vercel Next.js preview build, TypeScript, ESLint, production build and `npm audit`
 Result: pass
-Notes: All five migrations are deployed to project `Travel Plan` and security advisors report no issues. Commit `427d49d` is pushed to `codex/core-foundation`. The Vercel `core-platform` preview deployment built all 69 routes successfully. `npm audit` reports zero vulnerabilities after dependency upgrades.
+Notes: All five migrations are deployed to project `Travel Plan` and security advisors report no issues. Commits `427d49d` and `fe2a0de` are pushed to `codex/core-foundation`, and the remote `Quality Gate` passed for both. The Vercel `core-platform` preview deployment built all 69 routes successfully. `npm audit` reports zero vulnerabilities after dependency upgrades.
 
 ## Planned Capabilities
 

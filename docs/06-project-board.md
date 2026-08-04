@@ -22,7 +22,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M2: Identity and account | in_progress | 45% | Auth, profile, dashboard, roles and permissions | Account preference/security source and local migration build; live user journeys remain |
 | M3: Shared application core | in_progress | 58% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
 | M4: Operations and public site | in_progress | 83% | CMS, typed public settings, header/footer, admin console, audit trail | Admin and public-page suite passes |
-| M5: Membership and production | in_progress | 58% | SePay, Resend, GitHub CI, Vercel and monitoring | Production configuration, sandbox webhooks and deployment acceptance pass |
+| M5: Membership and production | in_progress | 60% | SePay, Resend, GitHub CI, Vercel and monitoring | Production configuration, sandbox webhooks and deployment acceptance pass |
 
 ## Active Backlog
 
@@ -41,14 +41,14 @@ This is the operating board for the core platform. Every task has one owner (the
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
 | M5-001 | Implement SePay membership payment confirmation | Billing | review | 25% | M2-003 | Member payment flow, signed idempotent webhook and membership activation passed typecheck, lint and production build; sandbox acceptance remains |
 | M5-002 | Implement Resend transactional emails | Email | review | 25% | M2-002 | Server-only send helper and signed webhook recorder passed typecheck/lint; sandbox delivery remains |
-| M5-003 | Configure GitHub CI, Vercel environments and monitoring | Operations | review | 45% | M1-001 | GitHub branch push, Vercel project/preview environment and Next.js preview deployment pass; production configuration remains |
+| M5-003 | Configure GitHub CI, Vercel environments and monitoring | Operations | review | 55% | M1-001 | Remote GitHub quality gate, Vercel project/preview environment and Next.js preview deployment pass; production configuration remains |
 
 ## External Access Blockers
 
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
 | Supabase | deployed | All five CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
-| GitHub | deployed | `codex/core-foundation` release-candidate branch pushed as commit `427d49d` | Observe remote CI and merge/release policy |
+| GitHub | verified | `codex/core-foundation` is pushed through commit `fe2a0de`; remote Quality Gate passed for both release commits | Configure branch protection and merge/release policy |
 | Vercel | preview deployed | `core-platform` project has Supabase preview variables and a successful Next.js preview deployment | Configure production variables/domain and production acceptance |
 
 ## Current Evidence
@@ -66,6 +66,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-03 | M5-001 | Partial pass | Membership plan API/UI, server-generated payment intents, SePay HMAC webhook, transaction deduplication and membership activation passed typecheck, lint and production build | Configure SePay sandbox webhook and run signed duplicate/amount-mismatch acceptance |
 | 2026-08-03 | M1-001 | Partial pass | Local server returned 200 for public auth/pricing routes and 307 `/login` redirects for unauthenticated dashboard/admin routes | Interactive browser and authenticated acceptance remain |
 | 2026-08-03 | M4-002 | Partial pass | Admin user/role, provider moderation and audit viewer screens plus guarded APIs passed typecheck, lint and production build | Run multi-role acceptance and add billing operations view |
+| 2026-08-04 | M5-003 | Partial pass | GitHub Actions `Quality Gate` completed successfully for commits `427d49d` and `fe2a0de`; Vercel preview built all 69 routes | Configure production domain/variables, monitoring and production acceptance |
 
 ## Update Protocol
 
