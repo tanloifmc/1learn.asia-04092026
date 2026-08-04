@@ -25,7 +25,7 @@ Verified on: 2026-08-04
 Task: M1-001
 Checks: direct TypeScript check, direct ESLint check, Next.js production build, `npm audit`, and committed Playwright browser suite
 Result: pass
-Notes: `npx` is unreliable in the current Windows path because its name contains `&`; the project invokes Playwright directly through Node. The committed suite passed 4/4 tests across desktop and mobile: public shell, no horizontal overflow, and anonymous `/dashboard` and `/admin` redirects to `/login`. GitHub Quality Gate `30883245757` passed the same suite on a clean runner.
+Notes: `npx` is unreliable in the current Windows path because its name contains `&`; the project invokes Playwright directly through Node. The committed suite passes 6 public tests across desktop and mobile: public shell, no horizontal overflow, anonymous `/dashboard` and `/admin` redirects to `/login`, and labelled login controls. GitHub Quality Gate `30886692600` passed the same public suite on a clean runner; live-auth tests are separately secret-gated.
 
 ## Remaining Acceptance Criteria
 

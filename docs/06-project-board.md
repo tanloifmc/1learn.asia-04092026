@@ -18,7 +18,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | Milestone | Status | Completion | Goal | Exit evidence |
 | --- | --- | --- | --- | --- |
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
-| M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001 and M1-003 are remotely verified; source architecture migration is under review |
+| M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001/M1-003 and the first source-boundary scope are remotely verified; further module migration is incremental |
 | M2: Identity and account | in_progress | 55% | Auth, profile, dashboard, roles and permissions | Live browser login/logout/dashboard and user/admin RLS baseline pass; registration, recovery and multi-role journeys remain |
 | M3: Shared application core | in_progress | 60% | Notifications, favorites, media, inquiry and provider workflows | Favorite/notification RLS baseline passes; remaining workflows need live user journeys |
 | M4: Operations and public site | in_progress | 84% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin and public-page suite passes |
@@ -29,7 +29,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | ID | Task | Module | Status | Completion | Depends on | Acceptance evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | M0-001 | Approve core blueprint | Documentation | verified | 100% | None | User confirmation recorded 2026-08-03 |
-| M1-001 | Scaffold application repository | App scaffold | verified | 100% | M0-001 | Local and GitHub CI typecheck, lint, production build, audit and four Playwright desktop/mobile public/protected-route tests pass |
+| M1-001 | Scaffold application repository | App scaffold | verified | 100% | M0-001 | Local and GitHub CI typecheck, lint, production build, audit and six Playwright desktop/mobile public/protected-route/login-control tests pass |
 | M1-002 | Add source folder architecture and shared configuration | App scaffold | verified | 50% | M1-001 | `account` and `settings` are real feature modules; GitHub Quality Gate `30884673478` passed environment contract, typecheck, lint, build and 4 Playwright tests |
 | M1-003 | Configure local environment examples and secret guardrails | Operations | verified | 100% | M1-001 | Local and GitHub CI environment-contract validation passes |
 | M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 60% | M1-001 | Live Supabase acceptance proves profile, role, favorite and notification RLS isolation plus administrator visibility; other tables remain |
@@ -48,7 +48,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
 | Supabase | deployed | All six CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
-| GitHub | verified | `codex/core-foundation` is pushed through commit `77a8c4c`; remote Quality Gate passed for the latest source-architecture change | Configure branch protection and merge/release policy |
+| GitHub | verified | `codex/core-foundation` is pushed through commit `e0e4c6b`; remote Quality Gate passed for the latest browser-auth tooling change | Configure branch protection and merge/release policy |
 | Vercel | preview deployed | `core-platform` preview `core-platform-h84uyana7-le-nguyen2004.vercel.app` built 66 routes from commit `84751dc` | Decide whether preview protection stays enabled; configure production variables/domain and production acceptance |
 
 ## Current Evidence
@@ -80,6 +80,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M2-001, M2-002, M2-003, M3-001 | Partial pass | `RUN_LIVE_AUTH_RBAC=true npm run test:live:auth-rbac` passed against linked Supabase: temporary confirmed password sign-in, default user role, user isolation for profiles/roles/favorites/notifications, and administrator profile visibility; both temporary users were deleted | Add browser registration/logout/recovery and provider/editor/RLS workflows |
 | 2026-08-04 | M2-002, M2-003 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-auth` passed 2/2 desktop/mobile: real browser login, dashboard/default role, logout and post-logout `/dashboard` denial. Temporary users were deleted | Add browser registration, verification, recovery and provider/editor/admin journeys |
 | 2026-08-04 | M5-003 | Partial pass | Vercel preview `core-platform-h84uyana7-le-nguyen2004.vercel.app` built 66 routes successfully from `84751dc`; external HTTP checks encounter Vercel Authentication before the application | Preserve or change preview-protection policy deliberately; then run application HTTP checks and production acceptance |
+| 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30886692600` passed `npm ci`, environment contract, typecheck, lint, production build and six public Playwright tests; two secret-gated live tests skipped as intended | Keep live suites explicit and guarded; add provider/editor/admin journeys in their phases |
 
 ## Update Protocol
 
