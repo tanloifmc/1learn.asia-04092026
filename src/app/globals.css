@@ -29,6 +29,30 @@ body {
 .brand { font-weight: 700; color: var(--ink); text-decoration: none; }
 .button { display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0.5rem 0.75rem; text-decoration: none; }
 .button--primary { background: var(--accent); color: white; }
+.ui-button { display: inline-flex; align-items: center; justify-content: center; min-height: 2.5rem; border: 1px solid transparent; border-radius: 0.375rem; padding: 0.5rem 0.75rem; font-weight: 600; line-height: 1.25; }
+.ui-button--sm { min-height: 2rem; padding: 0.375rem 0.625rem; font-size: 0.875rem; }
+.ui-button--md { min-height: 2.5rem; }
+.ui-button--primary { background: var(--accent); color: #ffffff; }
+.ui-button--secondary { border-color: var(--line); background: var(--surface); color: var(--ink); }
+.ui-button--danger { background: #b42318; color: #ffffff; }
+.ui-button--full { width: 100%; }
+.ui-button--primary:hover:not(:disabled) { background: #005858; }
+.ui-button--secondary:hover:not(:disabled) { background: #edf1f2; }
+.ui-button--danger:hover:not(:disabled) { background: #8f1c13; }
+.ui-button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid #5ac8c8; outline-offset: 2px; }
+.ui-button:disabled { cursor: not-allowed; opacity: 0.65; }
+.ui-field { display: grid; gap: 0.5rem; }
+.ui-field__label { font-weight: 600; }
+.ui-field__hint { color: var(--muted); font-size: 0.875rem; }
+.ui-field__error { color: #b42318; font-size: 0.875rem; }
+.ui-status-message { margin: 0; border-left: 3px solid var(--line); padding-left: 0.75rem; }
+.ui-status-message--success { border-color: #067647; color: #05603a; }
+.ui-status-message--error { border-color: #b42318; color: #8f1c13; }
+.ui-status-message--info { border-color: var(--accent); color: var(--muted); }
+.ui-empty-state { border: 1px dashed var(--line); padding: 1.25rem; background: var(--surface); }
+.ui-empty-state h2, .ui-empty-state p { margin: 0; }
+.ui-empty-state p { margin-top: 0.5rem; color: var(--muted); }
+.ui-empty-state__action { margin-top: 1rem; }
 .eyebrow { color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
 .app-frame { width: min(100% - 2rem, 80rem); margin: 2rem auto; display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 2rem; }
 .app-sidebar { border-right: 1px solid var(--line); }

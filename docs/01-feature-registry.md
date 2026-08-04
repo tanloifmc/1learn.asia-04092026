@@ -64,12 +64,12 @@ Status values:
 | AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and subscription actions; live verification remains |
 | AUDIT-002 | Audit | Admin audit log viewer | implemented | 40% | Admin-only API and viewer screen pass production build; live access/filtering acceptance remains |
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
-| DESIGN-002 | Design System | Reusable components | in_progress | 25% | Navigation, sidebar and base button styles exist; form, table, modal and toast remain |
+| DESIGN-002 | Design System | Reusable components | implemented | 50% | Accessible button, form field, status message and empty state are implemented and used by login/support flows; table, modal and toast remain |
 | DESIGN-003 | Design System | Theme tokens | implemented | 25% | CSS color, spacing, typography and responsive layout tokens |
 | ARCH-001 | App scaffold | Feature-module boundaries | implemented | 50% | `account` and `settings` queries are owned by `src/features`; remaining capabilities will migrate incrementally |
 | TEST-001 | Testing | Typecheck | verified | 100% | Local and remote GitHub Quality Gate checks pass |
 | TEST-002 | Testing | Production build | verified | 100% | Local and remote GitHub Quality Gate builds pass |
-| TEST-003 | Testing | Playwright public and access tests | implemented | 70% | Committed desktop/mobile public-shell and anonymous protected-route suite passes locally and in GitHub CI; real auth remains |
+| TEST-003 | Testing | Playwright public and access tests | implemented | 75% | Desktop/mobile public shell, anonymous protected routes and accessible login controls pass locally; the expanded six-test suite awaits GitHub CI; real auth remains |
 | TEST-004 | Testing | Permission tests | in_progress | 25% | Anonymous protected-route denial is automated; user/provider/admin and RLS cases remain |
 | EMAIL-001 | Transactional email | Send account and operational emails | implemented | 35% | Server-only idempotent Resend helper is wired to support-request receipt; application modules may add membership events |
 | EMAIL-002 | Transactional email | Track delivery, bounce and complaint events | implemented | 25% | Raw-body verified Resend webhook stores permitted events idempotently |

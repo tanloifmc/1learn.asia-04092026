@@ -19,3 +19,12 @@ test("protected routes deny anonymous visitors", async ({ page }) => {
   await page.goto("/admin");
   await expect(page).toHaveURL(/\/login$/);
 });
+
+test("login form exposes accessible shared controls", async ({ page }) => {
+  await page.goto("/login");
+
+  await expect(page.getByRole("heading", { name: "Dang nhap" })).toBeVisible();
+  await expect(page.getByLabel("Email")).toBeVisible();
+  await expect(page.getByLabel("Mat khau")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Dang nhap" })).toBeVisible();
+});

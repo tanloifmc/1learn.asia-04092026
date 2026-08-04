@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { FormField } from "@/components/ui/form-field";
+import { StatusMessage } from "@/components/ui/status-message";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm() {
@@ -34,10 +37,10 @@ export function LoginForm() {
 
   return (
     <form className="form-stack" onSubmit={handleSubmit}>
-      <label>Email<input name="email" type="email" autoComplete="email" required /></label>
-      <label>Mat khau<input name="password" type="password" autoComplete="current-password" required /></label>
-      {message ? <p className="form-message" role="alert">{message}</p> : null}
-      <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Dang dang nhap..." : "Dang nhap"}</button>
+      <FormField label="Email"><input name="email" type="email" autoComplete="email" required /></FormField>
+      <FormField label="Mat khau"><input name="password" type="password" autoComplete="current-password" required /></FormField>
+      {message ? <StatusMessage tone="error">{message}</StatusMessage> : null}
+      <Button type="submit" disabled={isSubmitting}>{isSubmitting ? "Dang dang nhap..." : "Dang nhap"}</Button>
       <p><Link href="/forgot-password">Quen mat khau?</Link></p>
       <p>Chua co tai khoan? <Link href="/register">Dang ky</Link></p>
     </form>

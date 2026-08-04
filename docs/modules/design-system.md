@@ -4,21 +4,23 @@
 
 The design system provides shared visual tokens, layouts and reusable interface primitives for every future application module. It is product-neutral: a future travel, marketplace, SaaS or community feature should attach to this system rather than introduce a second visual language.
 
-## Implemented: 35%
+## Implemented: 45%
 
 - CSS tokens for color, typography, spacing, borders and layout dimensions in `src/app/globals.css`.
 - Responsive public shell with a shared header, navigation and footer.
 - Authenticated application shell with persistent account navigation.
 - Public placeholder routes for blog, membership pricing and contact.
 - Shared navigation configuration in `src/config/navigation.ts`.
+- Reusable accessible `Button`, `FormField`, `StatusMessage` and `EmptyState` primitives in `src/components/ui/`.
+- The login and support-request forms consume these primitives, rather than maintaining duplicate button, field and feedback patterns.
 
 ## Verification Evidence
 
-On 2026-08-04, direct TypeScript checking, ESLint and the Next.js production build passed after the shared layouts were added. Playwright desktop and 390px mobile checks verified the public home/header/footer and a horizontal, scrollable mobile header menu without console errors.
+On 2026-08-04, direct TypeScript checking, ESLint and the Next.js production build passed after the shared layouts and UI primitives were added. Six Playwright checks across desktop and 390px mobile verified the public home/header/footer, anonymous protected-route redirects and labelled login controls without horizontal overflow.
 
 ## Remaining Work
 
-- Add accessible reusable input, button, table, modal, dialog, toast, empty-state and loading-state components.
+- Add reusable table, modal, dialog, toast and loading-state components.
 - Add a distinct protected admin shell and permission-aware navigation.
 - Store branding, menus and footer settings in the settings module so admins can manage them.
 - Extend desktop and mobile visual checks to authenticated and administrative screens.

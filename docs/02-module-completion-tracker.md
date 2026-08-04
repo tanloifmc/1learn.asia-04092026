@@ -16,7 +16,7 @@ Rules:
 | --- | --- | --- | --- |
 | Project documentation | 100% | Blueprint, contracts, board, architecture, integrations and acceptance rules are approved | Keep synchronized with implementation |
 | App scaffold | 88% | Next.js, TypeScript, lint, production build, browser suite and environment-contract validation pass locally and in GitHub CI; `account` and `settings` now have real feature ownership | Migrate remaining capabilities incrementally and add authenticated acceptance suite |
-| Design system | 35% | Shared CSS tokens, responsive public header/footer/app shell and desktop/mobile browser smoke checks pass | Add reusable form, feedback and data-display components; extend visual acceptance to authenticated screens |
+| Design system | 45% | Shared tokens/layouts plus reusable accessible button, form-field, status-message and empty-state components are used by login/support flows; desktop/mobile browser checks pass locally | Add table, modal, toast and protected-screen visual acceptance |
 | Authentication | 35% | Auth pages, callback, SSR proxy and authenticated password-change route/UI pass production build | Run live auth acceptance including logout and recovery |
 | Account profile | 45% | Protected dashboard, profile/avatar UI, validated preferences API/UI and local preference RLS migration pass production build | Push migration and run live account isolation tests |
 | Roles and permissions | 50% | Role table and RLS policies deployed; all core tables confirmed RLS-enabled; security advisors pass | Seed trusted admin and run authenticated isolation tests |
