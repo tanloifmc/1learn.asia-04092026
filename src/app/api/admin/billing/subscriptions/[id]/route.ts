@@ -9,7 +9,8 @@ const schema = z.object({ isActive: z.boolean() });
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const account = await getAdministratorForApi();
   if (!account) return forbiddenResponse();
-  const parsed = schema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid membership input" }, { status: 422 });
   const { id } = await params;
   const supabase = await createClient();

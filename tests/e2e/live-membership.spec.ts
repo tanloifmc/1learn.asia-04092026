@@ -49,7 +49,7 @@ test.describe("live membership lifecycle", () => {
     await expect(page).toHaveURL(/\/dashboard$/, { timeout: 15_000 });
   }
 
-  test("administrator creates a plan, activates membership and member sees it", async ({ browser, page }) => {
+  test("administrator manages a membership lifecycle and member sees its active state", async ({ browser, page }) => {
     await login(page, operator);
     const usersResponse = page.waitForResponse((item) => item.url().includes("/api/admin/users") && item.request().method() === "GET", { timeout: 30_000 });
     await page.goto("/admin/billing");
@@ -81,6 +81,20 @@ test.describe("live membership lifecycle", () => {
       await memberPage.goto("/membership");
       await expect(memberPage.getByRole("heading", { name: "Thanh vien hien tai" })).toBeVisible({ timeout: 30_000 });
       const currentMembership = memberPage.locator(".panel").filter({ has: memberPage.getByRole("heading", { name: "Thanh vien hien tai" }) });
+      await expect(currentMembership.getByText(planName)).toBeVisible();
+
+      const membershipEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: planName }) });
+      const suspensionResponse = page.waitForResponse((item) => item.url().includes("/api/admin/billing/subscriptions/") && item.request().method() === "PATCH", { timeout: 45_000 });
+      await membershipEntry.getByRole("button", { name: "Dung" }).click();
+      expect((await suspensionResponse).status()).toBe(200);
+      await memberPage.reload();
+      await expect(memberPage.getByRole("heading", { name: "Thanh vien hien tai" })).toHaveCount(0);
+
+      const reactivationResponse = page.waitForResponse((item) => item.url().includes("/api/admin/billing/subscriptions/") && item.request().method() === "PATCH", { timeout: 45_000 });
+      await membershipEntry.getByRole("button", { name: "Kich hoat lai" }).click();
+      expect((await reactivationResponse).status()).toBe(200);
+      await memberPage.reload();
+      await expect(memberPage.getByRole("heading", { name: "Thanh vien hien tai" })).toBeVisible({ timeout: 30_000 });
       await expect(currentMembership.getByText(planName)).toBeVisible();
     } finally { await memberContext.close(); }
   });

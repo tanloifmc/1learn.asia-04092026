@@ -46,7 +46,7 @@ Status values:
 | SUPPORT-001 | Support | Submit application support request | implemented | 35% | Authenticated contact form, validation, rate limit and administrator notification pass production build |
 | SUPPORT-002 | Support | User support request history | implemented | 35% | Owner-only RLS contract and contact-page history UI pass production build |
 | SUPPORT-003 | Support | Administrator support request handling | implemented | 35% | Admin list/status API, UI and audit logging pass production build |
-| BILLING-002 | Membership | Administrator activation and renewal | implemented | 65% | Protected administrator flow creates, extends, suspends and reactivates subscriptions with audit logs; live desktop/mobile activation and member-read journey passes |
+| BILLING-002 | Membership | Administrator activation and renewal | implemented | 70% | Protected administrator flow creates, extends, suspends and reactivates subscriptions with audit logs; live desktop/mobile activation, suspension, reactivation and member-read journey passes |
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
 | CMS-002 | CMS | Static pages | implemented | 50% | Public rendering plus editor create/edit/publish UI and API |
