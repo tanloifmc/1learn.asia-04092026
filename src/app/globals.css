@@ -1,6 +1,12 @@
 :root {
   color-scheme: light;
   font-family: Arial, Helvetica, sans-serif;
+  --ink: #16212a;
+  --muted: #53616d;
+  --line: #d6dce1;
+  --canvas: #f7f8f7;
+  --surface: #ffffff;
+  --accent: #006a6a;
 }
 
 * {
@@ -10,8 +16,33 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #ffffff;
-  color: #171717;
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.site-header, .site-footer { background: var(--surface); border-color: var(--line); }
+.site-header { border-bottom: 1px solid var(--line); }
+.site-footer { border-top: 1px solid var(--line); margin-top: 4rem; }
+.site-header__inner, .site-footer__inner { width: min(100% - 2rem, 72rem); min-height: 4rem; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.site-header ul, .app-sidebar ul { display: flex; list-style: none; gap: 1rem; margin: 0; padding: 0; }
+.site-footer nav { display: flex; gap: 1rem; }
+.brand { font-weight: 700; color: var(--ink); text-decoration: none; }
+.button { display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0.5rem 0.75rem; text-decoration: none; }
+.button--primary { background: var(--accent); color: white; }
+.eyebrow { color: var(--muted); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
+.app-frame { width: min(100% - 2rem, 80rem); margin: 2rem auto; display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 2rem; }
+.app-sidebar { border-right: 1px solid var(--line); }
+.app-sidebar__section { margin-top: 2rem; }
+.app-sidebar ul { flex-direction: column; gap: 0.75rem; }
+.app-content main { width: auto; margin: 0; padding: 0; }
+@media (max-width: 700px) {
+  .site-header__inner { flex-wrap: wrap; padding: 0.75rem 0; }
+  .site-header nav { order: 3; width: 100%; overflow-x: auto; }
+  .site-header nav ul { flex-wrap: nowrap; width: max-content; padding-bottom: 0.25rem; }
+  .site-header nav li { flex: 0 0 auto; white-space: nowrap; }
+  .app-frame { grid-template-columns: 1fr; }
+  .app-sidebar { border-right: 0; border-bottom: 1px solid var(--line); padding-bottom: 1rem; }
+  .app-sidebar ul { flex-direction: row; overflow-x: auto; }
 }
 
 main {
@@ -19,3 +50,65 @@ main {
   margin: 0 auto;
   padding: 4rem 0;
 }
+
+.stack,
+.form-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-stack label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+input {
+  min-height: 2.5rem;
+  padding: 0.5rem;
+}
+
+textarea, select { padding: 0.5rem; border: 1px solid var(--line); background: var(--surface); }
+
+button {
+  width: fit-content;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.list-item {
+  border: 1px solid #d0d5dd;
+  padding: 1rem;
+}
+
+.list-item h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.list-item { color: inherit; text-decoration: none; }
+.admin-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.panel { border: 1px solid var(--line); padding: 1rem; background: var(--surface); }
+.panel h2 { margin: 0; font-size: 1.1rem; }
+.inline-field { display: flex !important; align-items: center; gap: 0.5rem; }
+.button-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.content-cover { width: 100%; max-height: 28rem; object-fit: cover; border: 1px solid var(--line); }
+.content-article { max-width: 48rem; }
+.content-excerpt { color: var(--muted); font-size: 1.1rem; }
+.content-body { display: grid; gap: 1rem; line-height: 1.65; }
+.content-body p { margin: 0; }
+.home-main { width: min(100% - 2rem, 72rem); margin: 0 auto; padding: 6rem 0; }
+.home-main h1 { max-width: 48rem; }
+.home-main__description { max-width: 42rem; color: var(--muted); font-size: 1.15rem; line-height: 1.6; }
+.provider-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.provider-logo { max-width: 100%; height: auto; }
+@media (max-width: 700px) { .provider-grid { grid-template-columns: 1fr; } }
+pre { overflow-x: auto; padding: 0.75rem; background: var(--canvas); border: 1px solid var(--line); }
+@media (max-width: 700px) { .admin-grid { grid-template-columns: 1fr; } }

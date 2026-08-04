@@ -18,36 +18,36 @@ This is the operating board for the core platform. Every task has one owner (the
 | Milestone | Status | Completion | Goal | Exit evidence |
 | --- | --- | --- | --- | --- |
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
-| M1: Executable foundation | in_progress | 50% | Next.js, TypeScript, lint, test harness, local environment contract | Production build passed; browser check and test harness remain |
-| M2: Identity and account | in_progress | 35% | Auth, profile, dashboard, roles and permissions | Database/RLS deployed and security-verified; live user journeys remain |
-| M3: Shared application core | backlog | 0% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
-| M4: Operations and public site | backlog | 0% | CMS, settings, header/footer, admin console, audit trail | Admin and public-page suite passes |
-| M5: Membership and production | backlog | 0% | SePay, Resend, GitHub CI, Vercel and monitoring | Staging webhook and deployment acceptance pass |
+| M1: Executable foundation | in_progress | 63% | Next.js, TypeScript, lint, browser smoke checks, local environment contract | Build, local HTTP and browser smoke checks passed; repeatable browser suite remains |
+| M2: Identity and account | in_progress | 45% | Auth, profile, dashboard, roles and permissions | Account preference/security source and local migration build; live user journeys remain |
+| M3: Shared application core | in_progress | 58% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
+| M4: Operations and public site | in_progress | 83% | CMS, typed public settings, header/footer, admin console, audit trail | Admin and public-page suite passes |
+| M5: Membership and production | in_progress | 45% | SePay, Resend, GitHub CI, Vercel and monitoring | Staging webhook and deployment acceptance pass |
 
 ## Active Backlog
 
 | ID | Task | Module | Status | Completion | Depends on | Acceptance evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | M0-001 | Approve core blueprint | Documentation | verified | 100% | None | User confirmation recorded 2026-08-03 |
-| M1-001 | Scaffold application repository | App scaffold | review | 50% | M0-001 | Typecheck, lint and production build passed; browser check remains |
+| M1-001 | Scaffold application repository | App scaffold | review | 60% | M0-001 | Typecheck, lint, production build and local public/protected route checks passed; browser interaction suite remains |
 | M1-002 | Add source folder architecture and shared configuration | App scaffold | backlog | 0% | M1-001 | Typecheck and architecture review |
 | M1-003 | Configure local environment examples and secret guardrails | Operations | backlog | 0% | M1-001 | No secrets tracked; environment validation test |
 | M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 50% | M1-001 | Two migrations applied; all 16 core tables have RLS and security advisors pass | Run authenticated cross-user RLS isolation tests |
 | M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 25% | M2-001 | UI and callback source built; live auth journey awaits Supabase connection |
 | M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 25% | M2-002 | Dashboard, profile API and RBAC migration built; live role isolation awaits database |
-| M3-001 | Implement notifications and favorites | Shared core | backlog | 0% | M2-003 | RLS and UI tests |
-| M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | backlog | 0% | M2-003 | User-to-provider journey; no checkout present |
-| M4-001 | Implement design system, layouts and navigation settings | Design/CMS | backlog | 0% | M1-002 | Desktop and mobile visual checks |
-| M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | backlog | 0% | M2-003 | Permission and publishing tests |
-| M5-001 | Implement SePay membership payment confirmation | Billing | backlog | 0% | M2-003 | Signed idempotent webhook test |
-| M5-002 | Implement Resend transactional emails | Email | backlog | 0% | M2-002 | Sandbox delivery and webhook test |
+| M3-001 | Implement notifications and favorites | Shared core | review | 25% | M2-003 | Source/API/UI build passed; cross-account RLS and browser acceptance remain |
+| M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 35% | M2-003 | Profile, review, inbox and send-inquiry UI/API routes passed typecheck, lint and production build; live role tests remain |
+| M4-001 | Implement design system, layouts and navigation settings | Design/CMS | review | 25% | M1-002 | Typecheck, lint and production build passed; desktop and mobile visual checks remain |
+| M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
+| M5-001 | Implement SePay membership payment confirmation | Billing | review | 25% | M2-003 | Member payment flow, signed idempotent webhook and membership activation passed typecheck, lint and production build; sandbox acceptance remains |
+| M5-002 | Implement Resend transactional emails | Email | review | 25% | M2-002 | Server-only send helper and signed webhook recorder passed typecheck/lint; sandbox delivery remains |
 | M5-003 | Configure GitHub CI, Vercel environments and monitoring | Operations | backlog | 0% | M1-001 | Preview deploy and production-readiness checklist |
 
 ## External Access Blockers
 
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
-| Supabase | blocked | Project `Travel Plan` is identified. Local CLI is outdated and OAuth login was interrupted before completion; upgrade, complete browser login, then link with the remote database password | Migration cannot be pushed and live Auth/RLS cannot be accepted |
+| Supabase | ready for release gate | Project `Travel Plan` is linked locally; two baseline migrations are already remote and further changes remain frozen by `CORE-1` policy | Live Auth/RLS acceptance and final migration batch await release gate |
 | GitHub | blocked | Switch local Git credentials from `1weddingasia` to an account with write access to `lenguyen02042004-lang/Core-platform` | Core is committed locally but push returned GitHub 403 |
 | Vercel | blocked | Authenticate Vercel CLI, then provide project environment values after Supabase is linked | A managed deployment with Supabase credentials cannot be configured |
 
@@ -58,6 +58,14 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-03 | M1-001 | Partial pass | Direct TypeScript check, ESLint check and Next.js production build passed | Start local dev server and complete browser check; add test harness |
 | 2026-08-03 | M2-001 to M2-003 | Partial pass | TypeScript, ESLint and production build passed after Supabase SSR/Auth integration, logout and account profile UI | Authenticate Supabase CLI, push migration, then run live auth and RLS acceptance |
 | 2026-08-03 | M2-001 | Partial pass | Both migrations pushed; all 16 core tables have RLS; security advisors report no issues; function execute access verified revoked | Run authenticated cross-user RLS isolation tests |
+| 2026-08-03 | M3-001 | Partial pass | Favorites and notification API routes, inbox/list UI and dashboard links passed typecheck, lint and production build | Run two-account RLS and browser acceptance in CORE-1 release gate |
+| 2026-08-03 | M3-002 | Partial pass | Provider organization, review submission and inquiry API routes passed typecheck, lint and production build | Add provider UI journey, service-role environment and live two-account tests |
+| 2026-08-03 | M4-001 | Partial pass | Shared CSS tokens, responsive public header/footer, account sidebar and public placeholder routes passed typecheck, lint and production build | Add reusable components and run desktop/mobile browser acceptance |
+| 2026-08-03 | M4-002 | Partial pass | CMS public read APIs, editor/admin content API, administrator settings API, server-side role guards and protected forms passed typecheck, lint and production build | Add operational admin modules, audit logs and browser role/publishing acceptance |
+| 2026-08-03 | M3-002 | Partial pass | Provider profile/review UI, provider inbox, user send-inquiry form and sent-inquiries page passed typecheck, lint and production build | Configure service role and run two-account provider/user browser and RLS acceptance |
+| 2026-08-03 | M5-001 | Partial pass | Membership plan API/UI, server-generated payment intents, SePay HMAC webhook, transaction deduplication and membership activation passed typecheck, lint and production build | Configure SePay sandbox webhook and run signed duplicate/amount-mismatch acceptance |
+| 2026-08-03 | M1-001 | Partial pass | Local server returned 200 for public auth/pricing routes and 307 `/login` redirects for unauthenticated dashboard/admin routes | Interactive browser and authenticated acceptance remain |
+| 2026-08-03 | M4-002 | Partial pass | Admin user/role, provider moderation and audit viewer screens plus guarded APIs passed typecheck, lint and production build | Run multi-role acceptance and add billing operations view |
 
 ## Update Protocol
 
@@ -65,3 +73,9 @@ This is the operating board for the core platform. Every task has one owner (the
 2. During code: update its feature rows and module percentage only when evidence changes.
 3. Before handoff: run the required specialist checks and record their result in the module document.
 4. After acceptance: mark the task `verified`; then select the next ready task.
+
+## Current Release Policy
+
+Release batch `CORE-1` includes M1 through M5: app foundation, identity, shared core modules, public/CMS/admin operations, SePay/Resend integration and deployment configuration. From 2026-08-03 onward, all pending source and migration changes remain local until `CORE-1` is accepted as one release. GitHub push, further Supabase migration pushes and Vercel deployment happen together at the release gate.
+
+The two baseline migrations already deployed to project `Travel Plan` are frozen remote state. No additional remote database changes are permitted before `CORE-1` release acceptance.

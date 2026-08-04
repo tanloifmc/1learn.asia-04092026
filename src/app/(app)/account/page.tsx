@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation";
 import { ProfileForm } from "@/components/account/profile-form";
+import { ImageUpload } from "@/components/media/image-upload";
+import { PreferenceForm } from "@/components/account/preference-form";
+import { PasswordForm } from "@/components/account/password-form";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { getCurrentAccount } from "@/lib/auth/current-account";
 
@@ -18,6 +21,9 @@ export default async function AccountPage() {
         locale={account.profile?.locale ?? "vi"}
         timezone={account.profile?.timezone ?? "Asia/Ho_Chi_Minh"}
       />
+      <ImageUpload kind="avatar" label="Anh dai dien" />
+      <PreferenceForm />
+      <PasswordForm />
       <SignOutButton />
     </main>
   );

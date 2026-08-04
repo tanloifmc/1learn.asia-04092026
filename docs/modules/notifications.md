@@ -6,16 +6,16 @@ Provide an in-app notification inbox for every account.
 
 ## Completion
 
-Current completion: 0%
+Current completion: 25%
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
-| Notification inbox | planned | 0% | User can list their own notifications |
+| Notification inbox | implemented | 25% | User can list their own notifications |
 | Unread count | planned | 0% | Header/dashboard shows unread count |
-| Mark as read | planned | 0% | User can mark one notification as read |
-| Mark all as read | planned | 0% | User can clear unread state |
+| Mark as read | implemented | 25% | User can mark one notification as read |
+| Mark all as read | implemented | 25% | User can clear unread state |
 | Admin broadcast | planned | 0% | Admin can send system notification |
 | Event-created notifications | planned | 0% | Billing, inquiry, provider approval can create notifications |
 
@@ -27,3 +27,10 @@ Current completion: 0%
 
 Users can only read notifications where `recipient_user_id` is their own user id.
 
+## Verified Evidence
+
+Verified on: 2026-08-03
+Task: M3-001
+Checks: direct TypeScript check, direct ESLint check, Next.js production build
+Result: partial pass
+Notes: Per-account RLS is deployed. The inbox API and UI are implemented; system event creation and browser/RLS acceptance remain.

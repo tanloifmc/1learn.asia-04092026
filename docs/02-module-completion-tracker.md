@@ -15,23 +15,23 @@ Rules:
 | Module | Completion | Current state | Next requirement |
 | --- | --- | --- | --- |
 | Project documentation | 100% | Blueprint, contracts, board, architecture, integrations and acceptance rules are approved | Keep synchronized with implementation |
-| App scaffold | 50% | Next.js 16.1.6, TypeScript, lint, environment template and production build verified | Complete browser check and add test harness |
-| Design system | 0% | Planned | Define theme tokens and base components |
-| Authentication | 25% | Auth pages, callback route and SSR session proxy compile and build | Connect Supabase and run live auth acceptance including logout |
-| Account profile | 25% | Protected dashboard, current-account query and validated profile API compile and build | Push schema; add profile UI and live account tests |
+| App scaffold | 65% | Next.js, TypeScript, lint, environment contract, production build, local HTTP and browser smoke checks verified | Add repeatable browser test harness and authenticated acceptance suite |
+| Design system | 35% | Shared CSS tokens, responsive public header/footer/app shell and desktop/mobile browser smoke checks pass | Add reusable form, feedback and data-display components; extend visual acceptance to authenticated screens |
+| Authentication | 35% | Auth pages, callback, SSR proxy and authenticated password-change route/UI pass production build | Run live auth acceptance including logout and recovery |
+| Account profile | 45% | Protected dashboard, profile/avatar UI, validated preferences API/UI and local preference RLS migration pass production build | Push migration and run live account isolation tests |
 | Roles and permissions | 50% | Role table and RLS policies deployed; all core tables confirmed RLS-enabled; security advisors pass | Seed trusted admin and run authenticated isolation tests |
-| Notifications | 0% | Planned | Create notifications table and inbox |
-| Favorites | 0% | Planned | Create generic favorites model |
-| Provider organizations | 0% | Planned | Create organization profile and approval |
-| Admin console | 0% | Planned | Create admin layout and management pages |
-| CMS | 0% | Planned | Create pages, posts, categories |
-| App settings | 0% | Planned | Create configurable branding/menu/footer settings |
-| SePay billing | 0% | Planned | Create payment references and webhook handling |
-| Inquiries | 0% | Planned | Create generic user-to-provider contact flow |
-| Media storage | 0% | Planned | Configure storage buckets and policies |
-| Audit logs | 0% | Planned | Create audit log table and admin viewer |
-| Testing | 25% | Direct typecheck, lint and production build passed for the scaffold | Add Playwright/browser acceptance harness |
+| Notifications | 35% | Inbox, read state, system event notifications and validated admin selected-user broadcast pass production build | Add queued large-audience delivery and cross-account RLS tests |
+| Favorites | 40% | Entity lookup API, dashboard list and provider/blog save/remove controls pass production build | Run cross-account RLS and browser interaction tests |
+| Provider organizations | 55% | Create/review/admin moderation, public approved directory/detail and provider inquiry controls pass production build | Run live role/browser/RLS tests |
+| Admin console | 45% | Protected user/role, provider moderation and audit screens plus APIs pass production build | Add billing management and multi-role browser acceptance |
+| CMS | 70% | CMS-managed homepage, post/category/static-page create/edit/publish UI/APIs, default legal-page fallbacks, media control, public rendering and SEO pass production build | Run editor publishing and live storage browser acceptance |
+| App settings | 55% | Typed branding/menu/footer/social and home-content forms, key-specific server validation, runtime consumption and audit logging pass production build | Run live administrator acceptance and add richer theme controls |
+| SePay billing | 40% | Admin plan CRUD, current-subscription UI, trusted expiring payment instructions, HMAC webhook, activation and payment audit pass production build | Configure SePay sandbox HMAC and run live webhook acceptance |
+| Inquiries | 55% | Provider inquiry lifecycle plus separate authenticated application support request/user history/admin handling source pass production build | Push local support-request migration and run two-account RLS/browser acceptance |
+| Media storage | 35% | Local bucket/RLS migration plus validated server upload route and avatar/logo UI pass production build | Push migration at release gate and run live owner-isolation/upload tests |
+| Audit logs | 52% | Server-only writer, protected viewer and role/provider/broadcast/settings/CMS/membership-plan/payment audit events pass production build | Cover remaining sensitive actions and run live access acceptance |
+| Testing | 45% | Typecheck, lint, production build, local HTTP checks and Playwright desktop/mobile public-route/redirect smoke checks passed | Add repeatable browser suite and authenticated multi-account acceptance |
 | Deployment | 0% | Planned | Configure Vercel after local foundation is ready |
-| Transactional email | 0% | Planned | Configure Resend sender domain and email service |
-| Security and abuse controls | 0% | Planned | Add rate limits, secure headers, audit coverage and recovery rules |
-| Monitoring and operations | 0% | Planned | Add production error monitoring, health checks and runbook |
+| Transactional email | 35% | Pinned Resend SDK, server-only idempotent helper, support/membership event emails and verified webhook recorder pass production build | Configure domain and run sandbox delivery acceptance |
+| Security and abuse controls | 25% | Security headers and process-local rate limits for inquiries, payment intents and SePay webhook pass production build | Add shared rate-limit store, recovery rules and live security tests |
+| Monitoring and operations | 35% | Local health endpoint returns 200 and GitHub quality gate source plus production build pass | Run CI remotely, add error monitoring and runbook acceptance |

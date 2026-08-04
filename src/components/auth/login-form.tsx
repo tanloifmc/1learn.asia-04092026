@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm() {
+  const router = useRouter();
   const [message, setMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,7 +28,8 @@ export function LoginForm() {
       return;
     }
 
-    window.location.assign("/dashboard");
+    router.replace("/dashboard");
+    router.refresh();
   }
 
   return (

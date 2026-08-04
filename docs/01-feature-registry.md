@@ -14,66 +14,69 @@ Status values:
 
 | ID | Module | Feature | Status | Completion | Notes |
 | --- | --- | --- | --- | --- | --- |
-| AUTH-001 | Auth | Register with email and password | planned | 0% | Supabase Auth |
-| AUTH-002 | Auth | Login with email and password | planned | 0% | Supabase Auth |
-| AUTH-003 | Auth | Logout | planned | 0% | Must clear session |
-| AUTH-004 | Auth | Forgot password request | planned | 0% | Email reset flow |
-| AUTH-005 | Auth | Reset password | planned | 0% | Secure token flow |
-| AUTH-006 | Auth | Email verification | planned | 0% | Required before sensitive actions |
-| AUTH-007 | Auth | Protected routes | planned | 0% | Middleware plus server checks |
-| AUTH-008 | Auth | Session refresh and expiry handling | planned | 0% | SSR compatible |
-| ACCOUNT-001 | Account | Personal profile | planned | 0% | Name, avatar, phone, location |
-| ACCOUNT-002 | Account | Account preferences | planned | 0% | Language, timezone, notification settings |
-| ACCOUNT-003 | Account | Security settings | planned | 0% | Password, sessions |
-| ACCOUNT-004 | Account | User dashboard | planned | 0% | Role-aware |
-| ROLE-001 | Roles | Role model | planned | 0% | `user`, `provider`, `editor`, `admin`, `super_admin` |
-| ROLE-002 | Roles | Permission matrix | planned | 0% | Documented and enforced |
-| ROLE-003 | Roles | Admin role assignment | planned | 0% | Audited |
-| PROVIDER-001 | Provider | Organization profile | planned | 0% | Provider identity |
-| PROVIDER-002 | Provider | Provider onboarding | planned | 0% | Draft to pending review |
-| PROVIDER-003 | Provider | Provider approval workflow | planned | 0% | Admin controlled |
-| PROVIDER-004 | Provider | Provider dashboard | planned | 0% | Inquiry and profile status |
-| NOTIFY-001 | Notifications | Notification inbox | planned | 0% | Per-account in-app inbox |
-| NOTIFY-002 | Notifications | Mark notification as read | planned | 0% | Single and bulk |
-| NOTIFY-003 | Notifications | Admin broadcast notification | planned | 0% | Admin only |
-| FAVORITE-001 | Favorites | Add item to favorites | planned | 0% | Generic entity model |
-| FAVORITE-002 | Favorites | Remove item from favorites | planned | 0% | Ownership protected |
-| FAVORITE-003 | Favorites | Favorites list page | planned | 0% | User dashboard area |
-| INQUIRY-001 | Inquiries | Submit inquiry to provider | planned | 0% | No in-app transaction |
-| INQUIRY-002 | Inquiries | Provider inquiry inbox | planned | 0% | Provider only |
-| INQUIRY-003 | Inquiries | Admin inquiry oversight | planned | 0% | Operational visibility |
-| BILLING-001 | Billing | Membership plans | planned | 0% | Admin configurable |
-| BILLING-002 | Billing | Generate payment reference | planned | 0% | For SePay transfer content |
-| BILLING-003 | Billing | SePay webhook endpoint | planned | 0% | Must be idempotent |
-| BILLING-004 | Billing | Payment transaction log | planned | 0% | Unique SePay transaction id |
-| BILLING-005 | Billing | Activate membership after payment | planned | 0% | Server-side only |
-| CMS-001 | CMS | Public home page content | planned | 0% | Admin configurable |
-| CMS-002 | CMS | Static pages | planned | 0% | Terms, privacy, about, contact |
-| CMS-003 | CMS | Blog posts | planned | 0% | Draft and published states |
-| CMS-004 | CMS | Blog categories | planned | 0% | Slug-based |
-| CMS-005 | CMS | SEO metadata | planned | 0% | Page title, description, OG image |
-| CMS-006 | CMS | Static page publishing | planned | 0% | About, privacy, terms and contact |
-| SETTINGS-001 | Settings | App branding settings | planned | 0% | Logo, app name, colors |
-| SETTINGS-002 | Settings | Header menu settings | planned | 0% | Admin configurable |
-| SETTINGS-003 | Settings | Footer menu settings | planned | 0% | Admin configurable |
-| SETTINGS-004 | Settings | Social links | planned | 0% | Admin configurable |
-| MEDIA-001 | Media | Avatar upload | planned | 0% | Storage policies required |
-| MEDIA-002 | Media | Provider logo upload | planned | 0% | Storage policies required |
-| MEDIA-003 | Media | CMS image upload | planned | 0% | Editor/admin only |
-| AUDIT-001 | Audit | Audit log table | planned | 0% | For sensitive actions |
-| AUDIT-002 | Audit | Admin audit log viewer | planned | 0% | Admin only |
-| DESIGN-001 | Design System | Base layout | planned | 0% | Public, app, admin layouts |
-| DESIGN-002 | Design System | Reusable components | planned | 0% | Button, input, table, modal, toast |
-| DESIGN-003 | Design System | Theme tokens | planned | 0% | Colors, spacing, typography |
+| AUTH-001 | Auth | Register with email and password | implemented | 35% | Supabase Auth register form and callback source |
+| AUTH-002 | Auth | Login with email and password | implemented | 35% | Supabase Auth login form and SSR session source |
+| AUTH-003 | Auth | Logout | implemented | 35% | Client sign-out control and redirect |
+| AUTH-004 | Auth | Forgot password request | implemented | 35% | Password recovery form source |
+| AUTH-005 | Auth | Reset password | implemented | 35% | Reset-password form source |
+| AUTH-006 | Auth | Email verification | implemented | 25% | Auth callback processes verification redirects; live email acceptance remains |
+| AUTH-007 | Auth | Protected routes | implemented | 50% | SSR proxy and server route guards verified by local redirect check |
+| AUTH-008 | Auth | Session refresh and expiry handling | implemented | 35% | Supabase SSR proxy session refresh source |
+| ACCOUNT-001 | Account | Personal profile | implemented | 45% | Profile API/UI, avatar upload and local build evidence |
+| ACCOUNT-002 | Account | Account preferences | implemented | 35% | Local RLS migration plus notification preference UI/API |
+| ACCOUNT-003 | Account | Security settings | implemented | 35% | Authenticated password change API and account UI |
+| ACCOUNT-004 | Account | User dashboard | implemented | 35% | Protected account dashboard and role display |
+| ROLE-001 | Roles | Role model | implemented | 50% | Database enum/role table and server checks |
+| ROLE-002 | Roles | Permission matrix | implemented | 50% | RLS and route guard model documented and source-built |
+| ROLE-003 | Roles | Admin role assignment | implemented | 35% | Server-guarded role API, audit logging and admin screen; live tests remain |
+| PROVIDER-001 | Provider | Organization profile | implemented | 35% | API plus authenticated create/update profile UI |
+| PROVIDER-002 | Provider | Provider onboarding | implemented | 35% | Draft-to-review API and provider screen |
+| PROVIDER-003 | Provider | Provider approval workflow | implemented | 45% | Admin moderation API/UI, provider notification and public approved visibility |
+| PROVIDER-004 | Provider | Provider dashboard | implemented | 50% | Profile/review state and inquiry inbox/status lifecycle |
+| NOTIFY-001 | Notifications | Notification inbox | implemented | 25% | Per-account in-app inbox |
+| NOTIFY-002 | Notifications | Mark notification as read | implemented | 25% | Single and bulk |
+| NOTIFY-003 | Notifications | Admin broadcast notification | implemented | 35% | Admin-selected recipient broadcast, validation, rate-safe batch limit and audit log |
+| FAVORITE-001 | Favorites | Add item to favorites | implemented | 40% | Generic entity model integrated on provider/blog detail |
+| FAVORITE-002 | Favorites | Remove item from favorites | implemented | 40% | Ownership-protected API integrated on provider/blog detail |
+| FAVORITE-003 | Favorites | Favorites list page | implemented | 40% | User dashboard area and entity lookup flow |
+| INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
+| INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
+| INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
+| BILLING-001 | Billing | Membership plans | implemented | 40% | Admin CRUD, public active-plan API, member selection and current-subscription UI pass production build |
+| SUPPORT-001 | Support | Submit application support request | implemented | 35% | Authenticated contact form, validation, rate limit and administrator notification pass production build |
+| SUPPORT-002 | Support | User support request history | implemented | 35% | Owner-only RLS contract and contact-page history UI pass production build |
+| SUPPORT-003 | Support | Administrator support request handling | implemented | 35% | Admin list/status API, UI and audit logging pass production build |
+| BILLING-002 | Billing | Generate payment reference | implemented | 35% | Server-generated unique reference, amount and expiry from trusted plan data with audit logging |
+| BILLING-003 | Billing | SePay webhook endpoint | implemented | 25% | HMAC raw-body validation, amount/reference matching and safe responses |
+| BILLING-004 | Billing | Payment transaction log | implemented | 35% | Unique SePay transaction record and protected admin payment-intent viewer |
+| BILLING-005 | Billing | Activate membership after payment | implemented | 35% | Server-only confirmation, subscription create/extend, user notification and audit flow pass production build |
+| CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
+| CMS-002 | CMS | Static pages | implemented | 50% | Public rendering plus editor create/edit/publish UI and API |
+| CMS-003 | CMS | Blog posts | implemented | 60% | Full editor create/edit/publish UI, category/media control and public list/detail |
+| CMS-004 | CMS | Blog categories | implemented | 50% | Public CRUD API and editor create/edit UI |
+| CMS-005 | CMS | SEO metadata | implemented | 60% | Post/page author controls and public route metadata |
+| CMS-006 | CMS | Static page publishing | implemented | 40% | CMS-published pages render publicly; privacy and terms have code fallbacks until an editor publishes their final content |
+| SETTINGS-001 | Settings | App branding settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime branding consumption pass production build |
+| SETTINGS-002 | Settings | Header menu settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime header consumption pass production build |
+| SETTINGS-003 | Settings | Footer menu settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime footer consumption pass production build |
+| SETTINGS-004 | Settings | Social links | implemented | 50% | Typed admin form, URL validation, audit log and shared footer rendering pass production build |
+| MEDIA-001 | Media | Avatar upload | implemented | 35% | Validated server upload and profile update UI/API |
+| MEDIA-002 | Media | Provider logo upload | implemented | 35% | Validated server upload and organization update UI/API |
+| MEDIA-003 | Media | CMS image upload | implemented | 25% | Role-guarded server upload route; author UI remains |
+| AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and payment actions; live verification remains |
+| AUDIT-002 | Audit | Admin audit log viewer | implemented | 40% | Admin-only API and viewer screen pass production build; live access/filtering acceptance remains |
+| DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
+| DESIGN-002 | Design System | Reusable components | in_progress | 25% | Navigation, sidebar and base button styles exist; form, table, modal and toast remain |
+| DESIGN-003 | Design System | Theme tokens | implemented | 25% | CSS color, spacing, typography and responsive layout tokens |
 | TEST-001 | Testing | Typecheck | planned | 0% | Required before completion |
 | TEST-002 | Testing | Production build | planned | 0% | Required before completion |
 | TEST-003 | Testing | Playwright auth tests | planned | 0% | Register/login/protected route |
 | TEST-004 | Testing | Permission tests | planned | 0% | User/provider/admin access |
-| EMAIL-001 | Transactional email | Send account and operational emails | planned | 0% | Resend server-side only |
-| EMAIL-002 | Transactional email | Track delivery, bounce and complaint events | planned | 0% | Webhook-based audit trail |
-| OPS-001 | Operations | Environment variable contract | planned | 0% | Local, preview and production |
-| OPS-002 | Operations | GitHub quality gate | planned | 0% | Typecheck, build and tests |
+| EMAIL-001 | Transactional email | Send account and operational emails | implemented | 35% | Server-only idempotent Resend helper is wired to support-request receipt and membership activation events |
+| EMAIL-002 | Transactional email | Track delivery, bounce and complaint events | implemented | 25% | Raw-body verified Resend webhook stores permitted events idempotently |
+| OPS-001 | Operations | Environment variable contract | implemented | 35% | Local `.env.local`, template and health configuration check |
+| OPS-002 | Operations | GitHub quality gate | implemented | 25% | Workflow source exists; first remote run remains |
 | OPS-003 | Operations | Vercel deployment configuration | planned | 0% | Preview and production |
 | OPS-004 | Operations | Production monitoring and incident runbook | planned | 0% | Solo-operator friendly |
-| SECURITY-001 | Security | Rate limiting and abuse protection | planned | 0% | Auth, inquiry and webhook routes |
-| SECURITY-002 | Security | Security headers and secret handling | planned | 0% | Verified before production |
+| SECURITY-001 | Security | Rate limiting and abuse protection | implemented | 25% | Process-local limiter protects inquiry, payment and SePay webhook routes |
+| SECURITY-002 | Security | Security headers and secret handling | implemented | 25% | Next headers configured; secrets remain server-only environment values |

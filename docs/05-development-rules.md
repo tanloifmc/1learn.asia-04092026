@@ -33,6 +33,16 @@ Do not push schema changes to a remote Supabase project until:
 - Local or dry-run verification passes.
 - The user explicitly approves the remote push.
 
+## Release Batch Rule
+
+The core platform is delivered in named release batches, not as scattered cloud changes.
+
+- Complete the agreed modules, source code, migration files and acceptance evidence in the repository first.
+- Keep later migrations local until the batch is accepted as a coherent release.
+- Then push code to GitHub, push the pending migration set to Supabase, configure Vercel and deploy in that order.
+- A local commit is an implementation checkpoint only; it is not a cloud release.
+- The initial baseline migrations were pushed to `Travel Plan` on 2026-08-03 before this rule was adopted. Treat that remote state as frozen until the first full core release batch.
+
 ## Secret Rule
 
 Never commit secrets.
@@ -81,4 +91,3 @@ Recommended checks before marking a feature as verified:
 - Playwright permission denial path
 - Supabase RLS tests for data isolation
 - Payment webhook idempotency test for billing features
-

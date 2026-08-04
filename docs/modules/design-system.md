@@ -1,29 +1,24 @@
-# Module: Design System
+# Design System Module
 
-## Purpose
+## Scope
 
-Provide reusable UI foundations for all future applications built from this core.
+The design system provides shared visual tokens, layouts and reusable interface primitives for every future application module. It is product-neutral: a future travel, marketplace, SaaS or community feature should attach to this system rather than introduce a second visual language.
 
-## Completion
+## Implemented: 35%
 
-Current completion: 0%
+- CSS tokens for color, typography, spacing, borders and layout dimensions in `src/app/globals.css`.
+- Responsive public shell with a shared header, navigation and footer.
+- Authenticated application shell with persistent account navigation.
+- Public placeholder routes for blog, membership pricing and contact.
+- Shared navigation configuration in `src/config/navigation.ts`.
 
-## Feature Checklist
+## Verification Evidence
 
-| Feature | Status | Completion | Acceptance criteria |
-| --- | --- | --- | --- |
-| Theme tokens | planned | 0% | Colors, spacing, typography, radius, shadows defined centrally |
-| App shell layouts | planned | 0% | Public, authenticated, provider, and admin layouts |
-| Header | planned | 0% | Uses configurable branding and menu |
-| Footer | planned | 0% | Uses configurable footer menu and social links |
-| Sidebar navigation | planned | 0% | Role-aware app navigation |
-| Form components | planned | 0% | Input, textarea, select, checkbox, validation states |
-| Data table | planned | 0% | Sorting, empty state, loading state |
-| Modal/drawer | planned | 0% | Reusable confirmation and editing surfaces |
-| Toast/alert | planned | 0% | User feedback for actions |
-| Badge/status components | planned | 0% | Consistent status display |
+On 2026-08-04, direct TypeScript checking, ESLint and the Next.js production build passed after the shared layouts were added. Playwright desktop and 390px mobile checks verified the public home/header/footer and a horizontal, scrollable mobile header menu without console errors.
 
-## UI Rule
+## Remaining Work
 
-Core UI should feel application-like and operational. Avoid travel-specific visuals, copy, or assumptions in reusable components.
-
+- Add accessible reusable input, button, table, modal, dialog, toast, empty-state and loading-state components.
+- Add a distinct protected admin shell and permission-aware navigation.
+- Store branding, menus and footer settings in the settings module so admins can manage them.
+- Extend desktop and mobile visual checks to authenticated and administrative screens.

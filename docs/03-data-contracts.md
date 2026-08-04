@@ -21,7 +21,7 @@ No table, column, enum, or relationship should be added in code before this file
 - Unique constraints may satisfy this requirement when the foreign-key column is the leading column.
 - Performance-only advisor findings and their remediation migrations must be recorded before a module reaches `100%`.
 
-Core foreign-key indexes include `user_roles.user_id`, `organizations.owner_id`, `inquiries.sender_user_id`, `inquiries.organization_id`, `membership_subscriptions.user_id`, `membership_subscriptions.organization_id`, `membership_subscriptions.plan_id`, `payment_intents.user_id`, `payment_intents.plan_id`, `sepay_transactions.matched_payment_intent_id`, `content_posts.category_id`, `content_posts.author_id`, `content_pages.author_id`, `app_settings.updated_by`, and `audit_logs.actor_user_id`.
+Core foreign-key indexes include `user_roles.user_id`, `organizations.owner_id`, `inquiries.sender_user_id`, `inquiries.organization_id`, `support_requests.sender_user_id`, `membership_subscriptions.user_id`, `membership_subscriptions.organization_id`, `membership_subscriptions.plan_id`, `payment_intents.user_id`, `payment_intents.plan_id`, `sepay_transactions.matched_payment_intent_id`, `content_posts.category_id`, `content_posts.author_id`, `content_pages.author_id`, `app_settings.updated_by`, and `audit_logs.actor_user_id`.
 
 ## Planned Enums
 
@@ -63,6 +63,17 @@ Stores application authorization roles.
 | `role` | `app_role` | Required |
 | `created_at` | `timestamptz` | Required |
 | `created_by` | `uuid` | Optional admin who assigned role |
+
+### `account_preferences`
+
+One preference record per account.
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `user_id` | `uuid` | Primary key, references `auth.users(id)` |
+| `email_notifications` | `boolean` | Default true |
+| `product_updates` | `boolean` | Default false |
+| `updated_at` | `timestamptz` | Required |
 
 ### `organizations`
 
@@ -126,6 +137,23 @@ Generic contact request from a user to a provider organization.
 | `status` | `inquiry_status` | Required |
 | `created_at` | `timestamptz` | Required |
 | `updated_at` | `timestamptz` | Required |
+
+### `support_requests`
+
+Reusable authenticated user-to-application support contact flow. It is separate from provider inquiries and never carries a marketplace payment.
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | `uuid` | Primary key |
+| `sender_user_id` | `uuid` | References `auth.users(id)` |
+| `subject` | `text` | Required, 2-200 characters |
+| `message` | `text` | Required, 2-5000 characters |
+| `status` | `inquiry_status` | Default `new` |
+| `handled_by` | `uuid` | Optional administrator, references `auth.users(id)` |
+| `created_at` | `timestamptz` | Required |
+| `updated_at` | `timestamptz` | Required |
+
+RLS: sender can create/read only their own records; administrators can read and manage all records.
 
 ### `membership_plans`
 
@@ -284,3 +312,13 @@ Optional operational history for transactional-email provider callbacks.
 | `recipient_email` | `text` | Required; operationally protected |
 | `payload` | `jsonb` | Raw callback data, retained by policy |
 | `created_at` | `timestamptz` | Required |
+
+## Storage Contracts
+
+All object paths are immutable ownership paths. Buckets permit images only and enforce a 5 MB limit.
+
+| Bucket | Object path | Public read | Write rule |
+| --- | --- | --- | --- |
+| `avatars` | `<auth user id>/<file name>` | Yes | The path owner only |
+| `organization-media` | `<organization id>/<file name>` | Yes | Organization owner or admin |
+| `content-media` | `<content area>/<file name>` | Yes | Editor, admin or super admin |

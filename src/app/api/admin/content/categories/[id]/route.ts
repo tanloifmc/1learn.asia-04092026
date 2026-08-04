@@ -1,0 +1,6 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { forbiddenResponse, getContentManagerForApi } from "@/lib/api/authorization";
+import { createClient } from "@/lib/supabase/server";
+const schema = z.object({ name: z.string().trim().min(1).max(100).optional(), slug: z.string().trim().min(1).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(), description: z.string().trim().max(500).nullable().optional() });
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) { if (!(await getContentManagerForApi())) return forbiddenResponse(); const parsed = schema.safeParse(await request.json()); if (!parsed.success) return NextResponse.json({ error: "Invalid category input" }, { status: 422 }); const { id } = await params; const supabase = await createClient(); const update = { ...(parsed.data.name !== undefined ? { name: parsed.data.name } : {}), ...(parsed.data.slug !== undefined ? { slug: parsed.data.slug } : {}), ...(parsed.data.description !== undefined ? { description: parsed.data.description } : {}) }; const { data, error } = await supabase.from("content_categories").update(update).eq("id", id).select("id, name, slug").single(); return error ? NextResponse.json({ error: "Unable to update category" }, { status: 500 }) : NextResponse.json({ category: data }); }

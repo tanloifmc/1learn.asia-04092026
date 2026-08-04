@@ -6,21 +6,21 @@ Let admins manage public-facing content and application configuration without co
 
 ## Completion
 
-Current completion: 0%
+Current completion: 50%
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
-| Homepage content settings | planned | 0% | Admin can update home page sections |
-| Static pages | planned | 0% | Admin/editor can manage pages such as About, Contact, Terms, Privacy |
-| Blog categories | planned | 0% | Admin/editor can create and edit categories |
-| Blog posts | planned | 0% | Admin/editor can create, edit, publish, archive posts |
-| SEO metadata | planned | 0% | Pages and posts support title, description, OG image |
-| Branding settings | planned | 0% | Admin can update logo, app name, favicon, colors |
-| Header menu | planned | 0% | Admin can configure navigation links |
-| Footer menu | planned | 0% | Admin can configure footer links |
-| Social links | planned | 0% | Admin can configure social/contact links |
+| Homepage content settings | implemented | 35% | Typed admin form and server-rendered public home content pass production build; live editor acceptance remains |
+| Static pages | implemented | 60% | Protected create/edit/publish manager and public published-page rendering pass production build; privacy/terms render from code fallbacks until CMS overrides exist |
+| Blog categories | implemented | 50% | Protected category manager and public category API pass production build |
+| Blog posts | implemented | 55% | Protected authoring/publishing manager, cover media upload and public rendering pass production build |
+| SEO metadata | implemented | 50% | Post/page author controls and public route metadata, including default legal page metadata, pass production build; SEO review remains |
+| Branding settings | implemented | 55% | Typed admin form, server validation, audit logging and shared-layout consumption pass production build |
+| Header menu | implemented | 55% | Typed admin form, internal-link validation and shared-header consumption pass production build |
+| Footer menu | implemented | 55% | Typed admin form, internal-link validation and shared-footer consumption pass production build |
+| Social links | implemented | 50% | Typed admin form, external URL validation and shared-footer consumption pass production build |
 
 ## Required Data
 
@@ -29,3 +29,6 @@ Current completion: 0%
 - `app_settings`
 - `audit_logs`
 
+## Verification Evidence
+
+On 2026-08-04, TypeScript, ESLint and the Next.js production build passed with the CMS/settings routes, typed branding/navigation/social forms, key-specific server validation and settings audit logging. Playwright additionally verified that the default privacy and terms pages render without browser console errors when no CMS data exists. No live administrator, media-storage or publishing acceptance has been recorded yet.

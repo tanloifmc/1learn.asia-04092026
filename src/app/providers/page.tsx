@@ -1,0 +1,4 @@
+import Link from "next/link";
+import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
+export default async function ProvidersPage() { const supabase = await createClient(); const { data: providers } = await supabase.from("organizations").select("id, name, slug, logo_url, description").eq("status", "approved").order("name"); return <main className="stack"><p className="eyebrow">Nha cung cap</p><h1>Danh sach doanh nghiep</h1>{providers?.length ? <section className="provider-grid">{providers.map((provider) => <article className="list-item stack" key={provider.id}>{provider.logo_url ? <Image alt="" height={160} src={provider.logo_url} unoptimized width={240} /> : null}<h2><Link href={`/providers/${provider.slug}`}>{provider.name}</Link></h2><p>{provider.description}</p></article>)}</section> : <p>Chua co nha cung cap duoc xuat ban.</p>}</main>; }

@@ -1,0 +1,7 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { forbiddenResponse, getAdministratorForApi } from "@/lib/api/authorization";
+import { writeAuditLog } from "@/lib/audit/log";
+import { createAdminClient } from "@/lib/supabase/admin";
+const schema = z.object({ recipientUserIds: z.array(z.string().uuid()).min(1).max(100), title: z.string().trim().min(1).max(180), body: z.string().trim().max(2000).nullable().optional(), actionUrl: z.string().startsWith("/").max(500).nullable().optional() });
+export async function POST(request: Request) { const account = await getAdministratorForApi(); if (!account) return forbiddenResponse(); const parsed = schema.safeParse(await request.json()); if (!parsed.success) return NextResponse.json({ error: "Invalid broadcast input" }, { status: 422 }); const input = parsed.data; const admin = createAdminClient(); const { error } = await admin.from("notifications").insert(input.recipientUserIds.map((recipientUserId) => ({ recipient_user_id: recipientUserId, type: "system", title: input.title, body: input.body ?? null, action_url: input.actionUrl ?? null }))); if (error) return NextResponse.json({ error: "Unable to send notifications" }, { status: 500 }); await writeAuditLog({ actorUserId: account.userId, action: "notification.broadcast", entityType: "notification", metadata: { recipientCount: input.recipientUserIds.length, title: input.title } }); return NextResponse.json({ sent: input.recipientUserIds.length }, { status: 201 }); }

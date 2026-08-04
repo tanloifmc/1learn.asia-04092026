@@ -1,0 +1,6 @@
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
+import { FavoriteToggle } from "@/components/favorites/favorite-toggle";
+export default async function ProviderDetailPage({ params }: { params: Promise<{ slug: string }> }) { const { slug } = await params; const supabase = await createClient(); const { data: provider } = await supabase.from("organizations").select("id, name, slug, logo_url, description, contact_email, contact_phone, website_url").eq("slug", slug).eq("status", "approved").maybeSingle(); if (!provider) notFound(); return <main className="content-article stack"><p className="eyebrow">Nha cung cap</p><h1>{provider.name}</h1>{provider.logo_url ? <Image alt="" className="provider-logo" height={240} src={provider.logo_url} unoptimized width={360} /> : null}<p>{provider.description}</p>{provider.website_url ? <a href={provider.website_url} rel="noreferrer" target="_blank">Website</a> : null}<div className="button-row"><Link className="button button--primary" href={`/inquiries/new/${provider.id}`}>Gui yeu cau</Link><FavoriteToggle entityId={provider.id} entityType="organization" /></div></main>; }
