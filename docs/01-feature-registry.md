@@ -66,14 +66,14 @@ Status values:
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
 | DESIGN-002 | Design System | Reusable components | in_progress | 25% | Navigation, sidebar and base button styles exist; form, table, modal and toast remain |
 | DESIGN-003 | Design System | Theme tokens | implemented | 25% | CSS color, spacing, typography and responsive layout tokens |
-| TEST-001 | Testing | Typecheck | implemented | 75% | Local TypeScript check passes and is enforced in GitHub Quality Gate |
-| TEST-002 | Testing | Production build | implemented | 75% | Local Next.js production build passes and is enforced in GitHub Quality Gate |
-| TEST-003 | Testing | Playwright public and access tests | implemented | 60% | Committed desktop/mobile public-shell and anonymous protected-route suite passes; real auth remains |
+| TEST-001 | Testing | Typecheck | verified | 100% | Local and remote GitHub Quality Gate checks pass |
+| TEST-002 | Testing | Production build | verified | 100% | Local and remote GitHub Quality Gate builds pass |
+| TEST-003 | Testing | Playwright public and access tests | implemented | 70% | Committed desktop/mobile public-shell and anonymous protected-route suite passes locally and in GitHub CI; real auth remains |
 | TEST-004 | Testing | Permission tests | in_progress | 25% | Anonymous protected-route denial is automated; user/provider/admin and RLS cases remain |
 | EMAIL-001 | Transactional email | Send account and operational emails | implemented | 35% | Server-only idempotent Resend helper is wired to support-request receipt; application modules may add membership events |
 | EMAIL-002 | Transactional email | Track delivery, bounce and complaint events | implemented | 25% | Raw-body verified Resend webhook stores permitted events idempotently |
-| OPS-001 | Operations | Environment variable contract | implemented | 35% | Local `.env.local`, template and health configuration check |
-| OPS-002 | Operations | GitHub quality gate | implemented | 60% | Remote type/lint/build gate passes; Playwright step is added and awaits its first remote run |
+| OPS-001 | Operations | Environment variable contract | implemented | 60% | Committed validation checks required names, blank template secrets, ignore rules and forbidden integration variables; remote CI remains |
+| OPS-002 | Operations | GitHub quality gate | implemented | 75% | Remote type/lint/build and Chromium Playwright baseline pass on the release branch |
 | OPS-003 | Operations | Vercel deployment configuration | planned | 0% | Preview and production |
 | OPS-004 | Operations | Production monitoring and incident runbook | planned | 0% | Solo-operator friendly |
 | SECURITY-001 | Security | Rate limiting and abuse protection | implemented | 25% | Process-local limiter protects inquiry and support-request routes |

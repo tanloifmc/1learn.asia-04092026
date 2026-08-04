@@ -18,7 +18,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | Milestone | Status | Completion | Goal | Exit evidence |
 | --- | --- | --- | --- | --- |
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
-| M1: Executable foundation | in_progress | 70% | Next.js, TypeScript, lint, committed browser suite, local environment contract | Local full quality gate passes; authenticated and remote acceptance remain |
+| M1: Executable foundation | in_progress | 80% | Next.js, TypeScript, lint, committed browser suite, local environment contract | Environment contract passes locally; remote CI verification remains |
 | M2: Identity and account | in_progress | 45% | Auth, profile, dashboard, roles and permissions | Account preference/security source and local migration build; live user journeys remain |
 | M3: Shared application core | in_progress | 58% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
 | M4: Operations and public site | in_progress | 83% | CMS, typed public settings, header/footer, admin console, audit trail | Admin and public-page suite passes |
@@ -29,9 +29,9 @@ This is the operating board for the core platform. Every task has one owner (the
 | ID | Task | Module | Status | Completion | Depends on | Acceptance evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | M0-001 | Approve core blueprint | Documentation | verified | 100% | None | User confirmation recorded 2026-08-03 |
-| M1-001 | Scaffold application repository | App scaffold | review | 70% | M0-001 | Local typecheck, lint, production build, audit and four Playwright desktop/mobile public/protected-route tests pass; remote CI remains |
+| M1-001 | Scaffold application repository | App scaffold | verified | 100% | M0-001 | Local and GitHub CI typecheck, lint, production build, audit and four Playwright desktop/mobile public/protected-route tests pass |
 | M1-002 | Add source folder architecture and shared configuration | App scaffold | backlog | 0% | M1-001 | Typecheck and architecture review |
-| M1-003 | Configure local environment examples and secret guardrails | Operations | backlog | 0% | M1-001 | No secrets tracked; environment validation test |
+| M1-003 | Configure local environment examples and secret guardrails | Operations | review | 60% | M1-001 | Template/ignore validation passes locally and is wired into GitHub Quality Gate; remote CI remains |
 | M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 50% | M1-001 | Two migrations applied; all 16 core tables have RLS and security advisors pass | Run authenticated cross-user RLS isolation tests |
 | M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 25% | M2-001 | UI and callback source built; live auth journey awaits Supabase connection |
 | M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 25% | M2-002 | Dashboard, profile API and RBAC migration built; live role isolation awaits database |
@@ -70,6 +70,8 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M5-001 | Partial pass | Generic membership refactor passed TypeScript, ESLint, production build and zero-vulnerability audit; migration `20260804110000` is remote and security advisors report no issues | Run live administrator and member acceptance |
 | 2026-08-04 | M5-003 | Partial pass | GitHub `Quality Gate` passed for `6bcd8f4`; Vercel preview `core-platform-hqsiv0q3h-le-nguyen2004.vercel.app` built 66 routes | Configure project-specific production domain/variables, monitoring and production acceptance |
 | 2026-08-04 | M1-001 | Partial pass | Committed Playwright suite passed 4/4 desktop/mobile public-shell and anonymous protected-route tests; TypeScript, ESLint, build and audit also pass | Verify the updated suite in remote CI; add authenticated and RLS tests |
+| 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30883245757` passed typecheck, lint, production build, Chromium installation and 4 Playwright tests | Authenticated and RLS tests belong to later identity/shared-core acceptance |
+| 2026-08-04 | M1-003 | Partial pass | `npm run check:env` validated eight required environment variables, blank template secrets, ignore rules and absence of removed gateway variables; TypeScript, ESLint and audit pass | Verify the new CI step remotely |
 
 ## Update Protocol
 

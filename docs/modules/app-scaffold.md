@@ -6,7 +6,7 @@ Provide the executable, domain-neutral Next.js foundation where all future core 
 
 ## Completion
 
-Current completion: `70%`
+Current completion: `80%`
 
 ## Implemented
 
@@ -16,6 +16,7 @@ Current completion: `70%`
 - ESLint configuration compatible with the installed Next.js version
 - `.env.example` and `.gitignore` secret guardrails
 - Locked dependency manifest and lock file
+- `npm run check:env` validates the environment template and secret guardrails without reading a real secret
 
 ## Verified Evidence
 
@@ -23,10 +24,10 @@ Verified on: 2026-08-04
 Task: M1-001
 Checks: direct TypeScript check, direct ESLint check, Next.js production build, `npm audit`, and committed Playwright browser suite
 Result: pass
-Notes: `npx` is unreliable in the current Windows path because its name contains `&`; the project invokes Playwright directly through Node. The committed suite passed 4/4 tests across desktop and mobile: public shell, no horizontal overflow, and anonymous `/dashboard` and `/admin` redirects to `/login`.
+Notes: `npx` is unreliable in the current Windows path because its name contains `&`; the project invokes Playwright directly through Node. The committed suite passed 4/4 tests across desktop and mobile: public shell, no horizontal overflow, and anonymous `/dashboard` and `/admin` redirects to `/login`. GitHub Quality Gate `30883245757` passed the same suite on a clean runner.
 
 ## Remaining Acceptance Criteria
 
 - Create the initial source directories described in `07-source-architecture.md` when their first modules are implemented.
-- Verify the new Playwright step in remote CI.
+- Verify the environment-contract step in remote CI.
 - Add authenticated and multi-role browser acceptance before moving M1-001 to `verified`.

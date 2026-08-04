@@ -15,7 +15,7 @@ Rules:
 | Module | Completion | Current state | Next requirement |
 | --- | --- | --- | --- |
 | Project documentation | 100% | Blueprint, contracts, board, architecture, integrations and acceptance rules are approved | Keep synchronized with implementation |
-| App scaffold | 70% | Next.js, TypeScript, lint, environment contract, production build and committed desktop/mobile browser suite pass locally | Run authenticated acceptance suite and remote CI verification |
+| App scaffold | 80% | Next.js, TypeScript, lint, production build, browser suite and environment-contract validation pass locally; browser suite passes in GitHub CI | Verify environment contract in GitHub CI and add authenticated acceptance suite |
 | Design system | 35% | Shared CSS tokens, responsive public header/footer/app shell and desktop/mobile browser smoke checks pass | Add reusable form, feedback and data-display components; extend visual acceptance to authenticated screens |
 | Authentication | 35% | Auth pages, callback, SSR proxy and authenticated password-change route/UI pass production build | Run live auth acceptance including logout and recovery |
 | Account profile | 45% | Protected dashboard, profile/avatar UI, validated preferences API/UI and local preference RLS migration pass production build | Push migration and run live account isolation tests |
@@ -30,7 +30,7 @@ Rules:
 | Inquiries | 55% | Provider inquiry lifecycle plus separate authenticated application support request/user history/admin handling source pass production build | Push local support-request migration and run two-account RLS/browser acceptance |
 | Media storage | 35% | Local bucket/RLS migration plus validated server upload route and avatar/logo UI pass production build | Push migration at release gate and run live owner-isolation/upload tests |
 | Audit logs | 52% | Server-only writer, protected viewer and role/provider/broadcast/settings/CMS/membership-plan/payment audit events pass production build | Cover remaining sensitive actions and run live access acceptance |
-| Testing | 55% | Typecheck, lint, production build, dependency audit and committed Playwright desktop/mobile public/protected-route suite pass locally | Add authenticated multi-account and RLS acceptance |
+| Testing | 60% | Typecheck, lint, production build, dependency audit and committed Playwright desktop/mobile public/protected-route suite pass locally and in GitHub CI | Add authenticated multi-account and RLS acceptance |
 | Deployment | 50% | Vercel project, current Next.js preview deployment (66 routes) and remote GitHub quality gate are verified | Configure production variables/domain and run production acceptance |
 | Transactional email | 35% | Pinned Resend SDK, server-only idempotent helper, support/membership event emails and verified webhook recorder pass production build | Configure domain and run sandbox delivery acceptance |
 | Security and abuse controls | 25% | Security headers and process-local rate limits for inquiries and support requests pass production build | Add shared rate-limit store, recovery rules and live security tests |

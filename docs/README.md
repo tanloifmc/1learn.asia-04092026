@@ -28,7 +28,7 @@ The reusable core is implemented and deployed to Supabase/GitHub/Vercel Preview.
 | Application code | Implemented, under staged acceptance | See module tracker |
 | Database schema | Six migrations deployed to Supabase | See data contracts |
 | API routes | Implemented by module | See API contracts |
-| Automated tests | Repeatable Playwright browser harness passes locally | See project board |
+| Automated tests | Repeatable Playwright browser harness passes locally and in GitHub CI | See project board |
 
 ## Documentation Rules
 
