@@ -18,7 +18,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | Milestone | Status | Completion | Goal | Exit evidence |
 | --- | --- | --- | --- | --- |
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
-| M1: Executable foundation | in_progress | 80% | Next.js, TypeScript, lint, committed browser suite, local environment contract | Environment contract passes locally; remote CI verification remains |
+| M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001 and M1-003 are remotely verified; source architecture migration is under review |
 | M2: Identity and account | in_progress | 45% | Auth, profile, dashboard, roles and permissions | Account preference/security source and local migration build; live user journeys remain |
 | M3: Shared application core | in_progress | 58% | Notifications, favorites, media, inquiry and provider workflows | RLS and user journey suite passes |
 | M4: Operations and public site | in_progress | 83% | CMS, typed public settings, header/footer, admin console, audit trail | Admin and public-page suite passes |
@@ -30,8 +30,8 @@ This is the operating board for the core platform. Every task has one owner (the
 | --- | --- | --- | --- | --- | --- | --- |
 | M0-001 | Approve core blueprint | Documentation | verified | 100% | None | User confirmation recorded 2026-08-03 |
 | M1-001 | Scaffold application repository | App scaffold | verified | 100% | M0-001 | Local and GitHub CI typecheck, lint, production build, audit and four Playwright desktop/mobile public/protected-route tests pass |
-| M1-002 | Add source folder architecture and shared configuration | App scaffold | backlog | 0% | M1-001 | Typecheck and architecture review |
-| M1-003 | Configure local environment examples and secret guardrails | Operations | review | 60% | M1-001 | Template/ignore validation passes locally and is wired into GitHub Quality Gate; remote CI remains |
+| M1-002 | Add source folder architecture and shared configuration | App scaffold | review | 50% | M1-001 | `account` and `settings` are real feature modules; local environment contract, typecheck, lint, production build, 4 Playwright tests and audit pass |
+| M1-003 | Configure local environment examples and secret guardrails | Operations | verified | 100% | M1-001 | Local and GitHub CI environment-contract validation passes |
 | M2-001 | Implement database migration baseline and RLS policy framework | Data/Auth | review | 50% | M1-001 | Two migrations applied; all 16 core tables have RLS and security advisors pass | Run authenticated cross-user RLS isolation tests |
 | M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 25% | M2-001 | UI and callback source built; live auth journey awaits Supabase connection |
 | M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 25% | M2-002 | Dashboard, profile API and RBAC migration built; live role isolation awaits database |
@@ -48,7 +48,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | Area | Status | What is needed | Impact |
 | --- | --- | --- | --- |
 | Supabase | deployed | All six CORE-1 migrations are remote and security advisors report no issues | Live Auth/RLS acceptance |
-| GitHub | verified | `codex/core-foundation` is pushed through commit `fe2a0de`; remote Quality Gate passed for both release commits | Configure branch protection and merge/release policy |
+| GitHub | verified | `codex/core-foundation` is pushed through commit `3730c12`; remote Quality Gate passed for the latest environment-contract change | Configure branch protection and merge/release policy |
 | Vercel | preview deployed | `core-platform` has a current preview of commit `6bcd8f4` that built 66 routes successfully | Configure production variables/domain and production acceptance |
 
 ## Current Evidence
@@ -72,6 +72,8 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M1-001 | Partial pass | Committed Playwright suite passed 4/4 desktop/mobile public-shell and anonymous protected-route tests; TypeScript, ESLint, build and audit also pass | Verify the updated suite in remote CI; add authenticated and RLS tests |
 | 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30883245757` passed typecheck, lint, production build, Chromium installation and 4 Playwright tests | Authenticated and RLS tests belong to later identity/shared-core acceptance |
 | 2026-08-04 | M1-003 | Partial pass | `npm run check:env` validated eight required environment variables, blank template secrets, ignore rules and absence of removed gateway variables; TypeScript, ESLint and audit pass | Verify the new CI step remotely |
+| 2026-08-04 | M1-003 | Verified | GitHub Quality Gate `30883719197` passed environment contract, typecheck, lint, build and Playwright on a clean runner | Keep the contract synchronized when integrations are added |
+| 2026-08-04 | M1-002 | Partial pass | `account` and `settings` moved into `src/features`; local environment contract, TypeScript, ESLint, production build (66 routes), 4 desktop/mobile Playwright tests and zero-vulnerability audit pass | Push and verify this architectural change in GitHub CI; migrate remaining capabilities incrementally |
 
 ## Update Protocol
 
@@ -82,6 +84,6 @@ This is the operating board for the core platform. Every task has one owner (the
 
 ## Current Release Policy
 
-Release batch `CORE-1` includes M1 through M5: app foundation, identity, shared core modules, public/CMS/admin operations, generic membership lifecycle, Resend integration and deployment configuration. From 2026-08-03 onward, all pending source and migration changes remain local until `CORE-1` is accepted as one release. GitHub push, further Supabase migration pushes and Vercel deployment happen together at the release gate.
+Release batch `CORE-1` includes M1 through M5: app foundation, identity, shared core modules, public/CMS/admin operations, generic membership lifecycle, Resend integration and deployment configuration. Source changes are pushed only after local quality evidence is recorded, and their GitHub Quality Gate becomes the release evidence. Supabase migrations are pushed only after their local contract and migration review are complete.
 
-The two baseline migrations already deployed to project `Travel Plan` are frozen remote state. No additional remote database changes are permitted before `CORE-1` release acceptance.
+All six CORE-1 migrations currently in `supabase/migrations` are deployed to the linked Supabase project. Future schema changes must be new ordered migrations; deployed migrations are immutable remote state.

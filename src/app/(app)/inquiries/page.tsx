@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SentInquiriesPage() {

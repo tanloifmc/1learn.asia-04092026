@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);

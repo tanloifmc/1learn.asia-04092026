@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SupportRequestForm } from "@/components/support/support-request-form";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 
 export default async function ContactPage() {
   const account = await getCurrentAccount();

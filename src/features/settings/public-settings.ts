@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { createClient } from "@/lib/supabase/server";
 import { hasPublicSupabaseConfig } from "@/lib/supabase/config";
+import { createClient } from "@/lib/supabase/server";
 
 const linksSchema = z.array(z.object({ href: z.string().startsWith("/").max(500), label: z.string().trim().min(1).max(80) })).max(12);
 const brandingSchema = z.object({ appName: z.string().trim().min(1).max(80) });

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 import { OrganizationForm } from "@/components/provider/organization-form";
 import { ImageUpload } from "@/components/media/image-upload";
 

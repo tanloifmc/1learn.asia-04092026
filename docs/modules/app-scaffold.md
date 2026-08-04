@@ -6,7 +6,7 @@ Provide the executable, domain-neutral Next.js foundation where all future core 
 
 ## Completion
 
-Current completion: `80%`
+Current completion: `88%`
 
 ## Implemented
 
@@ -17,6 +17,7 @@ Current completion: `80%`
 - `.env.example` and `.gitignore` secret guardrails
 - Locked dependency manifest and lock file
 - `npm run check:env` validates the environment template and secret guardrails without reading a real secret
+- `src/features/account` and `src/features/settings` own the first real feature queries, with routes and layouts consuming those boundaries
 
 ## Verified Evidence
 
@@ -28,6 +29,5 @@ Notes: `npx` is unreliable in the current Windows path because its name contains
 
 ## Remaining Acceptance Criteria
 
-- Create the initial source directories described in `07-source-architecture.md` when their first modules are implemented.
-- Verify the environment-contract step in remote CI.
-- Add authenticated and multi-role browser acceptance before moving M1-001 to `verified`.
+- Migrate remaining capabilities into `src/features` when their owning phase changes them; do not create empty placeholder modules.
+- Add authenticated and multi-role browser acceptance in the identity and shared-core phases.

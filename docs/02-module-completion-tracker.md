@@ -15,7 +15,7 @@ Rules:
 | Module | Completion | Current state | Next requirement |
 | --- | --- | --- | --- |
 | Project documentation | 100% | Blueprint, contracts, board, architecture, integrations and acceptance rules are approved | Keep synchronized with implementation |
-| App scaffold | 80% | Next.js, TypeScript, lint, production build, browser suite and environment-contract validation pass locally; browser suite passes in GitHub CI | Verify environment contract in GitHub CI and add authenticated acceptance suite |
+| App scaffold | 88% | Next.js, TypeScript, lint, production build, browser suite and environment-contract validation pass locally and in GitHub CI; `account` and `settings` now have real feature ownership | Migrate remaining capabilities incrementally and add authenticated acceptance suite |
 | Design system | 35% | Shared CSS tokens, responsive public header/footer/app shell and desktop/mobile browser smoke checks pass | Add reusable form, feedback and data-display components; extend visual acceptance to authenticated screens |
 | Authentication | 35% | Auth pages, callback, SSR proxy and authenticated password-change route/UI pass production build | Run live auth acceptance including logout and recovery |
 | Account profile | 45% | Protected dashboard, profile/avatar UI, validated preferences API/UI and local preference RLS migration pass production build | Push migration and run live account isolation tests |

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPublicNavigationSettings } from "@/lib/settings/public-settings";
+import { getPublicNavigationSettings } from "@/features/settings/public-settings";
 
 export async function SiteFooter() {
   const settings = await getPublicNavigationSettings();

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 
 export type AdminRole = "editor" | "admin" | "super_admin";
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { accountNavigation, adminNavigation } from "@/config/navigation";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 
 export async function AppSidebar() {
   const account = await getCurrentAccount();

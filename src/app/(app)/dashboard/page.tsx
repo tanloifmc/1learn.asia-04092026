@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { SignOutButton } from "@/components/auth/sign-out-button";
-import { getCurrentAccount } from "@/lib/auth/current-account";
+import { getCurrentAccount } from "@/features/account/current-account";
 
 export default async function DashboardPage() {
   const account = await getCurrentAccount();
