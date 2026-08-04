@@ -6,15 +6,15 @@ Allow every authenticated user to manage their own profile, preferences, securit
 
 ## Completion
 
-Current completion: 40%
+Current completion: 60%
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
 | Account dashboard | verified | 55% | Live browser login renders the dashboard and default role on desktop and mobile |
-| Profile editing | implemented | 25% | User can update display name, avatar, phone, locale, timezone |
-| Preferences | implemented | 25% | User can update notification and localization preferences |
+| Profile editing | implemented | 65% | User can update display name, phone, locale and timezone; live browser/database acceptance passes |
+| Preferences | implemented | 65% | User can update notification preferences; loading controls prevent stale data overwrites and live browser/database acceptance passes |
 | Security settings | planned | 0% | User can access password/session settings |
 | Billing summary | planned | 0% | User sees plan and payment status |
 
@@ -38,4 +38,4 @@ Verified on: 2026-08-03
 Task: M2-003
 Checks: direct TypeScript check, direct ESLint check, Next.js production build
 Result: pass
-Notes: The profile API and account-editing UI are implemented. On 2026-08-04, the gated live browser check rendered the dashboard and default role after a real login on desktop and mobile. The gated RLS check also verified each temporary user can read only their own profile, while a temporary administrator can read a managed profile. Profile edit and preference browser acceptance remain.
+Notes: The profile API and account-editing UI are implemented. On 2026-08-04, the gated live browser check rendered the dashboard and default role after a real login on desktop and mobile. The gated RLS check also verified each temporary user can read only their own profile, while a temporary administrator can read a managed profile. `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-account` then passed 2/2 desktop/mobile: it saved profile fields and notification preferences through the real forms and verified both records in Supabase. Avatar upload, password/session and membership-summary acceptance remain.

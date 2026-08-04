@@ -44,6 +44,8 @@ Run `npm run test:live:browser-membership` only with `RUN_LIVE_BROWSER_AUTH=true
 
 Run `npm run test:live:browser-register` only with both `RUN_LIVE_BROWSER_AUTH=true` and `RUN_LIVE_EMAIL_AUTH=true`, after the Supabase/Resend sender and email rate limit have been configured. It submits the actual register form, checks the Auth response, then verifies the created profile and default `user` role before deleting the temporary account. It must never run in public CI.
 
+Run `npm run test:live:browser-account` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates a confirmed temporary account, uses the real login and account forms to save profile and notification preferences, verifies the stored records with the trusted test client, then deletes the account. It must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:
