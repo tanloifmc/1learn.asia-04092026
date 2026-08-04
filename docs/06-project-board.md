@@ -20,8 +20,8 @@ This is the operating board for the core platform. Every task has one owner (the
 | M0: Blueprint | verified | 100% | Canonical docs and delivery process | User approved the platform direction on 2026-08-03 |
 | M1: Executable foundation | in_progress | 88% | Next.js, TypeScript, lint, committed browser suite, local environment contract | M1-001/M1-003 and the first source-boundary scope are remotely verified; further module migration is incremental |
 | M2: Identity and account | in_progress | 55% | Auth, profile, dashboard, roles and permissions | Live browser login/logout/dashboard and user/admin RLS baseline pass; registration, recovery and multi-role journeys remain |
-| M3: Shared application core | in_progress | 69% | Notifications, favorites, media, inquiry and provider workflows | Favorite/notification RLS plus provider onboarding and inquiry browser journeys pass; administrator workflows remain |
-| M4: Operations and public site | in_progress | 84% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin and public-page suite passes |
+| M3: Shared application core | in_progress | 72% | Notifications, favorites, media, inquiry and provider workflows | Provider onboarding, inquiry and administrator moderation journeys pass; broader operations remain |
+| M4: Operations and public site | in_progress | 86% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin provider moderation now has live browser evidence; CMS/settings suite remains |
 | M5: Membership and production | in_progress | 62% | Membership lifecycle, Resend, GitHub CI, Vercel and monitoring | Production configuration, public-preview access policy, live administrator acceptance and deployment acceptance pass |
 
 ## Active Backlog
@@ -36,7 +36,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M2-002 | Implement register, login, logout, verification and password recovery | Auth | review | 50% | M2-001 | Gated live browser suite passes email/password login, logout and post-logout denial on desktop/mobile; registration, verification and recovery remain |
 | M2-003 | Implement profiles, dashboard and RBAC | Account/Roles | review | 45% | M2-002 | Live browser dashboard renders default user role; profile isolation and administrator visibility pass; profile editing and multi-role routes remain |
 | M3-001 | Implement notifications and favorites | Shared core | review | 45% | M2-003 | Live owner-only favorite/notification creation and cross-account read denial pass; browser interaction and mutation coverage remain |
-| M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 70% | M2-003 | Live provider and inquiry browser suites pass onboarding, role assignment, review submission, sender inquiry creation and provider inbox status update on desktop/mobile; administrator workflows remain |
+| M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 75% | M2-003 | Live provider, inquiry and admin-moderation suites pass onboarding, role assignment, review, sender inquiry, provider inbox update and admin approval notification on desktop/mobile |
 | M4-001 | Implement design system, layouts and navigation settings | Design/CMS | verified | 40% | M1-002 | Shared accessible button, form field, status message and empty state are used in login/support; GitHub Quality Gate `30885182320` passes typecheck, lint, build and 6 desktop/mobile Playwright tests |
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
 | M5-001 | Implement reusable membership lifecycle | Membership | review | 45% | M2-003 | Plans, currency-neutral pricing and administrator activation/renewal source are implemented; live acceptance remains |
@@ -83,6 +83,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30886692600` passed `npm ci`, environment contract, typecheck, lint, production build and six public Playwright tests; two secret-gated live tests skipped as intended | Keep live suites explicit and guarded; add provider/editor/admin journeys in their phases |
 | 2026-08-04 | M3-002 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-provider` passed 2/2 desktop/mobile: create provider profile, automatic provider role, submit review and provider role in dashboard. Temporary organizations and users were deleted | Add provider inquiry and administrator moderation browser/RLS journeys |
 | 2026-08-04 | M3-002 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-inquiries` passed 2/2 desktop/mobile: sender submits inquiry, provider reads inbox and changes it to `read`. Temporary inquiries, organizations and users were deleted | Add administrator moderation and notification browser/RLS journeys |
+| 2026-08-04 | M3-002, M4-002 | Partial pass | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-admin-provider` passed 2/2 desktop/mobile: administrator approves provider and provider receives the generated notification. Temporary organizations and users were deleted | Add CMS/settings/admin-user browser acceptance |
 
 ## Update Protocol
 

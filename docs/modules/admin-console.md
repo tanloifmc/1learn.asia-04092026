@@ -6,7 +6,7 @@ Give application operators a complete control center for users, providers, conte
 
 ## Completion
 
-Current completion: 25%
+Current completion: 35%
 
 ## Feature Checklist
 
@@ -15,7 +15,7 @@ Current completion: 25%
 | Admin dashboard | implemented | 25% | Protected admin landing page and role-aware entry points compile and production-build |
 | User management | planned | 0% | Admin can search, view, suspend, and update users |
 | Role management | planned | 0% | Admin can assign allowed roles |
-| Provider management | planned | 0% | Admin can approve, reject, suspend providers |
+| Provider management | verified | 70% | Live desktop/mobile administrator browser test approves a pending provider and verifies the owner notification |
 | CMS management | implemented | 25% | Editor/admin post API and create form compile and production-build |
 | Billing management | planned | 0% | Admin can manage plans and inspect payments |
 | App settings management | implemented | 25% | Admin-only settings API and JSON form compile and production-build |
@@ -32,4 +32,4 @@ Admin UI checks are not enough. Every admin API route and database policy must e
 
 ## Verification Evidence
 
-On 2026-08-03, TypeScript, ESLint and the Next.js production build passed with protected `/admin`, `/admin/content/posts` and `/admin/settings` routes. Browser role isolation and the remaining management areas are not yet accepted.
+On 2026-08-04, `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-admin-provider` passed on desktop and mobile. It created temporary administrator/provider users and a pending organization, approved it through `/admin/providers`, verified the owner notification, then deleted all temporary data. The remaining management areas still need their own acceptance.

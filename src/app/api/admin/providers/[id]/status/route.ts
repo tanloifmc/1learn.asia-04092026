@@ -9,7 +9,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const account = await getAdministratorForApi();
   if (!account) return forbiddenResponse();
   const { id } = await params;
-  const parsed = statusSchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = statusSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid provider status" }, { status: 422 });
   const admin = createAdminClient();
   const { data, error } = await admin.from("organizations").update({ status: parsed.data.status }).eq("id", id).select("id, owner_id, name, status").single();

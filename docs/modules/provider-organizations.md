@@ -6,7 +6,7 @@ Represent external businesses, partners, creators, sellers, or service providers
 
 ## Completion
 
-Current completion: 65%
+Current completion: 72%
 
 ## Feature Checklist
 
@@ -15,7 +15,7 @@ Current completion: 65%
 | Provider onboarding | verified | 65% | Live desktop/mobile browser test creates the provider profile and cleans up the temporary organization |
 | Organization profile editing | implemented | 35% | Provider can update business information through validated API and form |
 | Submit for review | verified | 65% | Live desktop/mobile browser test changes the temporary profile from draft to pending review |
-| Admin approval | implemented | 45% | Admin can approve, reject or suspend with provider notification |
+| Admin approval | verified | 70% | Live desktop/mobile browser test approves a pending provider and verifies the owner notification |
 | Public provider page | implemented | 45% | Public directory/detail render only approved organizations |
 | Provider dashboard | verified | 60% | Live browser dashboard renders the provider role after onboarding; inquiry lifecycle remains |
 
