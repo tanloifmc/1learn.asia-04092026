@@ -16,7 +16,8 @@ export async function GET() {
 export async function POST(request: Request) {
   const account = await getAdministratorForApi();
   if (!account) return forbiddenResponse();
-  const parsed = schema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid membership input" }, { status: 422 });
   const supabase = await createClient();
   const { data: plan } = await supabase.from("membership_plans").select("id, duration_days, is_active").eq("id", parsed.data.planId).maybeSingle();

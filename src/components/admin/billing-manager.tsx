@@ -18,22 +18,21 @@ export function BillingManager() {
   const [message, setMessage] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
-    const [plansResponse, usersResponse, subscriptionsResponse] = await Promise.all([fetch("/api/admin/billing/plans"), fetch("/api/admin/users"), fetch("/api/admin/billing/subscriptions")]);
-    if (plansResponse.ok) setPlans((await plansResponse.json()).plans); else setMessage("Khong the tai goi thanh vien.");
-    if (usersResponse.ok) setUsers((await usersResponse.json()).users);
-    if (subscriptionsResponse.ok) setSubscriptions((await subscriptionsResponse.json()).subscriptions);
+    try {
+      const [plansResponse, usersResponse, subscriptionsResponse] = await Promise.all([fetch("/api/admin/billing/plans"), fetch("/api/admin/users"), fetch("/api/admin/billing/subscriptions")]);
+      if (!plansResponse.ok || !usersResponse.ok || !subscriptionsResponse.ok) throw new Error("load");
+      const [plansData, usersData, subscriptionsData] = await Promise.all([plansResponse.json(), usersResponse.json(), subscriptionsResponse.json()]);
+      setPlans(plansData.plans);
+      setUsers(usersData.users);
+      setSubscriptions(subscriptionsData.subscriptions);
+    } catch {
+      setMessage("Khong the tai du lieu membership.");
+    }
   }, []);
 
   useEffect(() => {
-    let active = true;
-    void Promise.all([fetch("/api/admin/billing/plans"), fetch("/api/admin/users"), fetch("/api/admin/billing/subscriptions")]).then(async ([plansResponse, usersResponse, subscriptionsResponse]) => {
-      if (!active) return;
-      if (plansResponse.ok) setPlans((await plansResponse.json()).plans); else setMessage("Khong the tai goi thanh vien.");
-      if (usersResponse.ok) setUsers((await usersResponse.json()).users);
-      if (subscriptionsResponse.ok) setSubscriptions((await subscriptionsResponse.json()).subscriptions);
-    }).catch(() => { if (active) setMessage("Khong the tai du lieu membership."); });
-    return () => { active = false; };
-  }, []);
+    void Promise.resolve().then(loadData);
+  }, [loadData]);
 
   async function savePlan(formData: FormData) {
     const response = await fetch(editing ? `/api/admin/billing/plans/${editing.id}` : "/api/admin/billing/plans", { method: editing ? "PATCH" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: formData.get("code"), name: formData.get("name"), description: formData.get("description") || null, priceAmount: Number(formData.get("priceAmount")), currency: formData.get("currency"), durationDays: Number(formData.get("durationDays")), isActive: formData.get("isActive") === "on" }) });

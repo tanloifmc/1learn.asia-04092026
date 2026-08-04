@@ -16,7 +16,8 @@ export async function GET() {
 export async function POST(request: Request) {
   const account = await getAdministratorForApi();
   if (!account) return forbiddenResponse();
-  const parsed = schema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid plan input" }, { status: 422 });
   const input = parsed.data;
   const supabase = await createClient();

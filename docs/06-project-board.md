@@ -22,7 +22,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M2: Identity and account | in_progress | 55% | Auth, profile, dashboard, roles and permissions | Live browser login/logout/dashboard and user/admin RLS baseline pass; registration, recovery and multi-role journeys remain |
 | M3: Shared application core | in_progress | 72% | Notifications, favorites, media, inquiry and provider workflows | Provider onboarding, inquiry and administrator moderation journeys pass; broader operations remain |
 | M4: Operations and public site | in_progress | 86% | CMS, typed public settings, header/footer, admin console, audit trail and reusable UI primitives | Admin provider moderation now has live browser evidence; CMS/settings suite remains |
-| M5: Membership and production | in_progress | 62% | Membership lifecycle, Resend, GitHub CI, Vercel and monitoring | Production configuration, public-preview access policy, live administrator acceptance and deployment acceptance pass |
+| M5: Membership and production | in_progress | 68% | Membership lifecycle, Resend, GitHub CI, Vercel and monitoring | Production configuration, public-preview access policy, Resend sandbox delivery, membership suspension and deployment acceptance pass |
 
 ## Active Backlog
 
@@ -39,7 +39,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | M3-002 | Implement provider organization and inquiry flow | Provider/Inquiries | review | 75% | M2-003 | Live provider, inquiry and admin-moderation suites pass onboarding, role assignment, review, sender inquiry, provider inbox update and admin approval notification on desktop/mobile |
 | M4-001 | Implement design system, layouts and navigation settings | Design/CMS | verified | 40% | M1-002 | Shared accessible button, form field, status message and empty state are used in login/support; GitHub Quality Gate `30885182320` passes typecheck, lint, build and 6 desktop/mobile Playwright tests |
 | M4-002 | Implement CMS, app settings, admin console and audit logs | Admin/CMS | review | 25% | M2-003 | CMS/settings APIs and protected admin forms passed typecheck, lint and production build; audit and operational modules remain |
-| M5-001 | Implement reusable membership lifecycle | Membership | review | 45% | M2-003 | Plans, currency-neutral pricing and administrator activation/renewal source are implemented; live acceptance remains |
+| M5-001 | Implement reusable membership lifecycle | Membership | review | 65% | M2-003 | Live desktop/mobile suite proves administrator plan creation, user selection, activation and the separate member account's current-subscription view; suspension/reactivation and plan deletion remain |
 | M5-002 | Implement Resend transactional emails | Email | review | 25% | M2-002 | Server-only send helper and signed webhook recorder passed typecheck/lint; sandbox delivery remains |
 | M5-003 | Configure GitHub CI, Vercel environments and monitoring | Operations | review | 60% | M1-001 | Remote GitHub quality gate and Vercel preview deployment of 66 routes pass; Vercel Authentication currently protects external preview HTTP checks |
 
@@ -68,6 +68,7 @@ This is the operating board for the core platform. Every task has one owner (the
 | 2026-08-03 | M4-002 | Partial pass | Admin user/role, provider moderation and audit viewer screens plus guarded APIs passed typecheck, lint and production build | Run multi-role acceptance and add billing operations view |
 | 2026-08-04 | M5-003 | Partial pass | GitHub Actions `Quality Gate` completed successfully for commits `427d49d` and `fe2a0de`; Vercel preview built all 69 routes | Configure production domain/variables, monitoring and production acceptance |
 | 2026-08-04 | M5-001 | Partial pass | Generic membership refactor passed TypeScript, ESLint, production build and zero-vulnerability audit; migration `20260804110000` is remote and security advisors report no issues | Run live administrator and member acceptance |
+| 2026-08-04 | M5-001 | Verified | `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-membership` passed 2/2 desktop/mobile: an administrator creates a plan, selects a user, activates membership, then a separate member browser session reads the active plan. Temporary users, plans and subscriptions are deleted | Add suspension/reactivation and plan-deletion browser coverage |
 | 2026-08-04 | M5-003 | Partial pass | GitHub `Quality Gate` passed for `6bcd8f4`; Vercel preview `core-platform-hqsiv0q3h-le-nguyen2004.vercel.app` built 66 routes | Configure project-specific production domain/variables, monitoring and production acceptance |
 | 2026-08-04 | M1-001 | Partial pass | Committed Playwright suite passed 4/4 desktop/mobile public-shell and anonymous protected-route tests; TypeScript, ESLint, build and audit also pass | Verify the updated suite in remote CI; add authenticated and RLS tests |
 | 2026-08-04 | M1-001 | Verified | GitHub Quality Gate `30883245757` passed typecheck, lint, production build, Chromium installation and 4 Playwright tests | Authenticated and RLS tests belong to later identity/shared-core acceptance |

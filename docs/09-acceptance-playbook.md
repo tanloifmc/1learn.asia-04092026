@@ -40,6 +40,8 @@ Run `npm run test:live:browser-provider` only with `RUN_LIVE_BROWSER_AUTH=true`.
 
 Run `npm run test:live:browser-inquiries` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary sender/provider users and an approved provider organization, proves inquiry submission and provider inbox status update in separate browser sessions, then deletes the inquiry, organization and users. It must never run in public CI.
 
+Run `npm run test:live:browser-membership` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary administrator and member users, proves the administrator can create a plan and activate the member, then proves a separate member browser session reads the active subscription. It deletes temporary subscriptions, plans and users, and must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:

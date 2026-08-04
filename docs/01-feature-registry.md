@@ -42,11 +42,11 @@ Status values:
 | INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
 | INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
-| BILLING-001 | Membership | Membership plans | implemented | 45% | Admin CRUD, public active-plan API and currency-neutral amount model |
+| BILLING-001 | Membership | Membership plans | implemented | 65% | Administrator create/update and public active-plan API with currency-neutral amount model; live desktop/mobile membership journey passes |
 | SUPPORT-001 | Support | Submit application support request | implemented | 35% | Authenticated contact form, validation, rate limit and administrator notification pass production build |
 | SUPPORT-002 | Support | User support request history | implemented | 35% | Owner-only RLS contract and contact-page history UI pass production build |
 | SUPPORT-003 | Support | Administrator support request handling | implemented | 35% | Admin list/status API, UI and audit logging pass production build |
-| BILLING-002 | Membership | Administrator activation and renewal | implemented | 45% | Protected admin flow creates, extends, suspends and reactivates subscriptions with audit logs |
+| BILLING-002 | Membership | Administrator activation and renewal | implemented | 65% | Protected administrator flow creates, extends, suspends and reactivates subscriptions with audit logs; live desktop/mobile activation and member-read journey passes |
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
 | CMS-002 | CMS | Static pages | implemented | 50% | Public rendering plus editor create/edit/publish UI and API |

@@ -8,16 +8,16 @@ The application never processes a transaction between users and providers.
 
 ## Completion
 
-Current completion: `45%`
+Current completion: `65%`
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
-| Membership plans | implemented | 45% | Administrator CRUD, public active-plan API and currency-neutral amount fields pass checks |
-| Current subscription | implemented | 40% | Authenticated user can read own active subscription |
-| Administrator activation and renewal | implemented | 45% | Administrator can create or extend a subscription with an audit event |
-| Administrator suspension and reactivation | implemented | 45% | Administrator can change subscription state with an audit event |
+| Membership plans | implemented | 65% | Administrator create/update and public active-plan API with currency-neutral amount fields; live browser plan creation passes |
+| Current subscription | implemented | 65% | Authenticated user can read own active subscription; separate member browser session passes |
+| Administrator activation and renewal | implemented | 70% | Administrator can create or extend a subscription with an audit event; live activation passes |
+| Administrator suspension and reactivation | implemented | 55% | Administrator can change subscription state with an audit event; browser acceptance remains |
 | Payment adapter | planned | 0% | Added only by the consuming application and verified with its provider sandbox |
 
 ## Required Data
@@ -32,4 +32,4 @@ A consuming application may add a payment module with its own migrations, provid
 
 ## Verification Evidence
 
-On 2026-08-04, TypeScript, ESLint, Next.js production build and `npm audit` passed after the generic refactor. Migration `20260804110000_generalize_membership_billing.sql` is deployed to Supabase and the security advisor reports no issues. Live authenticated administrator/member browser acceptance remains required before this percentage can increase.
+On 2026-08-04, TypeScript, ESLint, Next.js production build and `npm audit` passed after the generic refactor. Migration `20260804110000_generalize_membership_billing.sql` is deployed to Supabase and the security advisor reports no issues. `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-membership` passed 2/2 desktop/mobile: an administrator created a plan, selected a user, activated membership and a separate member session read the active plan. Temporary data was deleted after each suite. Suspension/reactivation, plan deletion and any consuming application's payment-provider sandbox remain required before the percentage can increase.
