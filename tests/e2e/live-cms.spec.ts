@@ -12,6 +12,9 @@ test.describe("live CMS publishing journey", () => {
   let adminClient: ReturnType<typeof createClient>;
   let editor: { id: string; email: string; password: string };
   let postId = "";
+  let categoryId = "";
+  let pageId = "";
+  let settingKey = "";
 
   test.beforeAll(async () => {
     if (!url || !serviceRoleKey) throw new Error("Live Supabase configuration is required.");
@@ -21,10 +24,14 @@ test.describe("live CMS publishing journey", () => {
     if (error || !data.user) throw new Error(`Could not create CMS editor: ${error?.message ?? "unknown error"}`);
     editor = { id: data.user.id, email: data.user.email, password };
     await adminClient.from("user_roles").upsert({ user_id: editor.id, role: "editor" }, { onConflict: "user_id,role" });
+    await adminClient.from("user_roles").upsert({ user_id: editor.id, role: "admin" }, { onConflict: "user_id,role" });
   });
 
   test.afterAll(async () => {
     if (postId) await adminClient.from("content_posts").delete().eq("id", postId);
+    if (pageId) await adminClient.from("content_pages").delete().eq("id", pageId);
+    if (categoryId) await adminClient.from("content_categories").delete().eq("id", categoryId);
+    if (settingKey) await adminClient.from("app_settings").delete().eq("key", settingKey);
     await adminClient.auth.admin.deleteUser(editor.id);
   });
 
@@ -61,5 +68,66 @@ test.describe("live CMS publishing journey", () => {
       await expect(publicPage.getByRole("heading", { name: title })).toBeVisible({ timeout: 30_000 });
       await expect(publicPage.getByText(body)).toBeVisible();
     } finally { await publicContext.close(); }
+  });
+
+  test("editor creates a category and publishes a static page", async ({ browser, page }) => {
+    const categoryName = `Core Category ${randomUUID().slice(0, 8)}`;
+    const categorySlug = `core-category-${randomUUID().slice(0, 8)}`;
+    const title = `Core Page ${randomUUID().slice(0, 8)}`;
+    const slug = `core-page-${randomUUID().slice(0, 8)}`;
+    const body = `Noi dung trang tinh ${randomUUID().slice(0, 8)}`;
+    await login(page);
+
+    await page.goto("/admin/content/categories");
+    await page.getByLabel("Ten").fill(categoryName);
+    await page.getByLabel("Slug").fill(categorySlug);
+    const categoryResponse = page.waitForResponse((item) => item.url().includes("/api/admin/content/categories") && item.request().method() === "POST", { timeout: 30_000 });
+    await page.getByRole("button", { name: "Luu danh muc" }).click();
+    const categoryResult = await categoryResponse;
+    expect(categoryResult.status(), await categoryResult.text()).toBe(201);
+    categoryId = (await categoryResult.json()).category.id;
+
+    await page.goto("/admin/content/pages");
+    await page.getByLabel("Tieu de").fill(title);
+    await page.getByLabel("Slug").fill(slug);
+    await page.getByLabel("Noi dung").fill(body);
+    await page.getByLabel("Trang thai").selectOption("published");
+    const pageResponse = page.waitForResponse((item) => item.url().includes("/api/admin/content/pages") && item.request().method() === "POST", { timeout: 30_000 });
+    await page.getByRole("button", { name: "Luu trang" }).click();
+    const pageResult = await pageResponse;
+    expect(pageResult.status(), await pageResult.text()).toBe(201);
+    pageId = (await pageResult.json()).page.id;
+
+    const publicContext = await browser.newContext();
+    const publicPage = await publicContext.newPage();
+    try {
+      await publicPage.goto(`/pages/${slug}`);
+      await expect(publicPage.getByRole("heading", { name: title })).toBeVisible({ timeout: 30_000 });
+      await expect(publicPage.getByText(body)).toBeVisible();
+    } finally { await publicContext.close(); }
+  });
+
+  test("administrator saves an isolated public setting", async ({ page }) => {
+    settingKey = `core_setting_${randomUUID().replaceAll("-", "")}`;
+    const value = `Core setting ${randomUUID().slice(0, 8)}`;
+    await login(page);
+    await page.goto("/admin/settings");
+    await page.getByLabel("Key").fill(settingKey);
+    await page.getByLabel("Gia tri JSON").fill(JSON.stringify({ value }));
+    await page.getByLabel("Cho phep doc cong khai").check();
+    const settingResponse = page.waitForResponse((item) => item.url().includes("/api/admin/settings") && item.request().method() === "PATCH", { timeout: 30_000 });
+    await page.getByRole("button", { name: "Luu cau hinh" }).click();
+    const result = await settingResponse;
+    expect(result.status(), await result.text()).toBe(200);
+    await expect(page.getByText("Da luu cau hinh. Tai lai trang de xem du lieu moi.", { exact: true })).toBeVisible();
+    await expect.poll(async () => {
+      const [{ data: setting }, { data: audit }] = await Promise.all([
+        adminClient.from("app_settings").select("value, is_public").eq("key", settingKey).maybeSingle(),
+        adminClient.from("audit_logs").select("action").eq("entity_type", "app_setting").eq("entity_id", settingKey),
+      ]);
+      return setting?.is_public === true && setting.value?.value === value && audit?.some(({ action }) => action === "setting.updated");
+    }, { timeout: 20_000 }).toBe(true);
+    await page.goto("/admin/audit");
+    await expect(page.getByText(settingKey, { exact: false })).toBeVisible({ timeout: 30_000 });
   });
 });

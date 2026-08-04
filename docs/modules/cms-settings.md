@@ -6,16 +6,16 @@ Let admins manage public-facing content and application configuration without co
 
 ## Completion
 
-Current completion: 60%
+Current completion: 70%
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
-| Homepage content settings | implemented | 35% | Typed admin form and server-rendered public home content pass production build; live editor acceptance remains |
-| Static pages | implemented | 60% | Protected create/edit/publish manager and public published-page rendering pass production build; privacy/terms render from code fallbacks until CMS overrides exist |
-| Blog categories | implemented | 50% | Protected category manager and public category API pass production build |
-| Blog posts | implemented | 70% | Protected authoring/publishing manager and public rendering pass live editor-to-public desktop/mobile acceptance; cover-media storage remains |
+| Homepage content settings | implemented | 45% | Typed admin form and server-rendered public home content pass production build; live editor acceptance remains |
+| Static pages | implemented | 70% | Protected create/publish manager and public published-page rendering pass live desktop/mobile acceptance; privacy/terms render from code fallbacks until CMS overrides exist |
+| Blog categories | implemented | 65% | Protected category creation passes live desktop/mobile acceptance; filtering/editing remains |
+| Blog posts | implemented | 75% | Protected authoring/publishing manager and public rendering pass live editor-to-public desktop/mobile acceptance; cover-media storage remains |
 | SEO metadata | implemented | 50% | Post/page author controls and public route metadata, including default legal page metadata, pass production build; SEO review remains |
 | Branding settings | implemented | 55% | Typed admin form, server validation, audit logging and shared-layout consumption pass production build |
 | Header menu | implemented | 55% | Typed admin form, internal-link validation and shared-header consumption pass production build |
@@ -31,4 +31,4 @@ Current completion: 60%
 
 ## Verification Evidence
 
-On 2026-08-04, TypeScript, ESLint and the Next.js production build passed with the CMS/settings routes, typed branding/navigation/social forms, key-specific server validation and settings audit logging. Playwright additionally verified that the default privacy and terms pages render without browser console errors when no CMS data exists. `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-cms` passed 2/2 desktop/mobile: an editor published a uniquely-slugged post via the admin form and a separate public browser read it. Migration `20260804130400_split_public_content_policies.sql` is deployed to Supabase; it prevents anon readers from evaluating the private content-manager authorization function. Live settings, static-page/category and media-storage acceptance remain.
+On 2026-08-04, TypeScript, ESLint and the Next.js production build passed with the CMS/settings routes, typed branding/navigation/social forms, key-specific server validation and settings audit logging. `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-cms` passed 6/6 desktop/mobile: an editor published uniquely-slugged posts and static pages, created a category, saved an isolated public setting and verified its `setting.updated` event in the admin audit console. Migrations `20260804130400_split_public_content_policies.sql` and `20260804131707_generalize_audit_entity_id.sql` are deployed to Supabase; they restore anon public-content access and make audit entity IDs reusable for UUID and text keys. Media storage, edit/archive and runtime branding/navigation acceptance remain.

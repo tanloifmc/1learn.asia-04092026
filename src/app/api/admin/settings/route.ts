@@ -40,7 +40,8 @@ export async function GET() {
 export async function PATCH(request: Request) {
   const account = await getAdministratorForApi();
   if (!account) return forbiddenResponse();
-  const parsed = settingSchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = settingSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid setting input" }, { status: 422 });
 
   const input = parsed.data;
