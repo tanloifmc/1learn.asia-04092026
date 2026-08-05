@@ -6,7 +6,7 @@ Define what each account type can see and do.
 
 ## Completion
 
-Current completion: 60%
+Current completion: 75%
 
 ## Roles
 
@@ -51,3 +51,9 @@ Task: M2-001 and M2-003
 Checks: migration authored, direct TypeScript check, direct ESLint check, Next.js production build
 Result: partial pass
 Notes: All six migrations are deployed to Supabase. Security advisors returned no issues after remediation. On 2026-08-04, the gated live check verified standard-user profile and role isolation, then granted a temporary administrator role and verified managed-profile visibility before deleting both test users. Provider/editor and route-level role acceptance remain.
+
+Verified on: 2026-08-05
+Task: M2-003
+Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-roles`
+Result: pass (4/4 desktop/mobile)
+Notes: A normal Admin did not see an Admin-grant button and received `403` when directly requesting the API escalation. A Super Admin granted then revoked Admin via the user-management UI; the target session gained and lost `/admin/users` access immediately. Super Admin grants are intentionally not available through the UI.
