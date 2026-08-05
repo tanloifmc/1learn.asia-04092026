@@ -6,7 +6,7 @@ Define what each account type can see and do.
 
 ## Completion
 
-Current completion: 75%
+Current completion: 80%
 
 ## Roles
 
@@ -57,3 +57,9 @@ Task: M2-003
 Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-roles`
 Result: pass (4/4 desktop/mobile)
 Notes: A normal Admin did not see an Admin-grant button and received `403` when directly requesting the API escalation. A Super Admin granted then revoked Admin via the user-management UI; the target session gained and lost `/admin/users` access immediately. Super Admin grants are intentionally not available through the UI.
+
+Verified on: 2026-08-05
+Task: M2-003
+Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-roles`
+Result: pass (4/4 desktop/mobile)
+Notes: The generic administrative role API now permits only internal `editor` and, for Super Admin, `admin` changes. Direct Provider-role grants returned `403` for both Admin and Super Admin; provider access continues to be assigned only by the provider-organization workflow.

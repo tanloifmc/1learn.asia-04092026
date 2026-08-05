@@ -45,7 +45,9 @@ test.describe("live editor role lifecycle", () => {
     await expect(userEntry).toBeVisible({ timeout: 30_000 });
     await expect(userEntry.getByRole("button", { name: "Cap admin" })).toHaveCount(0);
     const unauthorizedAdminGrant = await page.evaluate(async (id) => (await fetch(`/api/admin/users/${id}/role`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ role: "admin", action: "add" }) })).status, editorCandidate.id);
+    const unauthorizedProviderGrant = await page.evaluate(async (id) => (await fetch(`/api/admin/users/${id}/role`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ role: "provider", action: "add" }) })).status, editorCandidate.id);
     expect(unauthorizedAdminGrant).toBe(403);
+    expect(unauthorizedProviderGrant).toBe(403);
     const grant = page.waitForResponse((item) => item.url().includes(`/api/admin/users/${editorCandidate.id}/role`) && item.request().method() === "PATCH", { timeout: 30_000 });
     await userEntry.getByRole("button", { name: "Cap editor" }).click();
     expect((await grant).status()).toBe(200);
@@ -79,6 +81,8 @@ test.describe("live editor role lifecycle", () => {
     await page.goto("/admin/users");
     const userEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: editorDisplayName }) });
     await expect(userEntry).toBeVisible({ timeout: 30_000 });
+    const forbiddenProviderGrant = await page.evaluate(async (id) => (await fetch(`/api/admin/users/${id}/role`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ role: "provider", action: "add" }) })).status, editorCandidate.id);
+    expect(forbiddenProviderGrant).toBe(403);
     const grant = page.waitForResponse((item) => item.url().includes(`/api/admin/users/${editorCandidate.id}/role`) && item.request().method() === "PATCH" && item.request().postData()?.includes('"role":"admin"'), { timeout: 30_000 });
     await userEntry.getByRole("button", { name: "Cap admin" }).click();
     expect((await grant).status()).toBe(200);

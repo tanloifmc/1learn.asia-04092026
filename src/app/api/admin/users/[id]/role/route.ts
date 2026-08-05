@@ -14,8 +14,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   if (!parsed.success) return NextResponse.json({ error: "Invalid role request" }, { status: 422 });
   const { role, action } = parsed.data;
   const isSuperAdmin = account.roles.includes("super_admin");
+  if (!["editor", "admin"].includes(role)) return forbiddenResponse();
   if (id === account.userId || (!isSuperAdmin && ["admin", "super_admin"].includes(role))) return forbiddenResponse();
-  if (role === "user" && action === "remove") return NextResponse.json({ error: "Base user role cannot be removed" }, { status: 422 });
   const admin = createAdminClient();
   const result = action === "add"
     ? await admin.from("user_roles").upsert({ user_id: id, role, created_by: account.userId }, { onConflict: "user_id,role" })
