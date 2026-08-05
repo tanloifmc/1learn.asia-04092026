@@ -39,8 +39,8 @@ Status values:
 | FAVORITE-001 | Favorites | Add item to favorites | verified | 80% | Generic provider/blog model; owner-only RLS, live save interaction and duplicate `409` contract pass |
 | FAVORITE-002 | Favorites | Remove item from favorites | verified | 75% | Ownership-protected API reports `404` for missing/non-visible records; live desktop/mobile remove interaction passes |
 | FAVORITE-003 | Favorites | Favorites list page | verified | 75% | User dashboard list/entity lookup and owner-only RLS; live desktop/mobile list interaction passes |
-| INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
-| INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
+| INQUIRY-001 | Inquiries | Submit inquiry to provider | verified | 65% | Authenticated form creates a real inquiry in live desktop/mobile acceptance; no in-app transaction |
+| INQUIRY-002 | Inquiries | Provider inquiry inbox | verified | 75% | Provider owner reads/updates its inquiry; a second Provider receives an empty inbox and cross-organization update returns `404` |
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
 | BILLING-001 | Membership | Membership plans | verified | 80% | Administrator create/update/delete-unused plans; used-plan deletion returns `409` in live desktop/mobile journey |
 | SUPPORT-001 | Support | Submit application support request | verified | 60% | Authenticated contact form creates a live request on desktop/mobile; validation-boundary coverage remains |

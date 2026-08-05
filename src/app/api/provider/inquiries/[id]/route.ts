@@ -14,8 +14,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const admin = createAdminClient();
   const { data: organization } = await admin.from("organizations").select("id").eq("owner_id", userId).maybeSingle();
   if (!organization) return NextResponse.json({ error: "Provider organization not found" }, { status: 404 });
-  const { data: inquiry, error } = await admin.from("inquiries").update({ status: parsed.data.status }).eq("id", id).eq("organization_id", organization.id).select("id, sender_user_id, subject, status").single();
+  const { data: inquiry, error } = await admin.from("inquiries").update({ status: parsed.data.status }).eq("id", id).eq("organization_id", organization.id).select("id, sender_user_id, subject, status").maybeSingle();
   if (error) return NextResponse.json({ error: "Unable to update inquiry" }, { status: 500 });
+  if (!inquiry) return NextResponse.json({ error: "Inquiry not found" }, { status: 404 });
   await admin.from("notifications").insert({ recipient_user_id: inquiry.sender_user_id, type: "inquiry", title: "Cap nhat yeu cau lien he", body: `Yeu cau "${inquiry.subject}" da duoc cap nhat: ${inquiry.status}.`, action_url: "/inquiries" });
   return NextResponse.json({ inquiry });
 }

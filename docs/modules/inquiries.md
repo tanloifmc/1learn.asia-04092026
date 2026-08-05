@@ -6,16 +6,16 @@ Provide a generic contact/request flow between users and provider organizations.
 
 ## Completion
 
-Current completion: 65%
+Current completion: 72%
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
-| Submit inquiry | verified | 65% | Live desktop/mobile browser test sends a real inquiry through the authenticated form |
+| Submit inquiry | verified | 70% | Live desktop/mobile browser test sends a real inquiry and delivers it only to the owning Provider inbox |
 | User sent inquiries | implemented | 35% | User can view their own sent requests |
-| Provider inbox | verified | 65% | Live desktop/mobile browser test shows the sender inquiry only in its provider inbox |
-| Mark inquiry read | verified | 65% | Live desktop/mobile browser test changes the inquiry status to `read` through the protected UI/API |
+| Provider inbox | verified | 75% | A second Provider receives an empty inbox and cannot read another organization inquiry |
+| Mark inquiry read | verified | 75% | Owner changes status to `read`; cross-organization update returns `404` through the protected API |
 | Admin oversight | implemented | 45% | Admin can inspect provider inquiries and separate application support requests |
 | Notification integration | implemented | 45% | Provider receives inquiry notifications; application administrators receive support-request notifications |
 | Application support request | verified | 65% | Live desktop/mobile user/admin lifecycle passes; a second user receives no support requests through the same protected API |
@@ -33,3 +33,9 @@ Task: M3-001, Support
 Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-shared-core`
 Result: pass (2/2 desktop/mobile)
 Notes: A temporary user submitted a support request, an administrator updated it, and a separate temporary user received an empty support-request list through the same authenticated API. The users, support request and related records were deleted.
+
+Verified on: 2026-08-05
+Task: M3-002
+Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-inquiries`
+Result: pass (2/2 desktop/mobile)
+Notes: The sender submitted an inquiry, its owning Provider read it, and a second Provider received an empty inbox and a `404` for direct cross-organization update. Temporary data was deleted.

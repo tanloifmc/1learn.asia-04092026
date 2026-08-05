@@ -12,7 +12,9 @@ test.describe("live inquiry journey", () => {
   let admin: ReturnType<typeof createClient>;
   let sender: { id: string; email: string; password: string };
   let provider: { id: string; email: string; password: string };
+  let otherProvider: { id: string; email: string; password: string };
   let organizationId = "";
+  let otherOrganizationId = "";
 
   test.beforeAll(async () => {
     if (!url || !serviceRoleKey) throw new Error("Live Supabase configuration is required.");
@@ -25,17 +27,24 @@ test.describe("live inquiry journey", () => {
     }
     sender = await createUser("sender");
     provider = await createUser("provider");
+    otherProvider = await createUser("other-provider");
     const { data, error } = await admin.from("organizations").insert({ owner_id: provider.id, name: "Core Inquiry Provider", slug: `core-inquiry-${randomUUID().slice(0, 8)}`, status: "approved" }).select("id").single();
     if (error || !data) throw new Error(`Could not create provider organization: ${error?.message ?? "unknown error"}`);
     organizationId = data.id;
+    const { data: otherOrganization, error: otherOrganizationError } = await admin.from("organizations").insert({ owner_id: otherProvider.id, name: "Core Other Inquiry Provider", slug: `core-other-inquiry-${randomUUID().slice(0, 8)}`, status: "approved" }).select("id").single();
+    if (otherOrganizationError || !otherOrganization) throw new Error(`Could not create second provider organization: ${otherOrganizationError?.message ?? "unknown error"}`);
+    otherOrganizationId = otherOrganization.id;
     await admin.from("user_roles").upsert({ user_id: provider.id, role: "provider" }, { onConflict: "user_id,role" });
+    await admin.from("user_roles").upsert({ user_id: otherProvider.id, role: "provider" }, { onConflict: "user_id,role" });
   });
 
   test.afterAll(async () => {
     await admin.from("inquiries").delete().eq("organization_id", organizationId);
     await admin.from("organizations").delete().eq("id", organizationId);
+    await admin.from("organizations").delete().eq("id", otherOrganizationId);
     await admin.auth.admin.deleteUser(sender.id);
     await admin.auth.admin.deleteUser(provider.id);
+    await admin.auth.admin.deleteUser(otherProvider.id);
   });
 
   async function login(page: import("@playwright/test").Page, user: { email: string; password: string }) {
@@ -55,8 +64,25 @@ test.describe("live inquiry journey", () => {
     await page.getByLabel("Noi dung").fill("Please confirm this inquiry reaches the provider inbox.");
     const createResponse = page.waitForResponse((item) => item.url().includes("/api/inquiries") && item.request().method() === "POST", { timeout: 45_000 });
     await page.getByRole("button", { name: "Gui yeu cau" }).click();
-    expect((await createResponse).status()).toBe(201);
+    const createdInquiry = await createResponse;
+    expect(createdInquiry.status()).toBe(201);
+    const inquiryId = (await createdInquiry.json()).inquiry.id;
     await expect(page.getByText("Da gui yeu cau. Nha cung cap se nhan thong bao.")).toBeVisible();
+
+    const otherProviderContext = await browser.newContext();
+    const otherProviderPage = await otherProviderContext.newPage();
+    try {
+      await login(otherProviderPage, otherProvider);
+      const otherInbox = otherProviderPage.waitForResponse((item) => item.url().includes("/api/provider/inquiries") && item.request().method() === "GET", { timeout: 30_000 });
+      await otherProviderPage.goto("/provider/inquiries");
+      const otherInboxResponse = await otherInbox;
+      expect(otherInboxResponse.status()).toBe(200);
+      expect((await otherInboxResponse.json()).inquiries).toEqual([]);
+      const otherUpdateStatus = await otherProviderPage.evaluate(async (id) => (await fetch(`/api/provider/inquiries/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "read" }) })).status, inquiryId);
+      expect(otherUpdateStatus).toBe(404);
+    } finally {
+      await otherProviderContext.close();
+    }
 
     const providerContext = await browser.newContext();
     const providerPage = await providerContext.newPage();
