@@ -54,10 +54,10 @@ Status values:
 | CMS-004 | CMS | Blog categories | implemented | 50% | Public CRUD API and editor create/edit UI |
 | CMS-005 | CMS | SEO metadata | implemented | 60% | Post/page author controls and public route metadata |
 | CMS-006 | CMS | Static page publishing | implemented | 40% | CMS-published pages render publicly; privacy and terms have code fallbacks until an editor publishes their final content |
-| SETTINGS-001 | Settings | App branding settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime branding consumption pass production build |
-| SETTINGS-002 | Settings | Header menu settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime header consumption pass production build |
-| SETTINGS-003 | Settings | Footer menu settings | implemented | 55% | Typed admin form, server validation, audit log and validated runtime footer consumption pass production build |
-| SETTINGS-004 | Settings | Social links | implemented | 50% | Typed admin form, URL validation, audit log and shared footer rendering pass production build |
+| SETTINGS-001 | Settings | App branding settings | implemented | 55% | Typed admin form, server validation, audit log and runtime suite are present; public RLS policy migration `20260805044807` awaits the final Supabase release |
+| SETTINGS-002 | Settings | Header menu settings | implemented | 55% | Typed admin form, server validation, audit log and runtime suite are present; public RLS policy migration `20260805044807` awaits the final Supabase release |
+| SETTINGS-003 | Settings | Footer menu settings | implemented | 55% | Typed admin form, server validation, audit log and runtime suite are present; public RLS policy migration `20260805044807` awaits the final Supabase release |
+| SETTINGS-004 | Settings | Social links | implemented | 50% | Typed admin form, URL validation, audit log and runtime suite are present; public RLS policy migration `20260805044807` awaits the final Supabase release |
 | MEDIA-001 | Media | Avatar upload | verified | 70% | Authenticated desktop/mobile UI upload creates a real Storage object and persists the profile URL |
 | MEDIA-002 | Media | Provider logo upload | verified | 70% | Provider desktop/mobile UI upload creates a real Storage object and persists the organization URL |
 | MEDIA-003 | Media | CMS image upload | verified | 65% | Editor desktop/mobile UI upload auto-fills the post cover URL and public post rendering passes live |

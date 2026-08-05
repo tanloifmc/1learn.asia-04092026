@@ -54,6 +54,8 @@ Run `npm run test:live:browser-media` only with `RUN_LIVE_BROWSER_AUTH=true`. It
 
 Run `npm run test:live:browser-roles` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary administrator and standard-user accounts, grants editor through the administrator UI, verifies CMS access in a separate user session, then revokes editor and verifies CMS access redirects to dashboard. It also verifies the administrator audit console shows matching records for that target user, then filters the console by `role.remove` and `user_role`. It deletes the temporary users and audit rows and must never run in public CI.
 
+Run `npm run test:live:browser-branding` only with `RUN_LIVE_BROWSER_AUTH=true` after migration `20260805044807_fix_public_settings_read_policy.sql` is deployed. The suite runs desktop and mobile serially because it temporarily changes four global settings. It snapshots and restores branding, header navigation, footer navigation and social links; creates a temporary administrator; saves all four values through the Admin UI; verifies all four API writes, publishable-key RLS access, and a separate public browser's header/footer; then removes the administrator and its audit rows. It must never run in public CI.
+
 ## Evidence Record Format
 
 Add this short record to the relevant module file whenever a task reaches `verified`:

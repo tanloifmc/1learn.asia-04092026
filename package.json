@@ -21,6 +21,7 @@
     "test:live:browser-shared-core": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-shared-core.spec.ts",
     "test:live:browser-media": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-media.spec.ts",
     "test:live:browser-roles": "node ./scripts/run-live-browser-auth.mjs tests/e2e/live-roles.spec.ts",
+    "test:live:browser-branding": "node ./scripts/run-live-browser-auth.mjs --workers=1 tests/e2e/live-branding.spec.ts",
     "check:env": "node ./scripts/check-environment-contract.mjs"
   },
   "dependencies": {

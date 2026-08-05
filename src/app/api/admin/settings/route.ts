@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { forbiddenResponse, getAdministratorForApi } from "@/lib/api/authorization";
 import { writeAuditLog } from "@/lib/audit/log";
@@ -57,6 +58,7 @@ export async function PATCH(request: Request) {
   }).select("key, value, is_public, updated_at").single();
 
   if (error) return NextResponse.json({ error: "Unable to save setting" }, { status: 500 });
+  revalidatePath("/", "layout");
   await writeAuditLog({
     actorUserId: account.userId,
     action: "setting.updated",
