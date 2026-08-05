@@ -65,6 +65,11 @@ test.describe("live media uploads", () => {
     expect((await invalidAvatarResponse).status()).toBe(422);
     await expect(page.getByRole("status")).toContainText("Khong the tai anh");
     expect((await admin.from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
+    const oversizedAvatarResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
+    await page.getByLabel("Chon anh").setInputFiles({ name: "too-large.png", mimeType: "image/png", buffer: Buffer.alloc(5 * 1024 * 1024 + 1, 1) });
+    expect((await oversizedAvatarResponse).status()).toBe(422);
+    await expect(page.getByRole("status")).toContainText("Khong the tai anh");
+    expect((await admin.from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
     const avatarResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
     await page.getByLabel("Chon anh").setInputFiles({ name: "avatar.png", mimeType: "image/png", buffer: imagePayload });
     expect((await avatarResponse).status()).toBe(201);

@@ -16,7 +16,7 @@ Current completion: 65%
 | Provider logo uploads | verified | 70% | Provider desktop/mobile form uploads to Storage and updates organization logo URL |
 | CMS image uploads | verified | 65% | Editor upload auto-fills the post cover URL and the image renders on the public post |
 | Storage policies | implemented | 45% | Avatar owner policy passes a direct authenticated upload; organization owner policy fix `20260805045743` awaits final Supabase release and full direct acceptance rerun |
-| File validation | verified | 65% | Live browser upload of `text/plain` receives `422` and does not mutate the avatar; valid PNG flow remains accepted |
+| File validation | verified | 75% | Live browser upload of `text/plain` and a PNG larger than 5 MB receive `422` without mutating the avatar; valid PNG flow remains accepted |
 
 ## Planned Buckets
 
@@ -39,6 +39,12 @@ Task: M3 Media
 Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-media`
 Result: pass (2/2 desktop/mobile)
 Notes: Before valid PNG upload, the suite supplied a `text/plain` file through the real file input. The server returned `422`, the profile avatar URL stayed null, then the valid avatar/logo uploads and Storage cleanup completed. Direct Storage-RLS and oversized-file acceptance remain.
+
+Verified on: 2026-08-05
+Task: M3 Media
+Checks: `RUN_LIVE_BROWSER_AUTH=true node ./scripts/run-live-browser-auth.mjs --grep "user uploads an avatar" tests/e2e/live-media.spec.ts`
+Result: pass (2/2 desktop/mobile)
+Notes: A PNG one byte above 5 MB returned `422` through the real avatar input and did not mutate `profiles.avatar_url`; the following valid PNG avatar/logo flow still passed. Direct organization-media owner RLS remains pending migration `20260805045743`.
 
 Pending release on: 2026-08-05
 Task: M3 Media
