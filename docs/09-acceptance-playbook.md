@@ -36,7 +36,7 @@ Run `npm run test:live:auth-rbac` only with `RUN_LIVE_AUTH_RBAC=true`. The scrip
 
 Run `npm run test:live:browser-auth` only with `RUN_LIVE_BROWSER_AUTH=true`. The guarded Playwright suite creates one temporary confirmed user, proves login through the real browser form, dashboard access with the default role, logout and post-logout protected-route denial, then deletes the user. It also must never run in public CI.
 
-Run `npm run test:live:browser-provider` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates one temporary user, proves provider-profile creation, automatic provider-role assignment, review submission and role-aware dashboard rendering, then deletes the organization before deleting the user. It must never run in public CI.
+Run `npm run test:live:browser-provider` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates one temporary user, proves provider-profile creation, a persisted UI update of name/description/phone/website, automatic provider-role assignment, review submission and role-aware dashboard rendering, then deletes the organization before deleting the user. It must never run in public CI.
 
 Run `npm run test:live:browser-admin-provider` only with `RUN_LIVE_BROWSER_AUTH=true` after migration `20260805051757_fix_public_organization_read_policy.sql` is deployed. It creates a pending provider and temporary administrator, proves the unapproved public API returns `404`, approves the organization through the Admin UI, verifies the owner notification, then uses a separate anonymous browser to prove the approved directory and detail page render. It deletes temporary records and users and must never run in public CI.
 

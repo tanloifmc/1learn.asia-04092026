@@ -53,6 +53,22 @@ test.describe("live provider onboarding journey", () => {
     await expect(page.getByText("Da luu ho so nha cung cap.")).toBeVisible();
     await expect(page.getByText(/Trang thai:/)).toContainText("draft");
 
+    const updatedName = "Core Provider Updated";
+    const updatedDescription = `Provider description ${randomUUID().slice(0, 8)}`;
+    await page.getByLabel("Ten doanh nghiep").fill(updatedName);
+    await page.getByLabel("Mo ta").fill(updatedDescription);
+    await page.getByLabel("So dien thoai").fill("0900000000");
+    await page.getByLabel("Website").fill("https://example.com/provider");
+    const updateResponse = page.waitForResponse((response) => response.url().includes("/api/provider/organization") && response.request().method() === "PATCH", { timeout: 45_000 });
+    await page.getByRole("button", { name: "Luu ho so" }).click();
+    expect((await updateResponse).status()).toBe(200);
+    await expect.poll(async () => (await admin.from("organizations").select("name, description, contact_phone, website_url").eq("owner_id", userId).single()).data, { timeout: 20_000 }).toMatchObject({
+      name: updatedName,
+      description: updatedDescription,
+      contact_phone: "0900000000",
+      website_url: "https://example.com/provider",
+    });
+
     const reviewResponse = page.waitForResponse((response) => response.url().includes("/api/provider/submit-for-review") && response.request().method() === "POST");
     await page.getByRole("button", { name: "Gui duyet" }).click();
     expect((await reviewResponse).ok()).toBe(true);
