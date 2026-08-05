@@ -55,6 +55,11 @@ test.describe("live media uploads", () => {
   test("user uploads an avatar and provider uploads an organization logo", async ({ browser, page }) => {
     await login(page, user);
     await page.goto("/account");
+    const invalidAvatarResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
+    await page.getByLabel("Chon anh").setInputFiles({ name: "not-an-image.txt", mimeType: "text/plain", buffer: Buffer.from("not an image") });
+    expect((await invalidAvatarResponse).status()).toBe(422);
+    await expect(page.getByRole("status")).toContainText("Khong the tai anh");
+    expect((await admin.from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
     const avatarResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
     await page.getByLabel("Chon anh").setInputFiles({ name: "avatar.png", mimeType: "image/png", buffer: imagePayload });
     expect((await avatarResponse).status()).toBe(201);
