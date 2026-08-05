@@ -58,6 +58,12 @@ test.describe("live editor role lifecycle", () => {
       const auditEntries = page.getByRole("article").filter({ hasText: editorCandidate.id });
       await expect(auditEntries.filter({ has: page.getByRole("heading", { name: "role.add", exact: true }) })).toBeVisible({ timeout: 30_000 });
       await expect(auditEntries.filter({ has: page.getByRole("heading", { name: "role.remove", exact: true }) })).toBeVisible();
+      await page.getByLabel("Hanh dong").fill("role.remove");
+      await page.getByLabel("Loai doi tuong").fill("user_role");
+      const filteredAudit = page.waitForResponse((item) => item.url().includes("/api/admin/audit-logs?") && item.url().includes("action=role.remove") && item.url().includes("entityType=user_role"), { timeout: 30_000 });
+      await page.getByRole("button", { name: "Loc", exact: true }).click();
+      expect((await filteredAudit).status()).toBe(200);
+      await expect(page.getByRole("article").filter({ hasText: editorCandidate.id }).getByRole("heading", { name: "role.remove", exact: true })).toBeVisible();
     } finally { await editorContext.close(); }
   });
 });

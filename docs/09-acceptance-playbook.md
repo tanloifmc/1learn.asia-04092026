@@ -52,7 +52,7 @@ Run `npm run test:live:browser-shared-core` only with `RUN_LIVE_BROWSER_AUTH=tru
 
 Run `npm run test:live:browser-media` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary user and provider accounts, uploads PNG avatar and organization-logo files through the real account/provider screens, verifies the persisted public URLs, then removes Storage objects, the organization and users. It must never run in public CI.
 
-Run `npm run test:live:browser-roles` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary administrator and standard-user accounts, grants editor through the administrator UI, verifies CMS access in a separate user session, then revokes editor and verifies CMS access redirects to dashboard. It also verifies the administrator audit console shows the matching `role.add` and `role.remove` records for that target user, then deletes the temporary users and audit rows. It must never run in public CI.
+Run `npm run test:live:browser-roles` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary administrator and standard-user accounts, grants editor through the administrator UI, verifies CMS access in a separate user session, then revokes editor and verifies CMS access redirects to dashboard. It also verifies the administrator audit console shows matching records for that target user, then filters the console by `role.remove` and `user_role`. It deletes the temporary users and audit rows and must never run in public CI.
 
 ## Evidence Record Format
 

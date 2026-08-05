@@ -61,8 +61,8 @@ Status values:
 | MEDIA-001 | Media | Avatar upload | verified | 70% | Authenticated desktop/mobile UI upload creates a real Storage object and persists the profile URL |
 | MEDIA-002 | Media | Provider logo upload | verified | 70% | Provider desktop/mobile UI upload creates a real Storage object and persists the organization URL |
 | MEDIA-003 | Media | CMS image upload | verified | 65% | Editor desktop/mobile UI upload auto-fills the post cover URL and public post rendering passes live |
-| AUDIT-001 | Audit | Audit log table | verified | 60% | Role grant/revoke writes are verified end-to-end on desktop/mobile; coverage for remaining sensitive actions and retention remains |
-| AUDIT-002 | Audit | Admin audit log viewer | verified | 65% | Administrator live browser journey verifies the correct role add/remove records for its target user; filtering and retention tooling remain |
+| AUDIT-001 | Audit | Audit log table | implemented | 65% | Role grant/revoke writes and filtered reads are verified end-to-end; query-index migration is local and awaits final Supabase release |
+| AUDIT-002 | Audit | Admin audit log viewer | verified | 75% | Administrator live browser journey filters the exact target user's role remove record; retention and richer filtering remain |
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
 | DESIGN-002 | Design System | Reusable components | verified | 60% | Accessible button, form field, status message, empty state and destructive-action confirmation dialog are shared; CMS and membership live suites verify the dialog before mutation; table and toast remain |
 | DESIGN-003 | Design System | Theme tokens | implemented | 25% | CSS color, spacing, typography and responsive layout tokens |
