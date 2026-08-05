@@ -12,6 +12,7 @@ test.describe("live shared core journey", () => {
   let adminClient: ReturnType<typeof createClient>;
   let administrator: { id: string; email: string; password: string };
   let user: { id: string; email: string; password: string };
+  let otherUser: { id: string; email: string; password: string };
   let organizationId = "";
   let supportRequestId = "";
 
@@ -26,6 +27,7 @@ test.describe("live shared core journey", () => {
     }
     administrator = await createUser("admin");
     user = await createUser("user");
+    otherUser = await createUser("other-user");
     await adminClient.from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
     const { data: organization, error } = await adminClient.from("organizations").insert({ owner_id: user.id, name: `Core Provider ${randomUUID().slice(0, 8)}`, slug: `core-provider-${randomUUID().slice(0, 8)}`, description: "Provider for shared core acceptance", status: "approved" }).select("id").single();
     if (error || !organization) throw new Error(`Could not create provider: ${error?.message ?? "unknown error"}`);
@@ -39,6 +41,7 @@ test.describe("live shared core journey", () => {
     if (organizationId) await adminClient.from("organizations").delete().eq("id", organizationId);
     await adminClient.auth.admin.deleteUser(administrator.id);
     await adminClient.auth.admin.deleteUser(user.id);
+    await adminClient.auth.admin.deleteUser(otherUser.id);
   });
 
   async function login(page: import("@playwright/test").Page, account: { email: string; password: string }) {
@@ -88,6 +91,20 @@ test.describe("live shared core journey", () => {
     const createdSupport = await supportResponse;
     expect(createdSupport.status(), await createdSupport.text()).toBe(201);
     supportRequestId = (await createdSupport.json()).request.id;
+
+    const otherUserContext = await browser.newContext();
+    const otherUserPage = await otherUserContext.newPage();
+    try {
+      await login(otherUserPage, otherUser);
+      const otherRequests = otherUserPage.waitForResponse((item) => item.url().includes("/api/support-requests") && item.request().method() === "GET", { timeout: 30_000 });
+      await otherUserPage.goto("/contact");
+      const otherResponse = await otherRequests;
+      expect(otherResponse.status()).toBe(200);
+      expect((await otherResponse.json()).requests).toEqual([]);
+      await expect(otherUserPage.getByText(supportSubject, { exact: true })).toHaveCount(0);
+    } finally {
+      await otherUserContext.close();
+    }
 
     const adminContext = await browser.newContext();
     const adminPage = await adminContext.newPage();

@@ -6,7 +6,7 @@ Provide a generic contact/request flow between users and provider organizations.
 
 ## Completion
 
-Current completion: 60%
+Current completion: 65%
 
 ## Feature Checklist
 
@@ -18,7 +18,7 @@ Current completion: 60%
 | Mark inquiry read | verified | 65% | Live desktop/mobile browser test changes the inquiry status to `read` through the protected UI/API |
 | Admin oversight | implemented | 45% | Admin can inspect provider inquiries and separate application support requests |
 | Notification integration | implemented | 45% | Provider receives inquiry notifications; application administrators receive support-request notifications |
-| Application support request | implemented | 35% | Authenticated user contact/history page, local RLS migration and administrator status UI pass production build |
+| Application support request | verified | 65% | Live desktop/mobile user/admin lifecycle passes; a second user receives no support requests through the same protected API |
 
 ## Payment Boundary
 
@@ -26,4 +26,10 @@ Inquiries must not include in-app payment or settlement between users and provid
 
 ## Verification Evidence
 
-On 2026-08-04, `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-inquiries` passed on desktop and mobile. It created temporary sender/provider users and an approved provider organization, submitted an inquiry through the browser, verified the provider inbox and changed the lifecycle to `read`, then removed all temporary data. Administrator oversight, notification assertions and support-request acceptance remain.
+On 2026-08-04, `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-inquiries` passed on desktop and mobile. It created temporary sender/provider users and an approved provider organization, submitted an inquiry through the browser, verified the provider inbox and changed the lifecycle to `read`, then removed all temporary data.
+
+Verified on: 2026-08-05
+Task: M3-001, Support
+Checks: `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-shared-core`
+Result: pass (2/2 desktop/mobile)
+Notes: A temporary user submitted a support request, an administrator updated it, and a separate temporary user received an empty support-request list through the same authenticated API. The users, support request and related records were deleted.

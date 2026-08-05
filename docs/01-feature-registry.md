@@ -44,7 +44,7 @@ Status values:
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
 | BILLING-001 | Membership | Membership plans | verified | 80% | Administrator create/update/delete-unused plans; used-plan deletion returns `409` in live desktop/mobile journey |
 | SUPPORT-001 | Support | Submit application support request | verified | 60% | Authenticated contact form creates a live request on desktop/mobile; validation-boundary coverage remains |
-| SUPPORT-002 | Support | User support request history | verified | 55% | Sender sees the live request and its administrator-updated status in contact history |
+| SUPPORT-002 | Support | User support request history | verified | 65% | Sender sees the live request/status while a second user receives an empty list through the same protected API |
 | SUPPORT-003 | Support | Administrator support request handling | verified | 60% | Administrator list and status update pass live desktop/mobile; audit-log inspection remains |
 | BILLING-002 | Membership | Administrator activation and renewal | verified | 80% | Protected administrator flow creates, renews, suspends and reactivates subscriptions; live renewal increases `ends_at` |
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
