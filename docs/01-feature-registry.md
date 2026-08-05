@@ -27,8 +27,8 @@ Status values:
 | ACCOUNT-003 | Account | Security settings | implemented | 35% | Authenticated password change API and account UI |
 | ACCOUNT-004 | Account | User dashboard | verified | 55% | Live browser login renders protected dashboard and default user role on desktop and mobile |
 | ROLE-001 | Roles | Role model | implemented | 60% | Default user role and temporary administrator role both pass live Supabase acceptance |
-| ROLE-002 | Roles | Permission matrix | implemented | 60% | Live RLS check proves standard-user isolation and administrator profile visibility; provider/editor cases remain |
-| ROLE-003 | Roles | Admin role assignment | implemented | 35% | Server-guarded role API, audit logging and admin screen; live tests remain |
+| ROLE-002 | Roles | Permission matrix | verified | 70% | Live desktop/mobile editor grant grants CMS access; revoke redirects the same session to dashboard |
+| ROLE-003 | Roles | Admin role assignment | verified | 70% | Admin editor grant/revoke UI, server guard and audit writer pass live desktop/mobile; admin/super-admin delegation remains restricted |
 | PROVIDER-001 | Provider | Organization profile | implemented | 35% | API plus authenticated create/update profile UI |
 | PROVIDER-002 | Provider | Provider onboarding | implemented | 35% | Draft-to-review API and provider screen |
 | PROVIDER-003 | Provider | Provider approval workflow | implemented | 45% | Admin moderation API/UI, provider notification and public approved visibility |
@@ -61,10 +61,10 @@ Status values:
 | MEDIA-001 | Media | Avatar upload | verified | 70% | Authenticated desktop/mobile UI upload creates a real Storage object and persists the profile URL |
 | MEDIA-002 | Media | Provider logo upload | verified | 70% | Provider desktop/mobile UI upload creates a real Storage object and persists the organization URL |
 | MEDIA-003 | Media | CMS image upload | verified | 65% | Editor desktop/mobile UI upload auto-fills the post cover URL and public post rendering passes live |
-| AUDIT-001 | Audit | Audit log table | implemented | 50% | Server-only writer records role, provider, notification, settings, CMS, membership-plan and subscription actions; live verification remains |
-| AUDIT-002 | Audit | Admin audit log viewer | implemented | 40% | Admin-only API and viewer screen pass production build; live access/filtering acceptance remains |
+| AUDIT-001 | Audit | Audit log table | verified | 60% | Role grant/revoke writes are verified end-to-end on desktop/mobile; coverage for remaining sensitive actions and retention remains |
+| AUDIT-002 | Audit | Admin audit log viewer | verified | 65% | Administrator live browser journey verifies the correct role add/remove records for its target user; filtering and retention tooling remain |
 | DESIGN-001 | Design System | Base layout | implemented | 25% | Public header/footer and account application layout |
-| DESIGN-002 | Design System | Reusable components | verified | 50% | Accessible button, form field, status message and empty state are implemented and used by login/support flows; GitHub CI passes; table, modal and toast remain |
+| DESIGN-002 | Design System | Reusable components | verified | 60% | Accessible button, form field, status message, empty state and destructive-action confirmation dialog are shared; CMS and membership live suites verify the dialog before mutation; table and toast remain |
 | DESIGN-003 | Design System | Theme tokens | implemented | 25% | CSS color, spacing, typography and responsive layout tokens |
 | ARCH-001 | App scaffold | Feature-module boundaries | implemented | 50% | `account` and `settings` queries are owned by `src/features`; remaining capabilities will migrate incrementally |
 | TEST-001 | Testing | Typecheck | verified | 100% | Local and remote GitHub Quality Gate checks pass |

@@ -109,8 +109,10 @@ test.describe("live membership lifecycle", () => {
       await expect.poll(async () => (await adminClient.from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at, { timeout: 20_000 }).not.toBe(endsBeforeRenewal);
 
       const deleteUsedPlan = page.waitForResponse((item) => item.url().includes(`/api/admin/billing/plans/${planId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
-      page.once("dialog", (dialog) => dialog.accept());
       await membershipEntry.getByRole("button", { name: "Xoa goi" }).click();
+      const usedPlanDialog = page.getByRole("dialog", { name: "Xoa goi thanh vien?" });
+      await expect(usedPlanDialog).toBeVisible();
+      await usedPlanDialog.getByRole("button", { name: "Xac nhan xoa goi" }).click();
       expect((await deleteUsedPlan).status()).toBe(409);
 
       const disposableCode = `core-disposable-${randomUUID().slice(0, 8)}`;
@@ -127,8 +129,10 @@ test.describe("live membership lifecycle", () => {
       disposablePlanId = (await disposableCreated.json()).plan.id;
       const disposableEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: disposableName }) });
       const deleteDisposable = page.waitForResponse((item) => item.url().includes(`/api/admin/billing/plans/${disposablePlanId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
-      page.once("dialog", (dialog) => dialog.accept());
       await disposableEntry.getByRole("button", { name: "Xoa goi" }).click();
+      const disposablePlanDialog = page.getByRole("dialog", { name: "Xoa goi thanh vien?" });
+      await expect(disposablePlanDialog).toBeVisible();
+      await disposablePlanDialog.getByRole("button", { name: "Xac nhan xoa goi" }).click();
       expect((await deleteDisposable).status()).toBe(204);
       disposablePlanId = "";
     } finally { await memberContext.close(); }

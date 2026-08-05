@@ -84,8 +84,10 @@ test.describe("live CMS publishing journey", () => {
     const postEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: title }) });
     await expect(postEntry).toBeVisible({ timeout: 30_000 });
     const archivePost = page.waitForResponse((item) => item.url().includes(`/api/admin/content/posts/${postId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
-    page.once("dialog", (dialog) => dialog.accept());
     await postEntry.getByRole("button", { name: "Luu tru" }).click();
+    const postArchiveDialog = page.getByRole("dialog", { name: "Luu tru bai viet?" });
+    await expect(postArchiveDialog).toBeVisible();
+    await postArchiveDialog.getByRole("button", { name: "Xac nhan luu tru" }).click();
     expect((await archivePost).status()).toBe(204);
     await expect(postEntry.getByText(`${slug} | archived`)).toBeVisible();
     const archivedPublic = await page.request.get(`/blog/${slug}`);
@@ -132,8 +134,10 @@ test.describe("live CMS publishing journey", () => {
     const staticPageEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: title }) });
     await expect(staticPageEntry).toBeVisible({ timeout: 30_000 });
     const archivePage = page.waitForResponse((item) => item.url().includes(`/api/admin/content/pages/${pageId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
-    page.once("dialog", (dialog) => dialog.accept());
     await staticPageEntry.getByRole("button", { name: "Luu tru" }).click();
+    const pageArchiveDialog = page.getByRole("dialog", { name: "Luu tru trang tinh?" });
+    await expect(pageArchiveDialog).toBeVisible();
+    await pageArchiveDialog.getByRole("button", { name: "Xac nhan luu tru" }).click();
     expect((await archivePage).status()).toBe(204);
     await expect(staticPageEntry.getByText(`/pages/${slug} | archived`)).toBeVisible();
     const archivedPublic = await page.request.get(`/pages/${slug}`);
