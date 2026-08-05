@@ -6,16 +6,16 @@ Let admins manage public-facing content and application configuration without co
 
 ## Completion
 
-Current completion: 75%
+Current completion: 80%
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
 | Homepage content settings | implemented | 45% | Typed admin form and server-rendered public home content pass production build; live editor acceptance remains |
-| Static pages | implemented | 70% | Protected create/publish manager and public published-page rendering pass live desktop/mobile acceptance; privacy/terms render from code fallbacks until CMS overrides exist |
+| Static pages | verified | 82% | Admin publish/archive manager and public `404` denial after archive pass live desktop/mobile acceptance |
 | Blog categories | implemented | 65% | Protected category creation passes live desktop/mobile acceptance; filtering/editing remains |
-| Blog posts | verified | 82% | Editor upload auto-fills post cover URL; published post and cover image render publicly on desktop/mobile |
+| Blog posts | verified | 88% | Editor publish/archive flow, cover image and public `404` denial after archive pass live desktop/mobile |
 | SEO metadata | implemented | 50% | Post/page author controls and public route metadata, including default legal page metadata, pass production build; SEO review remains |
 | Branding settings | implemented | 55% | Typed admin form, server validation, audit logging and shared-layout consumption pass production build |
 | Header menu | implemented | 55% | Typed admin form, internal-link validation and shared-header consumption pass production build |

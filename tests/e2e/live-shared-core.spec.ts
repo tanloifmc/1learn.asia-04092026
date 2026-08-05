@@ -52,11 +52,16 @@ test.describe("live shared core journey", () => {
   }
 
   test("user favorites, support request and administrator notification workflow", async ({ browser, page }) => {
-    const favoriteResponse = page.waitForResponse((item) => item.url().includes("/api/favorites") && item.request().method() === "POST", { timeout: 30_000 });
     await login(page, user);
     const { data: organization } = await adminClient.from("organizations").select("slug").eq("id", organizationId).single();
     if (!organization) throw new Error("Provider was not available.");
+    const unsupportedFavorite = await page.evaluate(async (entityId) => {
+      const response = await fetch("/api/favorites", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ entityType: "unsupported_entity", entityId }) });
+      return response.status;
+    }, organizationId);
+    expect(unsupportedFavorite).toBe(400);
     await page.goto(`/providers/${organization.slug}`);
+    const favoriteResponse = page.waitForResponse((item) => item.url().includes("/api/favorites") && item.request().method() === "POST", { timeout: 30_000 });
     await page.getByRole("button", { name: "Luu muc nay" }).click();
     expect((await favoriteResponse).status()).toBe(201);
     const duplicateFavorite = await page.evaluate(async ({ entityType, entityId }) => {

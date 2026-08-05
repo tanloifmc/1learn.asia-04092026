@@ -15,6 +15,7 @@ test.describe("live membership lifecycle", () => {
   let planCode = "";
   let planName = "";
   let planId = "";
+  let disposablePlanId = "";
 
   test.beforeAll(async () => {
     if (!url || !serviceRoleKey) throw new Error("Live Supabase configuration is required.");
@@ -34,6 +35,7 @@ test.describe("live membership lifecycle", () => {
 
   test.afterAll(async () => {
     if (planId) await adminClient.from("membership_subscriptions").delete().eq("plan_id", planId);
+    if (disposablePlanId) await adminClient.from("membership_plans").delete().eq("id", disposablePlanId);
     if (planId) await adminClient.from("membership_plans").delete().eq("id", planId);
     await adminClient.auth.admin.deleteUser(operator.id);
     await adminClient.auth.admin.deleteUser(member.id);
@@ -96,6 +98,39 @@ test.describe("live membership lifecycle", () => {
       await memberPage.reload();
       await expect(memberPage.getByRole("heading", { name: "Thanh vien hien tai" })).toBeVisible({ timeout: 30_000 });
       await expect(currentMembership.getByText(planName)).toBeVisible();
+
+      const endsBeforeRenewal = (await adminClient.from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at;
+      if (!endsBeforeRenewal) throw new Error("Membership end date was unavailable.");
+      await page.getByLabel("Nguoi dung").selectOption(member.id);
+      await page.getByLabel("Goi thanh vien").selectOption(planId);
+      const renewalResponse = page.waitForResponse((item) => item.url().includes("/api/admin/billing/subscriptions") && item.request().method() === "POST", { timeout: 45_000 });
+      await page.getByRole("button", { name: "Cap hoac gia han" }).click();
+      expect((await renewalResponse).status()).toBe(200);
+      await expect.poll(async () => (await adminClient.from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at, { timeout: 20_000 }).not.toBe(endsBeforeRenewal);
+
+      const deleteUsedPlan = page.waitForResponse((item) => item.url().includes(`/api/admin/billing/plans/${planId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
+      page.once("dialog", (dialog) => dialog.accept());
+      await membershipEntry.getByRole("button", { name: "Xoa goi" }).click();
+      expect((await deleteUsedPlan).status()).toBe(409);
+
+      const disposableCode = `core-disposable-${randomUUID().slice(0, 8)}`;
+      const disposableName = `Core Disposable ${randomUUID().slice(0, 8)}`;
+      await page.getByLabel("Code").fill(disposableCode);
+      await page.getByLabel("Ten goi").fill(disposableName);
+      await page.getByLabel("Gia").fill("50000");
+      await page.getByLabel("Ma tien te").fill("VND");
+      await page.getByLabel("So ngay").fill("7");
+      const disposableCreate = page.waitForResponse((item) => item.url().includes("/api/admin/billing/plans") && item.request().method() === "POST", { timeout: 30_000 });
+      await page.getByRole("button", { name: "Luu goi" }).click();
+      const disposableCreated = await disposableCreate;
+      expect(disposableCreated.status()).toBe(201);
+      disposablePlanId = (await disposableCreated.json()).plan.id;
+      const disposableEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: disposableName }) });
+      const deleteDisposable = page.waitForResponse((item) => item.url().includes(`/api/admin/billing/plans/${disposablePlanId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
+      page.once("dialog", (dialog) => dialog.accept());
+      await disposableEntry.getByRole("button", { name: "Xoa goi" }).click();
+      expect((await deleteDisposable).status()).toBe(204);
+      disposablePlanId = "";
     } finally { await memberContext.close(); }
   });
 });

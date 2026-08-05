@@ -79,6 +79,17 @@ test.describe("live CMS publishing journey", () => {
       await expect(publicPage.locator("img").first()).toHaveAttribute("src", coverImageUrl);
       await expect(publicPage.getByText(body)).toBeVisible();
     } finally { await publicContext.close(); }
+
+    await page.goto("/admin/content/posts");
+    const postEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: title }) });
+    await expect(postEntry).toBeVisible({ timeout: 30_000 });
+    const archivePost = page.waitForResponse((item) => item.url().includes(`/api/admin/content/posts/${postId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
+    page.once("dialog", (dialog) => dialog.accept());
+    await postEntry.getByRole("button", { name: "Luu tru" }).click();
+    expect((await archivePost).status()).toBe(204);
+    await expect(postEntry.getByText(`${slug} | archived`)).toBeVisible();
+    const archivedPublic = await page.request.get(`/blog/${slug}`);
+    expect(archivedPublic.status()).toBe(404);
   });
 
   test("editor creates a category and publishes a static page", async ({ browser, page }) => {
@@ -116,6 +127,17 @@ test.describe("live CMS publishing journey", () => {
       await expect(publicPage.getByRole("heading", { name: title })).toBeVisible({ timeout: 30_000 });
       await expect(publicPage.getByText(body)).toBeVisible();
     } finally { await publicContext.close(); }
+
+    await page.goto("/admin/content/pages");
+    const staticPageEntry = page.getByRole("article").filter({ has: page.getByRole("heading", { name: title }) });
+    await expect(staticPageEntry).toBeVisible({ timeout: 30_000 });
+    const archivePage = page.waitForResponse((item) => item.url().includes(`/api/admin/content/pages/${pageId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
+    page.once("dialog", (dialog) => dialog.accept());
+    await staticPageEntry.getByRole("button", { name: "Luu tru" }).click();
+    expect((await archivePage).status()).toBe(204);
+    await expect(staticPageEntry.getByText(`/pages/${slug} | archived`)).toBeVisible();
+    const archivedPublic = await page.request.get(`/pages/${slug}`);
+    expect(archivedPublic.status()).toBe(404);
   });
 
   test("administrator saves an isolated public setting", async ({ page }) => {

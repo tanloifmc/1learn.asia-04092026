@@ -8,15 +8,15 @@ The application never processes a transaction between users and providers.
 
 ## Completion
 
-Current completion: `70%`
+Current completion: `80%`
 
 ## Feature Checklist
 
 | Feature | Status | Completion | Acceptance criteria |
 | --- | --- | --- | --- |
-| Membership plans | implemented | 65% | Administrator create/update and public active-plan API with currency-neutral amount fields; live browser plan creation passes |
+| Membership plans | verified | 80% | Administrator create/update/delete unused plans; live browser deletion and used-plan conflict pass |
 | Current subscription | implemented | 65% | Authenticated user can read own active subscription; separate member browser session passes |
-| Administrator activation and renewal | implemented | 70% | Administrator can create or extend a subscription with an audit event; live activation passes |
+| Administrator activation and renewal | verified | 80% | Administrator can create or extend a subscription with an audit event; live renewal increases `ends_at` |
 | Administrator suspension and reactivation | implemented | 70% | Administrator can change subscription state with an audit event; live suspension, inactive member state and reactivation pass |
 | Payment adapter | planned | 0% | Added only by the consuming application and verified with its provider sandbox |
 
@@ -32,4 +32,4 @@ A consuming application may add a payment module with its own migrations, provid
 
 ## Verification Evidence
 
-On 2026-08-04, TypeScript, ESLint, Next.js production build and `npm audit` passed after the generic refactor. Migration `20260804110000_generalize_membership_billing.sql` is deployed to Supabase and the security advisor reports no issues. `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-membership` passed 2/2 desktop/mobile: an administrator created a plan, selected a user, activated membership, suspended it, verified the member lost the active panel, then reactivated it and verified the panel returned. Temporary data was deleted after each suite. Renewal extension, plan deletion and any consuming application's payment-provider sandbox remain required before the percentage can increase.
+On 2026-08-05, `RUN_LIVE_BROWSER_AUTH=true npm run test:live:browser-membership` passed 2/2 desktop/mobile: an administrator created a plan, activated/suspended/reactivated a membership, renewed it with an increased `ends_at`, confirmed a used plan returns `409` on deletion and deleted an unused plan. Temporary data was deleted after each suite. Payment-provider sandbox remains a consuming-application concern.

@@ -20,3 +20,19 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   await writeAuditLog({ actorUserId: account.userId, action: "membership_plan.updated", entityType: "membership_plan", entityId: data.id, metadata: { code: data.code, isActive: data.is_active } }).catch(() => undefined);
   return NextResponse.json({ plan: data });
 }
+
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const account = await getAdministratorForApi();
+  if (!account) return forbiddenResponse();
+  const { id } = await params;
+  const supabase = await createClient();
+  const { count, error: countError } = await supabase.from("membership_subscriptions").select("id", { count: "exact", head: true }).eq("plan_id", id);
+  if (countError) return NextResponse.json({ error: "Unable to check plan usage" }, { status: 500 });
+  if (count) return NextResponse.json({ error: "Plan has subscriptions and cannot be deleted" }, { status: 409 });
+
+  const { data, error } = await supabase.from("membership_plans").delete().eq("id", id).select("id, code").maybeSingle();
+  if (error) return NextResponse.json({ error: "Unable to delete plan" }, { status: 500 });
+  if (!data) return NextResponse.json({ error: "Plan not found" }, { status: 404 });
+  await writeAuditLog({ actorUserId: account.userId, action: "membership_plan.deleted", entityType: "membership_plan", entityId: data.id, metadata: { code: data.code } }).catch(() => undefined);
+  return new NextResponse(null, { status: 204 });
+}

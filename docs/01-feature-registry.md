@@ -42,11 +42,11 @@ Status values:
 | INQUIRY-001 | Inquiries | Submit inquiry to provider | implemented | 35% | Authenticated form and API; no in-app transaction |
 | INQUIRY-002 | Inquiries | Provider inquiry inbox | implemented | 50% | Provider screen, status lifecycle API and sender notification |
 | INQUIRY-003 | Inquiries | Admin inquiry oversight | implemented | 35% | Admin oversight API and viewer screen |
-| BILLING-001 | Membership | Membership plans | implemented | 65% | Administrator create/update and public active-plan API with currency-neutral amount model; live desktop/mobile membership journey passes |
+| BILLING-001 | Membership | Membership plans | verified | 80% | Administrator create/update/delete-unused plans; used-plan deletion returns `409` in live desktop/mobile journey |
 | SUPPORT-001 | Support | Submit application support request | verified | 60% | Authenticated contact form creates a live request on desktop/mobile; validation-boundary coverage remains |
 | SUPPORT-002 | Support | User support request history | verified | 55% | Sender sees the live request and its administrator-updated status in contact history |
 | SUPPORT-003 | Support | Administrator support request handling | verified | 60% | Administrator list and status update pass live desktop/mobile; audit-log inspection remains |
-| BILLING-002 | Membership | Administrator activation and renewal | implemented | 70% | Protected administrator flow creates, extends, suspends and reactivates subscriptions with audit logs; live desktop/mobile activation, suspension, reactivation and member-read journey passes |
+| BILLING-002 | Membership | Administrator activation and renewal | verified | 80% | Protected administrator flow creates, renews, suspends and reactivates subscriptions; live renewal increases `ends_at` |
 | BILLING-003 | Membership | Payment-provider extension point | planned | 0% | Each consuming application selects and implements its own compliant provider module |
 | CMS-001 | CMS | Public home page content | implemented | 35% | Validated public setting, server-rendered home and admin form |
 | CMS-002 | CMS | Static pages | implemented | 70% | Editor create/publish and public rendering pass live desktop/mobile acceptance |

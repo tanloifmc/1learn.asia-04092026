@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getAuthenticatedSession } from "@/lib/auth/server-session";
+import { favoriteEntityTypeSchema } from "@/features/favorites/entity-registry";
 
 const favoriteSchema = z.object({
-  entityType: z.string().trim().min(1).max(80).regex(/^[a-z][a-z0-9_]*$/),
+  entityType: favoriteEntityTypeSchema,
   entityId: z.string().uuid(),
 });
 
