@@ -31,7 +31,7 @@ Status values:
 | ROLE-003 | Roles | Admin role assignment | verified | 80% | Admin manages Editor only; Super Admin grants/revokes Admin through UI and server guard; Provider and Super Admin delegation remain intentionally absent from the generic role API |
 | PROVIDER-001 | Provider | Organization profile | implemented | 35% | API plus authenticated create/update profile UI |
 | PROVIDER-002 | Provider | Provider onboarding | implemented | 35% | Draft-to-review API and provider screen |
-| PROVIDER-003 | Provider | Provider approval workflow | implemented | 45% | Admin moderation API/UI, provider notification and public approved visibility |
+| PROVIDER-003 | Provider | Provider approval workflow | implemented | 45% | Admin moderation API/UI and provider notification pass live; public approved visibility awaits RLS migration `20260805051757` |
 | PROVIDER-004 | Provider | Provider dashboard | implemented | 50% | Profile/review state and inquiry inbox/status lifecycle |
 | NOTIFY-001 | Notifications | Notification inbox | verified | 70% | Recipient-only RLS passes live; desktop/mobile browser journey receives and displays two administrator broadcasts |
 | NOTIFY-002 | Notifications | Mark notification as read | verified | 70% | Single and bulk mutations pass live desktop/mobile; unread-count integration remains |

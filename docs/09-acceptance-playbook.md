@@ -38,6 +38,8 @@ Run `npm run test:live:browser-auth` only with `RUN_LIVE_BROWSER_AUTH=true`. The
 
 Run `npm run test:live:browser-provider` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates one temporary user, proves provider-profile creation, automatic provider-role assignment, review submission and role-aware dashboard rendering, then deletes the organization before deleting the user. It must never run in public CI.
 
+Run `npm run test:live:browser-admin-provider` only with `RUN_LIVE_BROWSER_AUTH=true` after migration `20260805051757_fix_public_organization_read_policy.sql` is deployed. It creates a pending provider and temporary administrator, proves the unapproved public API returns `404`, approves the organization through the Admin UI, verifies the owner notification, then uses a separate anonymous browser to prove the approved directory and detail page render. It deletes temporary records and users and must never run in public CI.
+
 Run `npm run test:live:browser-inquiries` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary sender/provider users and an approved provider organization, proves inquiry submission and provider inbox status update in separate browser sessions, then deletes the inquiry, organization and users. It must never run in public CI.
 
 Run `npm run test:live:browser-membership` only with `RUN_LIVE_BROWSER_AUTH=true`. It creates temporary administrator and member users, proves the administrator can create a plan and activate the member, suspends and reactivates the subscription, then proves a separate member browser session reads the corresponding active state. It deletes temporary subscriptions, plans and users, and must never run in public CI.

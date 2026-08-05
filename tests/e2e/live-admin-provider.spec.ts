@@ -55,6 +55,7 @@ test.describe("live administrator provider moderation", () => {
     await expect(page.getByRole("heading", { name: "Duyet nha cung cap" })).toBeVisible();
     const providerCard = page.getByRole("article").filter({ hasText: organizationSlug });
     await expect(providerCard).toBeVisible({ timeout: 30_000 });
+    expect((await page.request.get(`/api/providers/${organizationSlug}`)).status()).toBe(404);
     const approveButton = providerCard.getByRole("button", { name: "Duyet" });
     await approveButton.scrollIntoViewIfNeeded();
     await expect(approveButton).toBeInViewport();
@@ -71,6 +72,17 @@ test.describe("live administrator provider moderation", () => {
       await expect(providerPage.getByText("Cap nhat ho so doanh nghiep")).toBeVisible({ timeout: 30_000 });
     } finally {
       await providerContext.close();
+    }
+
+    const publicContext = await browser.newContext();
+    const publicPage = await publicContext.newPage();
+    try {
+      await publicPage.goto("/providers");
+      await expect(publicPage.getByRole("link", { name: "Core Moderation Provider" })).toHaveAttribute("href", `/providers/${organizationSlug}`);
+      await publicPage.goto(`/providers/${organizationSlug}`);
+      await expect(publicPage.getByRole("heading", { name: "Core Moderation Provider" })).toBeVisible();
+    } finally {
+      await publicContext.close();
     }
   });
 });
