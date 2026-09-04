@@ -208,7 +208,7 @@ export default async function UniversityLandingPage({ params }: PageProps) {
 
         {/* ── DESCRIPTION ────────────────────────────────────────────── */}
         {uni.description && (
-          <div className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/8 shadow-md">
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/8 shadow-md">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 rounded-xl flex items-center justify-center"
                 style={{ backgroundColor: `${theme.bg}12` }}>
@@ -270,7 +270,7 @@ export default async function UniversityLandingPage({ params }: PageProps) {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/8 shadow-md text-center">
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/8 shadow-md text-center">
             <BookOpen className="w-10 h-10 text-[#0E1B3D]/15 mx-auto mb-3" />
             <p className="text-[#0E1B3D]/40 text-sm">Đang cập nhật thông tin ngành học của trường này.</p>
           </div>

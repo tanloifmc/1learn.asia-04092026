@@ -40,7 +40,7 @@ export default async function MembershipPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Free Plan */}
-        <div className="bg-white rounded-[32px] p-8 md:p-10 border border-[#0E1B3D]/5 shadow-sm">
+        <div className="bg-white rounded-[32px] p-6  border border-[#0E1B3D]/5 shadow-sm">
           <div className="mb-8">
             <h2 className="font-serif text-2xl text-[#0E1B3D] mb-2">Gói Khám Phá</h2>
             {!isPremium && <p className="text-[#0E1B3D]/60 mb-6">Đang sử dụng</p>}
@@ -75,7 +75,7 @@ export default async function MembershipPage() {
         </div>
 
         {/* Premium Plan */}
-        <div className="bg-[#0E1B3D] text-white rounded-[32px] p-8 md:p-10 shadow-2xl relative overflow-hidden">
+        <div className="bg-[#0E1B3D] text-white rounded-[32px] p-6  shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#B89862]/20 rounded-full blur-[60px] -mr-20 -mt-20 pointer-events-none"></div>
           
           <div className="relative z-10">

@@ -191,7 +191,7 @@ export default async function DashboardPage() {
           {matchRun && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* PROFILE SUMMARY WIDGET */}
-              <div className="bg-white/70 backdrop-blur-md rounded-[32px] p-8 border border-[#0E1B3D]/10 hover:shadow-[0_20px_50px_rgba(14,27,61,0.08)] transition-all group hover:-translate-y-1">
+              <div className="bg-white/70 backdrop-blur-md rounded-[32px] p-6 md:p-8 border border-[#0E1B3D]/10 hover:shadow-[0_20px_50px_rgba(14,27,61,0.08)] transition-all group hover:-translate-y-1">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-[#0E1B3D] to-[#2A3F70] rounded-2xl flex items-center justify-center shadow-md">
@@ -224,7 +224,7 @@ export default async function DashboardPage() {
               </div>
 
               {/* SUGGESTED CAREERS WIDGET */}
-              <div className="bg-white/70 backdrop-blur-md rounded-[32px] p-8 border border-[#0E1B3D]/10 hover:shadow-[0_20px_50px_rgba(14,27,61,0.08)] transition-all group hover:-translate-y-1 flex flex-col">
+              <div className="bg-white/70 backdrop-blur-md rounded-[32px] p-6 md:p-8 border border-[#0E1B3D]/10 hover:shadow-[0_20px_50px_rgba(14,27,61,0.08)] transition-all group hover:-translate-y-1 flex flex-col">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-[#B89862] to-[#E5CFA3] rounded-2xl flex items-center justify-center shadow-md">

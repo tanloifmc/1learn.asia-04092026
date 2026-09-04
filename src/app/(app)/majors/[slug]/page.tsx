@@ -37,7 +37,7 @@ export default async function MajorDetailPage({
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-4">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 md:p-12 mb-12">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6  mb-12">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
           <div>
             <span className="text-sm font-semibold px-3 py-1 bg-blue-500/10 text-blue-400 rounded-md mb-4 inline-block">
@@ -113,7 +113,7 @@ export default async function MajorDetailPage({
           );
         })}
         {(!major.university_majors || major.university_majors.length === 0) && (
-          <div className="col-span-full text-zinc-500 bg-zinc-900 border border-zinc-800 p-8 rounded-xl text-center">
+          <div className="col-span-full text-zinc-500 bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-xl text-center">
             Hiện chưa có thông tin trường nào đào tạo ngành này.
           </div>
         )}

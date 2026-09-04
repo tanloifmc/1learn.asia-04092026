@@ -27,7 +27,7 @@ export function Chapter1({
         </h2>
 
         <div className="bg-white rounded-3xl shadow-[0_4px_24px_rgba(14,27,61,0.07)] border border-[#0E1B3D]/8 overflow-hidden">
-          <div className="p-8 md:p-10 border-b border-[#0E1B3D]/5">
+          <div className="p-6  border-b border-[#0E1B3D]/5">
             <h3 className="font-semibold text-lg text-[#0E1B3D] mb-4 flex items-center gap-2">
               <Compass className="w-5 h-5 text-[#B89862]" /> Chân dung Nghề nghiệp (Identity)
             </h3>
@@ -37,7 +37,7 @@ export function Chapter1({
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="p-8 md:p-10 border-r border-[#0E1B3D]/5 bg-[#B89862]/[0.02]">
+            <div className="p-6  border-r border-[#0E1B3D]/5 bg-[#B89862]/[0.02]">
               <h3 className="font-semibold text-sm text-[#0E1B3D] mb-3 flex items-center gap-2 uppercase tracking-wider">
                 <Star className="w-4 h-4 text-[#B89862]" /> Điều nổi bật nhất
               </h3>
@@ -45,7 +45,7 @@ export function Chapter1({
                 {executiveSummary?.standOuts}
               </p>
             </div>
-            <div className="p-8 md:p-10 bg-emerald-50/30">
+            <div className="p-6  bg-emerald-50/30">
               <h3 className="font-semibold text-sm text-emerald-800 mb-3 flex items-center gap-2 uppercase tracking-wider">
                 <TrendingUp className="w-4 h-4 text-emerald-600" /> Hướng Khám Phá
               </h3>
@@ -84,7 +84,7 @@ export function Chapter1({
         <h2 className="text-2xl font-serif text-[#0E1B3D] mb-6">
           Hệ Giá Trị Nghề Nghiệp Đầy Đủ
         </h2>
-        <div className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/10 shadow-[0_4px_24px_rgba(14,27,61,0.05)]">
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/10 shadow-[0_4px_24px_rgba(14,27,61,0.05)]">
           <div className="space-y-5">
             {workValues.map((wv, i) => (
               <div key={wv.code} className="flex items-center gap-4">

@@ -60,7 +60,7 @@ export default async function ParentHomePage() {
   return (
     <div className="space-y-16 pb-12">
       <header className="mb-12">
-        <h1 className="font-serif text-5xl md:text-6xl text-navy mb-4 tracking-tight">Tổng quan hành trình của {profile?.display_name || 'Con'}.</h1>
+        <h1 className="font-serif text-4xl md:text-5xl md:text-6xl text-navy mb-4 tracking-tight">Tổng quan hành trình của {profile?.display_name || 'Con'}.</h1>
         <p className="text-xl text-navy/60 font-light max-w-3xl">
           Phụ huynh chỉ có quyền xem (Read-only) để đồng hành, theo dõi tiến độ và hỗ trợ con khi cần thiết. Mọi quyết định vẫn nằm ở con.
         </p>
@@ -68,7 +68,7 @@ export default async function ParentHomePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Goal Card */}
-        <div className="bg-white rounded-[40px] p-10 md:p-12 border border-navy/5 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500">
+        <div className="bg-white rounded-[40px] p-6  border border-navy/5 shadow-sm relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500">
           <div className="absolute top-0 right-0 w-64 h-64 bg-soft-beige blur-[80px] rounded-full opacity-50 -mr-10 -mt-10"></div>
           
           <div className="relative z-10">
@@ -102,7 +102,7 @@ export default async function ParentHomePage() {
         </div>
 
         {/* Journey Card */}
-        <div className="bg-navy rounded-[40px] p-10 md:p-12 shadow-xl relative overflow-hidden text-white group hover:-translate-y-1 transition-transform duration-500">
+        <div className="bg-navy rounded-[40px] p-6  shadow-xl relative overflow-hidden text-white group hover:-translate-y-1 transition-transform duration-500">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white blur-[80px] rounded-full opacity-10 -mr-10 -mt-10"></div>
           
           <div className="relative z-10">
@@ -146,7 +146,7 @@ export default async function ParentHomePage() {
         </div>
       </div>
 
-      <div className="bg-[#FAF6F0] rounded-[40px] p-10 md:p-14 relative overflow-hidden flex flex-col md:flex-row gap-10 items-center">
+      <div className="bg-[#FAF6F0] rounded-[40px] p-6  relative overflow-hidden flex flex-col md:flex-row gap-10 items-center">
         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-[#C6A15B]">
           <Sparkles className="w-8 h-8" />
         </div>

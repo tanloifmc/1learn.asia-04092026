@@ -32,7 +32,7 @@ export function Chapter2({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {crossDimensionInsights?.map((insight: any, i: number) => (
-            <div key={i} className="bg-white rounded-3xl p-8 shadow-[0_4px_24px_rgba(14,27,61,0.05)] border border-[#B89862]/20 relative overflow-hidden group">
+            <div key={i} className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_4px_24px_rgba(14,27,61,0.05)] border border-[#B89862]/20 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Sparkles className="w-24 h-24 text-[#B89862]" />
               </div>
@@ -53,7 +53,7 @@ export function Chapter2({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {groupedStrengths.map((group, i) => (
-            <div key={i} className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/10">
+            <div key={i} className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/10">
               <h3 className="flex items-center gap-2 font-bold text-sm text-[#0E1B3D] mb-6 uppercase tracking-wider">
                 {group.icon} {group.title}
               </h3>
@@ -79,7 +79,7 @@ export function Chapter2({
           <h2 className="text-2xl font-serif text-[#0E1B3D] mb-6">
             Vùng Cần Lưu Ý & Phát Triển
           </h2>
-          <div className="bg-[#4A2545]/5 rounded-3xl p-8 border border-[#4A2545]/10">
+          <div className="bg-[#4A2545]/5 rounded-3xl p-6 md:p-8 border border-[#4A2545]/10">
             <div className="space-y-4">
               {developmentAreas.slice(0, 3).map((d: any, i: number) => (
                 <div key={i} className="flex gap-4">

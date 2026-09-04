@@ -73,7 +73,7 @@ export function RoadmapClientView({ initialRoadmap }: { initialRoadmap: Roadmap 
   return (
     <div className="space-y-8">
       {/* Progress Overview */}
-      <div className="bg-white rounded-[40px] shadow-sm border border-[#0E1B3D]/10 p-8 md:p-12">
+      <div className="bg-white rounded-[40px] shadow-sm border border-[#0E1B3D]/10 p-6 ">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-[#0E1B3D]/5 rounded-full flex items-center justify-center">

@@ -28,7 +28,7 @@ export function MatchTrigger({ studentId }: { studentId: string }) {
   };
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-center max-w-2xl mx-auto mt-12">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 md:p-8 text-center max-w-2xl mx-auto mt-12">
       <h2 className="text-2xl font-bold text-white mb-4">Khám phá nghề nghiệp phù hợp</h2>
       <p className="text-zinc-400 mb-8">
         Dựa trên hồ sơ kỹ năng, sở thích (RIASEC) và kết quả học tập của bạn, hệ thống AI sẽ phân tích và đề xuất các nghề nghiệp phù hợp nhất.

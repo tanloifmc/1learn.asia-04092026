@@ -23,7 +23,7 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
   if (!version) {
     return (
       <div className="pb-12">
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-amber-800">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 md:p-8 text-amber-800">
           <h2 className="font-bold text-xl mb-2">Hệ thống đang cập nhật</h2>
           <p>Bộ câu hỏi khám phá đang được chuẩn bị. Vui lòng quay lại sau.</p>
         </div>
@@ -75,7 +75,7 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
     if (count && count >= 12) {
       return (
         <div className="pb-12 max-w-2xl mx-auto pt-20">
-          <div className="bg-red-50 border border-red-200 rounded-3xl p-8 text-red-800 text-center shadow-sm">
+          <div className="bg-red-50 border border-red-200 rounded-3xl p-6 md:p-8 text-red-800 text-center shadow-sm">
             <h2 className="font-bold text-2xl mb-4 text-red-900">Đã đạt giới hạn khảo sát</h2>
             <p className="text-lg mb-6">Bạn đã thực hiện {count} bài khảo sát trong năm nay. Theo quy định để đảm bảo chất lượng hướng nghiệp, mỗi học sinh chỉ được làm tối đa 12 bài khảo sát/năm.</p>
             <Link href="/me/bao-cao" className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-bold rounded-full hover:bg-red-700 transition-colors">
@@ -158,7 +158,7 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
   return (
     <div className="space-y-10 pb-16">
       <header>
-        <h1 className="font-serif text-5xl text-[#0E1B3D] mb-4">Khám phá Bản thân</h1>
+        <h1 className="font-serif text-3xl md:text-5xl text-[#0E1B3D] mb-4">Khám phá Bản thân</h1>
         <p className="text-lg text-[#0E1B3D]/60 font-light max-w-2xl leading-relaxed">
           Bài đánh giá được chia làm 5 nhóm với 121 câu hỏi để giúp hệ thống hiểu em một cách toàn diện. 
           Không có câu trả lời đúng hay sai. Tiến trình sẽ được tự động lưu lại mỗi khi em chọn đáp án.

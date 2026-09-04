@@ -187,9 +187,9 @@ export default async function PremiumReportPage() {
               </div>
 
               {/* Right: Holland Code Badge */}
-              <div className="bg-[#B89862]/5 backdrop-blur-xl border border-[#B89862]/20 rounded-[2rem] p-8 text-center min-w-[200px] flex-shrink-0 relative overflow-hidden group shadow-2xl">
+              <div className="bg-[#B89862]/5 backdrop-blur-xl border border-[#B89862]/20 rounded-[2rem] p-6 md:p-8 text-center min-w-[200px] flex-shrink-0 relative overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#B89862]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="font-serif text-6xl md:text-7xl text-[#B89862] mb-3 leading-none drop-shadow-md">{hollandCode}</div>
+                <div className="font-serif text-5xl md:text-6xl md:text-7xl text-[#B89862] mb-3 leading-none drop-shadow-md">{hollandCode}</div>
                 <div className="text-[10px] text-white/60 uppercase tracking-[0.2em] font-bold">Mã Holland</div>
                 <div className="text-sm text-white/90 mt-2 font-medium">{hollandNames}</div>
               </div>
@@ -366,7 +366,7 @@ export default async function PremiumReportPage() {
             </div>
           </div>
         ) : (
-          <Card className="p-12 text-center">
+          <Card className="p-6 md:p-12 text-center">
             <Briefcase className="w-12 h-12 text-[#0E1B3D]/20 mx-auto mb-4" />
             <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">Chưa có gợi ý nghề nghiệp</h3>
             <p className="text-[#0E1B3D]/50 text-sm mb-6">Hãy hoàn thành bài khảo sát để hệ thống phân tích và gợi ý nghề nghiệp phù hợp nhất.</p>
@@ -378,7 +378,7 @@ export default async function PremiumReportPage() {
 
         {/* ── REQUIRED SKILLS ────────────────────────────────────────────── */}
         {gapAnalysis.length > 0 && (
-          <Card className="p-8 md:p-10">
+          <Card className="p-6 ">
             <div className="mb-6">
               <SectionBadge color="gold">Năng lực & Kỹ năng yêu cầu</SectionBadge>
               <h2 className="font-serif text-2xl text-[#0E1B3D] mt-3 mb-1 flex items-center gap-2">

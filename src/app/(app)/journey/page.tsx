@@ -21,7 +21,7 @@ export default async function JourneyPage() {
   if (!journey) {
     return (
       <div className="max-w-4xl mx-auto py-12">
-        <div className="border border-dashed border-neutral-300 p-12 text-center bg-white rounded-xl shadow-sm">
+        <div className="border border-dashed border-neutral-300 p-6 md:p-12 text-center bg-white rounded-xl shadow-sm">
           <h2 className="text-2xl font-bold mb-4">Hành trình chưa bắt đầu</h2>
           <p className="text-neutral-500 mb-8 max-w-md mx-auto">Em cần chọn một mục tiêu chính để hệ thống thiết lập lộ trình.</p>
           <Link href="/goal" className="btn btn--primary btn--lg shadow-md">Đến trang Mục tiêu</Link>
@@ -64,7 +64,7 @@ export default async function JourneyPage() {
           <div>
             <p className="text-sm font-bold text-primary-dark uppercase tracking-wider">Tiến độ chặng hiện tại</p>
             <div className="flex items-end gap-3 mb-3 mt-1">
-              <span className="text-5xl font-bold text-primary-dark leading-none">{journey.progress}%</span>
+              <span className="text-4xl md:text-5xl font-bold text-primary-dark leading-none">{journey.progress}%</span>
             </div>
             <div className="mb-3">
               <ProgressBar progress={journey.progress} color="var(--primary)" trackColor="rgba(255,255,255,0.5)" />
@@ -105,7 +105,7 @@ export default async function JourneyPage() {
       {/* Roadmap visualization */}
       <div className="space-y-6 pt-4">
         <h2 className="text-2xl font-bold">Lộ trình chi tiết</h2>
-        <Surface className="p-8">
+        <Surface className="p-4 md:p-8">
           <div className="pl-6 border-l-2 space-y-10" style={{ borderColor: 'var(--primary-soft)' }}>
             {(milestones ?? []).map(m => {
               const milestoneTasks = (tasks ?? []).filter(t => t.milestone_id === m.id);

@@ -66,7 +66,7 @@ function ScoreBar({ score, color = "#4A2545", label, description }: {
 function EmptyState() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFF8F0] to-[#F0F4FF] flex flex-col items-center justify-center p-6">
-      <div className="max-w-lg w-full bg-white rounded-[40px] p-12 text-center border border-[#0E1B3D]/8 shadow-2xl">
+      <div className="max-w-lg w-full bg-white rounded-[40px] p-6 md:p-12 text-center border border-[#0E1B3D]/8 shadow-2xl">
         <div className="w-20 h-20 bg-gradient-to-br from-[#4A2545] to-[#713E67] rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg">
           <Brain className="w-10 h-10 text-white" />
         </div>
@@ -193,9 +193,9 @@ export default async function ReportPage() {
               </div>
 
               {/* Right: Holland Code Badge */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 text-center min-w-[200px] flex-shrink-0 relative overflow-hidden group shadow-2xl">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-8 text-center min-w-[200px] flex-shrink-0 relative overflow-hidden group shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="font-serif text-6xl md:text-7xl text-[#B89862] mb-3 leading-none drop-shadow-md">{hollandCode}</div>
+                <div className="font-serif text-5xl md:text-6xl md:text-7xl text-[#B89862] mb-3 leading-none drop-shadow-md">{hollandCode}</div>
                 <div className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">Mã Holland</div>
                 <div className="text-sm text-white/80 mt-2 font-medium">{hollandNames}</div>
               </div>
@@ -213,7 +213,7 @@ export default async function ReportPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-10 relative z-20 space-y-6">
 
         {/* ── AI NARRATIVE ───────────────────────────────────────────── */}
-        <Card className="p-8 md:p-10 bg-gradient-to-br from-white to-[#FFF8F2]">
+        <Card className="p-6 md:p-10 bg-gradient-to-br from-white to-[#FFF8F2]">
           <div className="flex items-start justify-between mb-5">
             <SectionLabel color="gold">Câu chuyện về bạn</SectionLabel>
 
@@ -254,7 +254,7 @@ export default async function ReportPage() {
 
         {/* ── RIASEC + BIG FIVE ──────────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="p-8">
+          <Card className="p-6 md:p-8">
             <SectionLabel color="purple">Sở thích nghề nghiệp</SectionLabel>
             <h2 className="font-serif text-xl font-bold text-[#0E1B3D] mb-1 flex items-center gap-2">
               <Compass className="w-5 h-5 text-[#B89862]" /> Mô hình Holland (RIASEC)
@@ -282,7 +282,7 @@ export default async function ReportPage() {
             </div>
           </Card>
 
-          <Card className="p-8">
+          <Card className="p-6 md:p-8">
             <SectionLabel color="purple">Tính cách</SectionLabel>
             <h2 className="font-serif text-xl font-bold text-[#0E1B3D] mb-1 flex items-center gap-2">
               <Brain className="w-5 h-5 text-[#B89862]" /> Big Five Personality
@@ -299,7 +299,7 @@ export default async function ReportPage() {
 
         {/* ── WORK VALUES ─────────────────────────────────────────────── */}
         {workValues.length > 0 && (
-          <Card className="p-8">
+          <Card className="p-6 md:p-8">
             <SectionLabel color="green">Giá trị nghề nghiệp</SectionLabel>
             <h2 className="font-serif text-xl font-bold text-[#0E1B3D] mb-1 flex items-center gap-2">
               <Award className="w-5 h-5 text-[#B89862]" /> Điều bạn tìm kiếm trong công việc
@@ -322,7 +322,7 @@ export default async function ReportPage() {
 
         {/* ── STRENGTHS vs DEVELOPMENT ────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="p-8">
+          <Card className="p-6 md:p-8">
             <SectionLabel color="green">Điểm mạnh</SectionLabel>
             <h2 className="font-serif text-xl font-bold text-[#0E1B3D] mb-5 flex items-center gap-2">
               <Zap className="w-5 h-5 text-emerald-500" /> Năng lực nổi bật
@@ -349,7 +349,7 @@ export default async function ReportPage() {
             )}
           </Card>
 
-          <Card className="p-8">
+          <Card className="p-6 md:p-8">
             <SectionLabel>Phát triển</SectionLabel>
             <h2 className="font-serif text-xl font-bold text-[#0E1B3D] mb-5 flex items-center gap-2">
               <BarChart2 className="w-5 h-5 text-amber-500" /> Vùng cần đầu tư thêm
@@ -384,7 +384,7 @@ export default async function ReportPage() {
 
         {/* ── CAREER MATCHES (Preview — Top 3 only) ──────────────────── */}
         {careerMatches.length > 0 && (
-          <Card className="p-8 md:p-10">
+          <Card className="p-6 md:p-10">
             <SectionLabel color="purple">Gợi ý nghề nghiệp</SectionLabel>
             <div className="flex items-start justify-between mb-5">
               <div>
@@ -434,7 +434,7 @@ export default async function ReportPage() {
         )}
 
         {/* ── PREMIUM UPGRADE CTA ─────────────────────────────────────── */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0E1B3D] via-[#1A2D5A] to-[#0E1B3D] p-8 md:p-12">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0E1B3D] via-[#1A2D5A] to-[#0E1B3D] p-6 md:p-12">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[-60px] right-[-60px] w-[300px] h-[300px] bg-[#B89862]/10 rounded-full blur-[80px]" />
           </div>
@@ -468,20 +468,20 @@ export default async function ReportPage() {
 
               {/* Feature comparison */}
               <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-                <div className="grid grid-cols-3 text-xs font-bold uppercase tracking-wider border-b border-white/10">
+                <div className="grid grid-cols-[1fr_auto_auto] gap-2 md:grid-cols-3 text-[10px] md:text-xs font-bold uppercase tracking-wider border-b border-white/10">
                   <div className="p-3 text-white/50">Tính năng</div>
-                  <div className="p-3 text-center text-white/50">Free</div>
-                  <div className="p-3 text-center text-[#B89862]">Premium</div>
+                  <div className="p-3 text-center text-white/50 w-12 md:w-auto">Free</div>
+                  <div className="p-3 text-center text-[#B89862] w-16 md:w-auto">Premium</div>
                 </div>
                 {FEATURES.map((f, i) => (
-                  <div key={i} className="grid grid-cols-3 border-b border-white/5 last:border-0 text-sm">
+                  <div key={i} className="grid grid-cols-[1fr_auto_auto] gap-2 md:grid-cols-3 border-b border-white/5 last:border-0 text-sm">
                     <div className="p-3 text-white/70 text-xs leading-snug">{f.label}</div>
-                    <div className="p-3 flex items-center justify-center">
+                    <div className="p-3 flex items-center justify-center w-12 md:w-auto">
                       {f.free
                         ? <CheckCircle className="w-4 h-4 text-emerald-400" />
                         : <XCircle className="w-4 h-4 text-white/20" />}
                     </div>
-                    <div className="p-3 flex items-center justify-center">
+                    <div className="p-3 flex items-center justify-center w-16 md:w-auto">
                       <CheckCircle className="w-4 h-4 text-[#B89862]" />
                     </div>
                   </div>

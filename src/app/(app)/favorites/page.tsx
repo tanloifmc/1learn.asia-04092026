@@ -33,7 +33,7 @@ export default async function FavoritesPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 -mt-32 relative z-20">
-        <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-[0_20px_50px_rgba(14,27,61,0.03)] border border-[#0E1B3D]/10 min-h-[500px]">
+        <div className="bg-white rounded-[40px] p-6  shadow-[0_20px_50px_rgba(14,27,61,0.03)] border border-[#0E1B3D]/10 min-h-[500px]">
           <FavoriteList initialFavorites={data ?? []} />
         </div>
       </div>

@@ -122,7 +122,7 @@ export default async function ParentDashboardPage() {
 
       <div className="max-w-6xl mx-auto px-6 -mt-32 relative z-20">
         {(!links || links.length === 0) ? (
-          <div className="bg-white rounded-[32px] p-12 text-center border border-[#0E1B3D]/10 shadow-[0_20px_50px_rgba(14,27,61,0.05)]">
+          <div className="bg-white rounded-[32px] p-6 md:p-12 text-center border border-[#0E1B3D]/10 shadow-[0_20px_50px_rgba(14,27,61,0.05)]">
             <div className="w-20 h-20 bg-[#0E1B3D]/5 rounded-full flex items-center justify-center mx-auto mb-6">
               <Lock className="w-10 h-10 text-[#0E1B3D]/30" />
             </div>
@@ -146,7 +146,7 @@ export default async function ParentDashboardPage() {
               return (
                 <div key={link.id} className="space-y-8">
                   {/* STUDENT ID CARD */}
-                  <div className="bg-white rounded-[32px] p-8 md:p-10 border border-[#0E1B3D]/10 shadow-[0_20px_50px_rgba(14,27,61,0.03)] flex flex-col md:flex-row items-center md:items-start gap-8 relative overflow-hidden">
+                  <div className="bg-white rounded-[32px] p-6 md:p-10 border border-[#0E1B3D]/10 shadow-[0_20px_50px_rgba(14,27,61,0.03)] flex flex-col md:flex-row items-center md:items-start gap-8 relative overflow-hidden">
                     <div className="absolute right-0 top-0 w-64 h-64 bg-[#B89862]/5 rounded-full blur-[50px] -mr-20 -mt-20"></div>
                     
                     <div className="w-24 h-24 md:w-32 md:h-32 bg-[#0E1B3D] rounded-full flex items-center justify-center flex-shrink-0 text-white font-serif text-4xl border-4 border-white shadow-lg z-10">
@@ -187,7 +187,7 @@ export default async function ParentDashboardPage() {
                   {isFirstStudent && perm.career_profile_level > 0 && (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                       {/* PERSONALITY/ABILITY CHART */}
-                      <div className="lg:col-span-5 bg-white rounded-[32px] p-8 border border-[#0E1B3D]/10 shadow-sm">
+                      <div className="lg:col-span-5 bg-white rounded-[32px] p-6 md:p-8 border border-[#0E1B3D]/10 shadow-sm">
                         <div className="flex items-center gap-3 mb-8">
                           <div className="w-10 h-10 bg-[#0E1B3D]/5 rounded-full flex items-center justify-center">
                             <Brain className="w-5 h-5 text-[#B89862]" />
@@ -222,7 +222,7 @@ export default async function ParentDashboardPage() {
                       </div>
 
                       {/* RECOMMENDED CAREERS */}
-                      <div className="lg:col-span-7 bg-white rounded-[32px] p-8 border border-[#0E1B3D]/10 shadow-sm">
+                      <div className="lg:col-span-7 bg-white rounded-[32px] p-6 md:p-8 border border-[#0E1B3D]/10 shadow-sm">
                         <div className="flex items-center justify-between mb-8">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-[#0E1B3D]/5 rounded-full flex items-center justify-center">

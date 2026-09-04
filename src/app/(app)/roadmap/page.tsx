@@ -17,7 +17,7 @@ export default async function RoadmapPage() {
   if (error || !roadmap) {
     return (
       <div className="min-h-screen bg-[#F8F6F1] flex items-center justify-center p-6">
-        <div className="bg-white p-12 max-w-2xl mx-auto text-center rounded-[40px] border border-[#0E1B3D]/10 shadow-[0_20px_50px_rgba(14,27,61,0.03)]">
+        <div className="bg-white p-6 md:p-12 max-w-2xl mx-auto text-center rounded-[40px] border border-[#0E1B3D]/10 shadow-[0_20px_50px_rgba(14,27,61,0.03)]">
           <div className="w-20 h-20 bg-[#0E1B3D]/5 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-[#0E1B3D]/30 font-serif text-3xl">?</span>
           </div>

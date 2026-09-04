@@ -66,7 +66,7 @@ export default async function CareerDetailPage({
       </section>
 
       <div className="max-w-4xl mx-auto px-6 -mt-20 relative z-20">
-        <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-[0_20px_50px_rgba(14,27,61,0.05)] border border-[#0E1B3D]/10">
+        <div className="bg-white rounded-[40px] p-6 md:p-12 shadow-[0_20px_50px_rgba(14,27,61,0.05)] border border-[#0E1B3D]/10">
           
           {/* Main Action Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12 pb-8 border-b border-[#0E1B3D]/10">
@@ -121,7 +121,7 @@ export default async function CareerDetailPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Skills */}
             {career.skills && career.skills.length > 0 && (
-              <div className="bg-white border border-[#0E1B3D]/10 p-8 rounded-[32px] shadow-sm">
+              <div className="bg-white border border-[#0E1B3D]/10 p-6 md:p-8 rounded-[32px] shadow-sm">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-[#0E1B3D]/5 rounded-xl flex items-center justify-center">
                     <BookOpen className="w-5 h-5 text-[#0E1B3D]" />
@@ -142,7 +142,7 @@ export default async function CareerDetailPage({
 
             {/* Academic Requirements */}
             {career.academic_requirements && Object.keys(career.academic_requirements).length > 0 && (
-              <div className="bg-white border border-[#0E1B3D]/10 p-8 rounded-[32px] shadow-sm">
+              <div className="bg-white border border-[#0E1B3D]/10 p-6 md:p-8 rounded-[32px] shadow-sm">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-[#0E1B3D]/5 rounded-xl flex items-center justify-center">
                     <GraduationCap className="w-5 h-5 text-[#0E1B3D]" />

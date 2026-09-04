@@ -52,7 +52,7 @@ export function PaymentList({ initialTransactions }: { initialTransactions: any[
           <tbody className="divide-y divide-gray-100">
             {transactions.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-8 text-center text-gray-500">
+                <td colSpan={5} className="p-6 md:p-8 text-center text-gray-500">
                   Không có giao dịch nào
                 </td>
               </tr>

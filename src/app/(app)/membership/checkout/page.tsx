@@ -79,7 +79,7 @@ export default function CheckoutPage() {
         <ArrowLeft className="w-4 h-4" /> Quay lại Gói Thành Viên
       </Link>
 
-      <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-[#0E1B3D]/5">
+      <div className="bg-white rounded-3xl p-6  shadow-xl border border-[#0E1B3D]/5">
         <div className="text-center mb-10">
           <h1 className="font-serif text-3xl md:text-4xl text-[#0E1B3D] mb-4">Thanh toán chuyển khoản</h1>
           <p className="text-[#0E1B3D]/70 text-lg">Nâng cấp Báo cáo Premium (1 Năm)</p>
@@ -147,7 +147,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* QR Code */}
-          <div className="flex flex-col items-center justify-center bg-[#F7F5F0] p-8 rounded-3xl border border-[#0E1B3D]/5 h-full">
+          <div className="flex flex-col items-center justify-center bg-[#F7F5F0] p-6 md:p-8 rounded-3xl border border-[#0E1B3D]/5 h-full">
             <p className="font-bold text-[#0E1B3D] mb-6">Quét mã QR để thanh toán nhanh</p>
             <div className="bg-white rounded-2xl p-4 shadow-sm">
               <img src={qrUrl} alt="QR Code Thanh Toán" className="w-64 h-auto" />

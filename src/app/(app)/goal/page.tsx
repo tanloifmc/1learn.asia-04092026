@@ -93,7 +93,7 @@ export default async function GoalPage() {
   if (!goal) {
     return (
       <div className="min-h-screen bg-[#F7F5F0] flex flex-col items-center justify-center p-6">
-        <div className="max-w-lg w-full bg-white rounded-[40px] p-12 text-center border border-[#0E1B3D]/8 shadow-2xl">
+        <div className="max-w-lg w-full bg-white rounded-[40px] p-6 md:p-12 text-center border border-[#0E1B3D]/8 shadow-2xl">
           <div className="w-20 h-20 bg-gradient-to-br from-[#4A2545] to-[#713E67] rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg">
             <Target className="w-10 h-10 text-white" />
           </div>
@@ -189,7 +189,7 @@ export default async function GoalPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Readiness Meter */}
-          <div className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/8 shadow-md flex items-center gap-8">
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/8 shadow-md flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 md:gap-8">
             <ReadinessMeter score={readinessScore} />
             <div className="flex-1">
               <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">Độ sẵn sàng</h3>
@@ -207,12 +207,12 @@ export default async function GoalPage() {
           </div>
 
           {/* Timeline */}
-          <div className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/8 shadow-md">
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/8 shadow-md">
             <div className="flex items-center gap-3 mb-5">
               <CalendarDays className="w-5 h-5 text-[#B89862]" />
               <h3 className="font-serif text-xl text-[#0E1B3D]">Năm mục tiêu</h3>
             </div>
-            <div className="text-6xl font-black text-[#4A2545] mb-2">{targetYear}</div>
+            <div className="text-5xl md:text-6xl font-black text-[#4A2545] mb-2">{targetYear}</div>
             <div className="flex items-center gap-2 text-[#0E1B3D]/50 text-sm mb-4">
               <Clock className="w-4 h-4" />
               <span>Còn <strong className="text-[#0E1B3D]">{yearsLeft} năm</strong> để chuẩn bị</span>
@@ -272,7 +272,7 @@ export default async function GoalPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl p-8 border border-[#0E1B3D]/8 shadow-md text-center">
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/8 shadow-md text-center">
             <TrendingUp className="w-10 h-10 text-[#0E1B3D]/20 mx-auto mb-4" />
             <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">Chưa có lộ trình</h3>
             <p className="text-[#0E1B3D]/50 text-sm mb-5">Hệ thống đang tạo lộ trình dựa trên mục tiêu của bạn.</p>
