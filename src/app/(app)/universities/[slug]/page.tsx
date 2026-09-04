@@ -59,7 +59,7 @@ export default async function UniversityLandingPage({ params }: PageProps) {
   // 1. University details (slug = uuid id)
   const { data: uni } = await supabase
     .from("universities")
-    .select("id, name, short_name, type, province, website, logo_url, established_year, description, accreditation_status")
+    .select("id, name, short_name, type, province, website, logo_url, established_year, description, accreditation_status, hero_images")
     .eq("id", slug)
     .maybeSingle();
 
@@ -117,12 +117,15 @@ export default async function UniversityLandingPage({ params }: PageProps) {
   const totalMajors = uniMajors?.length || 0;
   const theme = getUniversityTheme(uni.name);
 
-  // Placeholder images for the carousel (if DB had gallery, we would use it)
-  const carouselImages = [
+  const fallbackCarouselImages = [
     "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop"
   ];
+  
+  const carouselImages = uni.hero_images && uni.hero_images.length > 0 
+    ? uni.hero_images 
+    : fallbackCarouselImages;
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] pb-24">

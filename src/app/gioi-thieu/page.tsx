@@ -42,6 +42,15 @@ export default function GioiThieuPage() {
             <Link href="/register" className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold bg-[#B89862] text-[#0E1B3D] hover:bg-[#A38555] hover:text-white transition-all flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(184,152,98,0.3)]">
               Bắt đầu khám phá miễn phí <ArrowRight className="w-5 h-5" />
             </Link>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdr-bx1sQHxvUUBAYij_H72T4bSoxGp_TRbo4gTHg8icQsdOw/viewform?usp=publish-editor"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold bg-[#0068FF] text-white hover:bg-[#0055CC] transition-all flex items-center justify-center gap-2 shadow-md"
+            >
+              <span className="font-black text-xl leading-none">Z</span>
+              Tham gia Group Zalo
+            </a>
             <Link href="/login" className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold bg-white/5 text-white border border-white/10 hover:bg-white/10 transition-all text-center">
               Tôi là Phụ huynh
             </Link>
@@ -429,10 +438,19 @@ export default function GioiThieuPage() {
               Bạn không cần phải biết chính xác mình sẽ trở thành ai ở tuổi 15 hay 16. Hãy bắt đầu bằng một câu hỏi đơn giản:<br/> <strong className="text-white text-3xl font-serif mt-6 inline-block">"Mình thực sự phù hợp với điều gì?"</strong>
             </p>
             
-            <div className="pt-12">
+            <div className="pt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/register" className="inline-flex px-12 py-6 rounded-full text-lg md:text-xl font-bold bg-[#B89862] text-[#0E1B3D] hover:bg-[#A38555] hover:text-white transition-all items-center justify-center gap-3 shadow-[0_0_50px_rgba(184,152,98,0.5)] hover:scale-105 duration-300">
                 BẮT ĐẦU KHÁM PHÁ MIỄN PHÍ <ArrowRight className="w-6 h-6" />
               </Link>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdr-bx1sQHxvUUBAYij_H72T4bSoxGp_TRbo4gTHg8icQsdOw/viewform?usp=publish-editor"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex px-10 py-6 rounded-full text-lg md:text-xl font-bold bg-[#0068FF] text-white hover:bg-[#0055CC] transition-all items-center justify-center gap-3 shadow-xl hover:scale-105 duration-300"
+              >
+                <span className="font-black text-2xl leading-none">Z</span>
+                THAM GIA GROUP ZALO
+              </a>
             </div>
           </div>
         </div>
