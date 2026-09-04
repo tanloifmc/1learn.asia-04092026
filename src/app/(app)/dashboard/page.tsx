@@ -6,7 +6,6 @@ import Image from "next/image";
 import { getJourneyProgress } from "@/features/metrics/journey-progress";
 import { getGoalReadiness } from "@/features/metrics/goal-readiness";
 import { ArrowRight, Compass, Target, Map, Brain, Briefcase } from "lucide-react";
-import Image from "next/image";
 import { BarChart } from "@/components/ui/charts/bar-chart";
 import { getFullReportData } from "@/features/career/actions/get-report-data";
 
