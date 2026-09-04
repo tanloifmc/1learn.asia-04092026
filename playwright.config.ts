@@ -1,6 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
+import * as dotenv from 'dotenv';
+import path from 'path';
 
-const port = 3100;
+dotenv.config({ path: path.resolve(__dirname, '.env.local') });
+
+const port = 3000;
 const baseURL = `http://127.0.0.1:${port}`;
 
 export default defineConfig({
@@ -19,10 +23,4 @@ export default defineConfig({
     { name: "desktop-chromium", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile-chromium", use: { ...devices["Pixel 5"] } },
   ],
-  webServer: {
-    command: `node ./node_modules/next/dist/bin/next dev --port ${port}`,
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
 });

@@ -36,13 +36,48 @@ export function LoginForm() {
   }
 
   return (
-    <form className="form-stack" onSubmit={handleSubmit}>
-      <FormField label="Email"><input name="email" type="email" autoComplete="email" required /></FormField>
-      <FormField label="Mat khau"><input name="password" type="password" autoComplete="current-password" required /></FormField>
-      {message ? <StatusMessage tone="error">{message}</StatusMessage> : null}
-      <Button type="submit" disabled={isSubmitting}>{isSubmitting ? "Dang dang nhap..." : "Dang nhap"}</Button>
-      <p><Link href="/forgot-password">Quen mat khau?</Link></p>
-      <p>Chua co tai khoan? <Link href="/register">Dang ky</Link></p>
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <div className="space-y-1">
+        <label className="text-xs font-semibold text-navy/80 uppercase tracking-wider">Email</label>
+        <input 
+          name="email" 
+          type="email" 
+          autoComplete="email" 
+          required 
+          className="input bg-transparent border-t-0 border-x-0 border-b-2 border-navy/10 rounded-none px-0 py-2.5 text-lg focus-visible:ring-0 focus-visible:border-[#C6A15B] transition-colors w-full outline-none"
+          placeholder="email@example.com"
+        />
+      </div>
+      
+      <div className="space-y-1">
+        <label className="text-xs font-semibold text-navy/80 uppercase tracking-wider">Mật khẩu</label>
+        <input 
+          name="password" 
+          type="password" 
+          autoComplete="current-password" 
+          required 
+          className="input bg-transparent border-t-0 border-x-0 border-b-2 border-navy/10 rounded-none px-0 py-2.5 text-lg focus-visible:ring-0 focus-visible:border-[#C6A15B] transition-colors w-full outline-none"
+          placeholder="Nhập mật khẩu"
+        />
+      </div>
+
+      {message && <div className="mt-1"><StatusMessage tone="error">{message}</StatusMessage></div>}
+      
+      <div className="mt-6 flex flex-col gap-5">
+        <button 
+          type="submit" 
+          disabled={isSubmitting}
+          className="btn btn--primary btn--lg w-full flex justify-center items-center px-8 py-4 bg-navy text-white hover:bg-[#0a142e] border-none rounded-full"
+        >
+          {isSubmitting ? "Đang xử lý..." : "Đăng nhập"}
+        </button>
+        
+        <p className="text-center text-navy/60 font-medium leading-relaxed text-sm">
+          <Link href="/forgot-password" className="text-navy hover:text-[#C6A15B] transition-colors">Quên mật khẩu?</Link>
+          <br/><br/>
+          Chưa có tài khoản? <Link href="/register" className="text-navy hover:text-[#C6A15B] transition-colors border-b border-navy/20 hover:border-[#C6A15B] pb-0.5 ml-1">Đăng ký</Link>
+        </p>
+      </div>
     </form>
   );
 }

@@ -23,16 +23,16 @@ test.describe("live CMS publishing journey", () => {
     const password = `CoreCms!${randomUUID()}`;
     const { data, error } = await adminClient.auth.admin.createUser({ email: `core-cms-${randomUUID()}@example.invalid`, email_confirm: true, password, user_metadata: { display_name: "Core CMS Editor" } });
     if (error || !data.user) throw new Error(`Could not create CMS editor: ${error?.message ?? "unknown error"}`);
-    editor = { id: data.user.id, email: data.user.email, password };
-    await adminClient.from("user_roles").upsert({ user_id: editor.id, role: "editor" }, { onConflict: "user_id,role" });
-    await adminClient.from("user_roles").upsert({ user_id: editor.id, role: "admin" }, { onConflict: "user_id,role" });
+    editor = { id: data.user.id, email: data.user.email as string, password };
+    await (adminClient as any).from("user_roles").upsert({ user_id: editor.id, role: "editor" }, { onConflict: "user_id,role" });
+    await (adminClient as any).from("user_roles").upsert({ user_id: editor.id, role: "admin" }, { onConflict: "user_id,role" });
   });
 
   test.afterAll(async () => {
-    if (postId) await adminClient.from("content_posts").delete().eq("id", postId);
-    if (pageId) await adminClient.from("content_pages").delete().eq("id", pageId);
-    if (categoryId) await adminClient.from("content_categories").delete().eq("id", categoryId);
-    if (settingKey) await adminClient.from("app_settings").delete().eq("key", settingKey);
+    if (postId) await (adminClient as any).from("content_posts").delete().eq("id", postId);
+    if (pageId) await (adminClient as any).from("content_pages").delete().eq("id", pageId);
+    if (categoryId) await (adminClient as any).from("content_categories").delete().eq("id", categoryId);
+    if (settingKey) await (adminClient as any).from("app_settings").delete().eq("key", settingKey);
     if (contentMediaPath) await adminClient.storage.from("content-media").remove([contentMediaPath]);
     await adminClient.auth.admin.deleteUser(editor.id);
   });
@@ -159,12 +159,14 @@ test.describe("live CMS publishing journey", () => {
     await expect(page.getByText("Da luu cau hinh. Tai lai trang de xem du lieu moi.", { exact: true })).toBeVisible();
     await expect.poll(async () => {
       const [{ data: setting }, { data: audit }] = await Promise.all([
-        adminClient.from("app_settings").select("value, is_public").eq("key", settingKey).maybeSingle(),
-        adminClient.from("audit_logs").select("action").eq("entity_type", "app_setting").eq("entity_id", settingKey),
+        (adminClient as any).from("app_settings").select("value, is_public").eq("key", settingKey).maybeSingle(),
+        (adminClient as any).from("audit_logs").select("action").eq("entity_type", "app_setting").eq("entity_id", settingKey),
       ]);
-      return setting?.is_public === true && setting.value?.value === value && audit?.some(({ action }) => action === "setting.updated");
+      return setting?.is_public === true && setting.value?.value === value && audit?.some(({ action }: { action: string }) => action === "setting.updated");
     }, { timeout: 20_000 }).toBe(true);
     await page.goto("/admin/audit");
     await expect(page.getByText(settingKey, { exact: false })).toBeVisible({ timeout: 30_000 });
   });
 });
+
+

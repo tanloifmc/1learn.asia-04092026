@@ -22,19 +22,19 @@ test.describe("live administrator provider moderation", () => {
       const password = `CoreAdmin!${randomUUID()}`;
       const { data, error } = await adminClient.auth.admin.createUser({ email: `core-admin-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password });
       if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`);
-      return { id: data.user.id, email: data.user.email, password };
+      return { id: data.user.id, email: data.user.email as string, password };
     }
     operator = await createUser("operator");
     provider = await createUser("provider");
-    await adminClient.from("user_roles").upsert({ user_id: operator.id, role: "admin" }, { onConflict: "user_id,role" });
+    await (adminClient as any).from("user_roles").upsert({ user_id: operator.id, role: "admin" }, { onConflict: "user_id,role" });
     organizationSlug = `core-moderation-${randomUUID().slice(0, 8)}`;
-    const { data, error } = await adminClient.from("organizations").insert({ owner_id: provider.id, name: "Core Moderation Provider", slug: organizationSlug, status: "pending_review" }).select("id").single();
+    const { data, error } = await (adminClient as any).from("organizations").insert({ owner_id: provider.id, name: "Core Moderation Provider", slug: organizationSlug, status: "pending_review" }).select("id").single();
     if (error || !data) throw new Error(`Could not create moderation organization: ${error?.message ?? "unknown error"}`);
     organizationId = data.id;
   });
 
   test.afterAll(async () => {
-    await adminClient.from("organizations").delete().eq("id", organizationId);
+    await (adminClient as any).from("organizations").delete().eq("id", organizationId);
     await adminClient.auth.admin.deleteUser(operator.id);
     await adminClient.auth.admin.deleteUser(provider.id);
   });
@@ -86,3 +86,5 @@ test.describe("live administrator provider moderation", () => {
     }
   });
 });
+
+

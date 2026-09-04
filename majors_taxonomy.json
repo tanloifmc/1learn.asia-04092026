@@ -1,0 +1,302 @@
+[
+  {
+    "id": "42c1f3b7-baec-4aa3-8a98-37740f8f8c23",
+    "code": null,
+    "name": "Khoa học máy tính",
+    "slug": "khoa-hoc-may-tinh"
+  },
+  {
+    "id": "2c0ebb60-9a4a-4406-88e7-f4e254bfe548",
+    "code": null,
+    "name": "Kỹ thuật phần mềm",
+    "slug": "ky-thuat-phan-mem"
+  },
+  {
+    "id": "3db078da-d1bf-43e5-bbeb-15370faec174",
+    "code": null,
+    "name": "Quản trị kinh doanh",
+    "slug": "quan-tri-kinh-doanh"
+  },
+  {
+    "id": "99f53e9e-5459-451b-b408-302b742c096c",
+    "code": null,
+    "name": "Kinh tế quốc tế",
+    "slug": "kinh-te-quoc-te"
+  },
+  {
+    "id": "0ed0f293-4d53-432d-a531-c782522af24b",
+    "code": null,
+    "name": "Marketing",
+    "slug": "marketing"
+  },
+  {
+    "id": "27766f86-96af-4dd1-9da3-6c6a7944ccce",
+    "code": "7480201",
+    "name": "Công nghệ thông tin",
+    "slug": "cong-nghe-thong-tin"
+  },
+  {
+    "id": "7118dd46-bca1-4619-8fad-01b73784ae87",
+    "code": "7480202",
+    "name": "An toàn thông tin",
+    "slug": "an-toan-thong-tin"
+  },
+  {
+    "id": "b618f107-1ae7-4564-9dde-ad4652b54568",
+    "code": "7480104",
+    "name": "Hệ thống thông tin",
+    "slug": "he-thong-thong-tin"
+  },
+  {
+    "id": "bb355866-9d1e-4988-a680-09204e11250a",
+    "code": "7480107",
+    "name": "Trí tuệ nhân tạo",
+    "slug": "tri-tue-nhan-tao"
+  },
+  {
+    "id": "726c99e2-d2b8-441f-b686-38132dc0ddb9",
+    "code": "7460108",
+    "name": "Khoa học dữ liệu",
+    "slug": "khoa-hoc-du-lieu"
+  },
+  {
+    "id": "e7f6e073-5634-4e16-8c4f-92feb6d33f70",
+    "code": "7520207",
+    "name": "Kỹ thuật điện tử viễn thông",
+    "slug": "ky-thuat-dien-tu-vien-thong"
+  },
+  {
+    "id": "1b662321-6f83-40a8-8a11-9121cbe1478b",
+    "code": "7520201",
+    "name": "Kỹ thuật điện",
+    "slug": "ky-thuat-dien"
+  },
+  {
+    "id": "dd08181a-fc51-4637-bb70-81950df027a0",
+    "code": "7520103",
+    "name": "Kỹ thuật cơ khí",
+    "slug": "ky-thuat-co-khi"
+  },
+  {
+    "id": "ba50627a-edc7-4c46-a043-094fcc3e4c8a",
+    "code": "7580201",
+    "name": "Kỹ thuật xây dựng",
+    "slug": "ky-thuat-xay-dung"
+  },
+  {
+    "id": "75898f9d-1c34-4e84-8f86-9c8dd4634927",
+    "code": "7520320",
+    "name": "Kỹ thuật môi trường",
+    "slug": "ky-thuat-moi-truong"
+  },
+  {
+    "id": "a61aede2-1346-4dc6-840b-4c551fbee1b5",
+    "code": "7520301",
+    "name": "Kỹ thuật hóa học",
+    "slug": "ky-thuat-hoa-hoc"
+  },
+  {
+    "id": "4b7f82ac-8c42-46d4-a84e-8d55c6ad4884",
+    "code": "7420201",
+    "name": "Công nghệ sinh học",
+    "slug": "cong-nghe-sinh-hoc"
+  },
+  {
+    "id": "c51540e5-bcfe-4493-b44f-85c8feb47e32",
+    "code": "7340201",
+    "name": "Tài chính Ngân hàng",
+    "slug": "tai-chinh-ngan-hang"
+  },
+  {
+    "id": "5d440a69-b0ce-4e1b-b081-4610f892f2c3",
+    "code": "7340301",
+    "name": "Kế toán",
+    "slug": "ke-toan"
+  },
+  {
+    "id": "47af62d3-06d8-42dd-ae07-90ec82f55346",
+    "code": "7340302",
+    "name": "Kiểm toán",
+    "slug": "kiem-toan"
+  },
+  {
+    "id": "37814945-c85f-4056-9f7d-f04f2bd39674",
+    "code": "7340122",
+    "name": "Thương mại điện tử",
+    "slug": "thuong-mai-dien-tu"
+  },
+  {
+    "id": "af80cb07-968b-487f-b7cc-c872df292085",
+    "code": "7510605",
+    "name": "Logistics và Quản lý chuỗi cung ứng",
+    "slug": "logistics-chuoi-cung-ung"
+  },
+  {
+    "id": "9d6a7f39-891b-461f-997b-53e2aabe3cc2",
+    "code": "7810103",
+    "name": "Quản trị dịch vụ du lịch lữ hành",
+    "slug": "quan-tri-du-lich-lu-hanh"
+  },
+  {
+    "id": "29c60839-026f-426f-bd54-fee9289a4bbe",
+    "code": "7810201",
+    "name": "Quản trị khách sạn",
+    "slug": "quan-tri-khach-san"
+  },
+  {
+    "id": "f5678f4a-dd78-4284-ad16-9d876a7d3006",
+    "code": "7380101",
+    "name": "Luật",
+    "slug": "luat"
+  },
+  {
+    "id": "aa021dd5-39ec-4bfc-a01e-ba78f547ca48",
+    "code": "7380107",
+    "name": "Luật kinh tế",
+    "slug": "luat-kinh-te"
+  },
+  {
+    "id": "7fe54fd6-6f9c-4652-9446-0719eca1edd6",
+    "code": "7310601",
+    "name": "Quan hệ quốc tế",
+    "slug": "quan-he-quoc-te"
+  },
+  {
+    "id": "eca5777c-ea72-4c5d-b42f-57e5659c5fa2",
+    "code": "7220201",
+    "name": "Ngôn ngữ Anh",
+    "slug": "ngon-ngu-anh"
+  },
+  {
+    "id": "9d1fd7c4-2c96-432a-ba3b-11fada718880",
+    "code": "7220209",
+    "name": "Ngôn ngữ Nhật",
+    "slug": "ngon-ngu-nhat"
+  },
+  {
+    "id": "a7062669-5962-4402-873a-05867abf9b8e",
+    "code": "7220204",
+    "name": "Ngôn ngữ Trung Quốc",
+    "slug": "ngon-ngu-trung-quoc"
+  },
+  {
+    "id": "0338e7c1-96a0-4249-924e-0eee38056c5a",
+    "code": "7320101",
+    "name": "Báo chí",
+    "slug": "bao-chi"
+  },
+  {
+    "id": "7aca9416-b79e-4b2f-9bf1-95b7e807e089",
+    "code": "7320104",
+    "name": "Truyền thông đa phương tiện",
+    "slug": "truyen-thong-da-phuong-tien"
+  },
+  {
+    "id": "4592a1f4-0be8-4896-89ea-15675b09f0b4",
+    "code": "7310401",
+    "name": "Tâm lý học",
+    "slug": "tam-ly-hoc"
+  },
+  {
+    "id": "147469ae-b38d-4505-a23b-81fe991994c6",
+    "code": "7760101",
+    "name": "Công tác xã hội",
+    "slug": "cong-tac-xa-hoi"
+  },
+  {
+    "id": "8b1c8a8d-d849-4d5f-b788-ed6232c9511c",
+    "code": "7720101",
+    "name": "Y khoa",
+    "slug": "y-khoa"
+  },
+  {
+    "id": "ed13c860-1aae-4394-b2d1-dcdbdffdea31",
+    "code": "7720201",
+    "name": "Dược học",
+    "slug": "duoc-hoc"
+  },
+  {
+    "id": "7f10ab0f-38f8-4bcc-aee5-47133fd1ac82",
+    "code": "7720301",
+    "name": "Điều dưỡng",
+    "slug": "dieu-duong"
+  },
+  {
+    "id": "e81fbe70-4b95-40f1-aeb8-c579dd9b2360",
+    "code": "7720501",
+    "name": "Răng Hàm Mặt",
+    "slug": "rang-ham-mat"
+  },
+  {
+    "id": "1d9fc2e5-c05f-4c69-947e-85d68f1e0c6f",
+    "code": "7210403",
+    "name": "Thiết kế đồ họa",
+    "slug": "thiet-ke-do-hoa"
+  },
+  {
+    "id": "703d4355-36d9-4ad7-9161-7600405d0215",
+    "code": "7580101",
+    "name": "Kiến trúc",
+    "slug": "kien-truc"
+  },
+  {
+    "id": "2b4f71a6-d8c0-494a-b059-e346873a954d",
+    "code": "7580109",
+    "name": "Thiết kế nội thất",
+    "slug": "thiet-ke-noi-that"
+  },
+  {
+    "id": "85123b5c-f507-4a05-94ca-6f6c36c9a4e2",
+    "code": "7140209",
+    "name": "Sư phạm Toán học",
+    "slug": "su-pham-toan-hoc"
+  },
+  {
+    "id": "0be2c0b0-3377-4ae2-acd6-2dbca911fc78",
+    "code": "7140231",
+    "name": "Sư phạm Tiếng Anh",
+    "slug": "su-pham-tieng-anh"
+  },
+  {
+    "id": "9aaad512-3125-4436-b5e2-783dfee8458d",
+    "code": "7620101",
+    "name": "Nông nghiệp",
+    "slug": "nong-nghiep"
+  },
+  {
+    "id": "838e7047-df97-4cf1-9fd8-edd641424951",
+    "code": "7640101",
+    "name": "Thú y",
+    "slug": "thu-y"
+  },
+  {
+    "id": "42c2ae32-04e0-4e4c-a56e-765d91f9b014",
+    "code": "7440301",
+    "name": "Khoa học môi trường",
+    "slug": "khoa-hoc-moi-truong"
+  },
+  {
+    "id": "e688e1f6-8027-4620-b0f5-95ec9497a0fa",
+    "code": "7340204",
+    "name": "Bảo hiểm",
+    "slug": "bao-hiem"
+  },
+  {
+    "id": "09aec47d-b447-4d19-9451-05ef7426483a",
+    "code": "7210101",
+    "name": "Mỹ thuật ứng dụng",
+    "slug": "my-thuat-ung-dung"
+  },
+  {
+    "id": "d665babd-13b0-4ad1-9fb0-fe3ac9c48f39",
+    "code": "7310101",
+    "name": "Kinh tế học",
+    "slug": "kinh-te-hoc"
+  },
+  {
+    "id": "6a00d74f-6eed-4485-bd65-1214014ed5bd",
+    "code": "7140201",
+    "name": "Giáo dục Mầm non",
+    "slug": "giao-duc-mam-non"
+  }
+]

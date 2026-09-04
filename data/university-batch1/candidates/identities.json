@@ -1,0 +1,30 @@
+[
+  {
+    "canonical_name": "Đại học Bách khoa Hà Nội",
+    "short_name": "HUST",
+    "code": null,
+    "slug": "dai-hoc-bach-khoa-ha-noi",
+    "type": "Public",
+    "ownership": "Bộ Giáo dục và Đào tạo",
+    "location_city": "Hà Nội",
+    "address": null,
+    "website": "https://hust.edu.vn",
+    "admissions_website": "https://ts.hust.edu.vn",
+    "source": "https://hust.edu.vn",
+    "source_url": "https://hust.edu.vn"
+  },
+  {
+    "canonical_name": "Đại học Kinh tế Quốc dân",
+    "short_name": "NEU",
+    "code": null,
+    "slug": "dai-hoc-kinh-te-quoc-dan",
+    "type": "Public",
+    "ownership": "Bộ Giáo dục và Đào tạo",
+    "location_city": "Hà Nội",
+    "address": null,
+    "website": "https://neu.edu.vn",
+    "admissions_website": "https://daotao.neu.edu.vn/vi/tuyen-sinh-dai-hoc-chinh-quy",
+    "source": "https://neu.edu.vn",
+    "source_url": "https://neu.edu.vn"
+  }
+]

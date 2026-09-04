@@ -18,18 +18,18 @@ test.describe("live editor role lifecycle", () => {
   test.beforeAll(async () => {
     if (!url || !serviceRoleKey) throw new Error("Live Supabase configuration is required.");
     adminClient = createClient(url, serviceRoleKey, { auth: { autoRefreshToken: false, persistSession: false } });
-    async function createUser(label: string, displayName = `Core ${label}`) { const password = `CoreRoles!${randomUUID()}`; const { data, error } = await adminClient.auth.admin.createUser({ email: `core-roles-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password, user_metadata: { display_name: displayName } }); if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`); return { id: data.user.id, email: data.user.email, password }; }
+    async function createUser(label: string, displayName = `Core ${label}`) { const password = `CoreRoles!${randomUUID()}`; const { data, error } = await adminClient.auth.admin.createUser({ email: `core-roles-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password, user_metadata: { display_name: displayName } }); if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`); return { id: data.user.id, email: data.user.email as string, password }; }
     administrator = await createUser("admin");
     superAdministrator = await createUser("super-admin");
     editorDisplayName = `Core editor ${randomUUID().slice(0, 8)}`;
     editorCandidate = await createUser("editor", editorDisplayName);
-    await adminClient.from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
-    await adminClient.from("user_roles").upsert({ user_id: superAdministrator.id, role: "super_admin" }, { onConflict: "user_id,role" });
+    await (adminClient as any).from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
+    await (adminClient as any).from("user_roles").upsert({ user_id: superAdministrator.id, role: "super_admin" }, { onConflict: "user_id,role" });
   });
 
   test.afterAll(async () => {
     if (editorCandidate) {
-      await adminClient.from("audit_logs").delete().eq("entity_id", editorCandidate.id);
+      await (adminClient as any).from("audit_logs").delete().eq("entity_id", editorCandidate.id);
       await adminClient.auth.admin.deleteUser(editorCandidate.id);
     }
     if (administrator) await adminClient.auth.admin.deleteUser(administrator.id);
@@ -83,7 +83,7 @@ test.describe("live editor role lifecycle", () => {
     await expect(userEntry).toBeVisible({ timeout: 30_000 });
     const forbiddenProviderGrant = await page.evaluate(async (id) => (await fetch(`/api/admin/users/${id}/role`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ role: "provider", action: "add" }) })).status, editorCandidate.id);
     expect(forbiddenProviderGrant).toBe(403);
-    const grant = page.waitForResponse((item) => item.url().includes(`/api/admin/users/${editorCandidate.id}/role`) && item.request().method() === "PATCH" && item.request().postData()?.includes('"role":"admin"'), { timeout: 30_000 });
+    const grant = page.waitForResponse((item) => item.url().includes(`/api/admin/users/${editorCandidate.id}/role`) && item.request().method() === "PATCH" && (item.request().postData()?.includes('"role":"admin"') ?? false), { timeout: 30_000 });
     await userEntry.getByRole("button", { name: "Cap admin" }).click();
     expect((await grant).status()).toBe(200);
 
@@ -93,7 +93,7 @@ test.describe("live editor role lifecycle", () => {
       await login(administratorPage, editorCandidate);
       await administratorPage.goto("/admin/users");
       await expect(administratorPage.getByRole("heading", { name: "Nguoi dung va vai tro", exact: true })).toBeVisible({ timeout: 30_000 });
-      const revoke = page.waitForResponse((item) => item.url().includes(`/api/admin/users/${editorCandidate.id}/role`) && item.request().method() === "PATCH" && item.request().postData()?.includes('"role":"admin"'), { timeout: 30_000 });
+      const revoke = page.waitForResponse((item) => item.url().includes(`/api/admin/users/${editorCandidate.id}/role`) && item.request().method() === "PATCH" && (item.request().postData()?.includes('"role":"admin"') ?? false), { timeout: 30_000 });
       await userEntry.getByRole("button", { name: "Thu hoi admin" }).click();
       expect((await revoke).status()).toBe(200);
       await administratorPage.goto("/admin/users");
@@ -103,3 +103,5 @@ test.describe("live editor role lifecycle", () => {
     }
   });
 });
+
+

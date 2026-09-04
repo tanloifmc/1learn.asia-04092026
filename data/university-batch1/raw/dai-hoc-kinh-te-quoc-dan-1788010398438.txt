@@ -1,0 +1,17 @@
+Program - Chương trình đào tạo
+
+Khoá - Năm:K68 - 2026K67 - 2025K66 - 2024K65 - 2023K64 - 2022K63 - 2021K62 - 2020
+
+Khong the tai du lieu curriculum (HTTP 500).
+
+| STT | Mã tuyển sinh ↑ | Chương trình đào tạo | Tên ngành | Mã ngành | Khoa/Viện | Trường | Chỉ tiêu | Dự đoán |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Không có dữ liệu K68 - 2026 phù hợp với từ khóa tìm kiếm. |
+
+Tổng K68: **0** chương trình \| Tổng chỉ tiêu tuyển sinh tiêu chuẩn: **0**
+
+Hệ thống lấy thông tin trực tiếp từ [https://courses.neu.edu.vn](https://courses.neu.edu.vn/).
+
+**Lưu ý:** cột **Dự đoán** là dự đoán điểm (nhóm điểm chuẩn 2026: Rất cao / Cao / Trung bình / Thấp) từ công cụ Dự đoán điểm chuẩn của hệ thống, **chỉ mang tính tham khảo** — cập nhật 12:55 03/07/2026.
+
+Vui lòng liên hệ email [xtkhcntt@neu.edu.vn](mailto:xtkhcntt@neu.edu.vn) nếu có thắc mắc về vấn đề tuyển sinh hoặc [lampx@neu.edu.vn](mailto:lampx@neu.edu.vn) nếu có góp ý về hệ thống.

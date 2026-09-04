@@ -41,10 +41,11 @@ test.describe("live registration journey", () => {
 
     await expect.poll(async () => {
       const [{ data: profile }, { data: roles }] = await Promise.all([
-        adminClient.from("profiles").select("display_name").eq("id", userId).maybeSingle(),
-        adminClient.from("user_roles").select("role").eq("user_id", userId),
+        (adminClient as any).from("profiles").select("display_name").eq("id", userId).maybeSingle(),
+        (adminClient as any).from("user_roles").select("role").eq("user_id", userId),
       ]);
-      return profile?.display_name === displayName && roles?.some(({ role }) => role === "user");
+      return profile?.display_name === displayName && roles?.some(({ role }: { role: string }) => role === "user");
     }, { timeout: 20_000 }).toBe(true);
   });
 });
+

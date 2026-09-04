@@ -1,0 +1,197 @@
+-- Migration: Phase 16 - Data Provenance and Lifecycle Backbone
+-- Enforces TEXT + CHECK for status, standardizes provenance columns.
+
+BEGIN;
+
+DO $$
+DECLARE
+    v_invalid_count INT;
+    v_dup_count INT;
+BEGIN
+    -- -------------------------------------------------------------------------
+    -- PRECONDITION 1: Check existing status values in ENUMs
+    -- We only expect draft, needs_verification, verified, published, archived 
+    -- based on previous enums. But we check against the NEW target list.
+    -- Actually, since they are ENUMs, they can't be anything outside their enum definition.
+    -- We just need to make sure the NEW constraint won't fail when applied.
+    -- -------------------------------------------------------------------------
+
+    -- -------------------------------------------------------------------------
+    -- PRECONDITION 2: Check admission_data.verified_by is a valid UUID
+    -- -------------------------------------------------------------------------
+    SELECT count(*) INTO v_invalid_count
+    FROM public.admission_data
+    WHERE verified_by IS NOT NULL 
+      AND verified_by::text !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
+
+    IF v_invalid_count > 0 THEN
+        RAISE EXCEPTION 'MIGRATION ABORTED: Found % invalid UUIDs in admission_data.verified_by. Please manually resolve.', v_invalid_count;
+    END IF;
+
+    -- -------------------------------------------------------------------------
+    -- PRECONDITION 3: Check duplicates in university_majors
+    -- -------------------------------------------------------------------------
+    SELECT COUNT(*) INTO v_dup_count FROM (
+        SELECT university_id, major_id, program_type 
+        FROM public.university_majors 
+        GROUP BY university_id, major_id, program_type 
+        HAVING COUNT(*) > 1
+    ) sub;
+
+    IF v_dup_count > 0 THEN
+        RAISE EXCEPTION 'MIGRATION ABORTED: Found % duplicate records in university_majors. Please resolve first.', v_dup_count;
+    END IF;
+
+    -- -------------------------------------------------------------------------
+    -- PRECONDITION 4: Check duplicates in career_major_mappings
+    -- -------------------------------------------------------------------------
+    SELECT COUNT(*) INTO v_dup_count FROM (
+        SELECT career_id, major_id 
+        FROM public.career_major_mappings 
+        GROUP BY career_id, major_id 
+        HAVING COUNT(*) > 1
+    ) sub;
+
+    IF v_dup_count > 0 THEN
+        RAISE EXCEPTION 'MIGRATION ABORTED: Found % duplicate records in career_major_mappings. Please resolve first.', v_dup_count;
+    END IF;
+    
+    -- ALL PRECONDITIONS PASSED.
+END $$;
+
+-- -------------------------------------------------------------------------
+-- PART 1: LIFECYCLE MIGRATION (ENUM -> TEXT CHECK)
+-- -------------------------------------------------------------------------
+
+-- Drop old policies first since they depend on the enum status columns
+DROP POLICY IF EXISTS "Public read majors" ON public.majors;
+DROP POLICY IF EXISTS "Public can view published careers" ON public.careers;
+DROP POLICY IF EXISTS "Public read universities" ON public.universities;
+DROP POLICY IF EXISTS "Public read university_majors" ON public.university_majors;
+DROP POLICY IF EXISTS "Public read admission_data" ON public.admission_data;
+DROP POLICY IF EXISTS "Public read career_major_mappings" ON public.career_major_mappings;
+
+-- 1. MAJORS
+ALTER TABLE public.majors ALTER COLUMN status DROP DEFAULT;
+ALTER TABLE public.majors ALTER COLUMN status TYPE TEXT USING status::TEXT;
+
+-- Convert old "needs_verification" if any existed to "validated" or just map it.
+UPDATE public.majors SET status = 'validated' WHERE status = 'needs_verification';
+
+ALTER TABLE public.majors DROP CONSTRAINT IF EXISTS majors_status_check;
+ALTER TABLE public.majors ADD CONSTRAINT majors_status_check 
+  CHECK (status IN ('draft', 'imported', 'validated', 'verified', 'published', 'archived'));
+ALTER TABLE public.majors ALTER COLUMN status SET DEFAULT 'draft';
+
+
+-- 2. UNIVERSITIES
+ALTER TABLE public.universities ALTER COLUMN status DROP DEFAULT;
+ALTER TABLE public.universities ALTER COLUMN status TYPE TEXT USING status::TEXT;
+UPDATE public.universities SET status = 'validated' WHERE status = 'needs_verification';
+
+ALTER TABLE public.universities DROP CONSTRAINT IF EXISTS universities_status_check;
+ALTER TABLE public.universities ADD CONSTRAINT universities_status_check 
+  CHECK (status IN ('draft', 'imported', 'validated', 'verified', 'published', 'archived'));
+ALTER TABLE public.universities ALTER COLUMN status SET DEFAULT 'draft';
+
+
+-- 3. CAREERS
+-- Need to drop triggers or views that depend on status?
+-- career_audit_log depends on career_status!
+ALTER TABLE public.career_audit_log ALTER COLUMN from_status TYPE TEXT USING from_status::TEXT;
+ALTER TABLE public.career_audit_log ALTER COLUMN to_status TYPE TEXT USING to_status::TEXT;
+
+ALTER TABLE public.careers ALTER COLUMN status DROP DEFAULT;
+ALTER TABLE public.careers ALTER COLUMN status TYPE TEXT USING status::TEXT;
+UPDATE public.careers SET status = 'validated' WHERE status = 'needs_verification';
+
+ALTER TABLE public.careers DROP CONSTRAINT IF EXISTS careers_status_check;
+ALTER TABLE public.careers ADD CONSTRAINT careers_status_check 
+  CHECK (status IN ('draft', 'imported', 'validated', 'verified', 'published', 'archived'));
+ALTER TABLE public.careers ALTER COLUMN status SET DEFAULT 'draft';
+
+
+-- 4. ADMISSION_DATA
+ALTER TABLE public.admission_data ALTER COLUMN data_status DROP DEFAULT;
+ALTER TABLE public.admission_data ALTER COLUMN data_status TYPE TEXT USING data_status::TEXT;
+UPDATE public.admission_data SET data_status = 'validated' WHERE data_status = 'needs_verification';
+
+ALTER TABLE public.admission_data DROP CONSTRAINT IF EXISTS admission_data_status_check;
+ALTER TABLE public.admission_data ADD CONSTRAINT admission_data_status_check 
+  CHECK (data_status IN ('draft', 'imported', 'validated', 'verified', 'published', 'archived'));
+ALTER TABLE public.admission_data ALTER COLUMN data_status SET DEFAULT 'draft';
+
+-- Drop the old ENUMs since we migrated away
+DROP TYPE IF EXISTS public.major_status CASCADE;
+DROP TYPE IF EXISTS public.university_status CASCADE;
+DROP TYPE IF EXISTS public.career_status CASCADE;
+DROP TYPE IF EXISTS public.admission_data_status CASCADE;
+
+-- -------------------------------------------------------------------------
+-- PART 2: PROVENANCE FRAMEWORK
+-- -------------------------------------------------------------------------
+
+-- 1. MAJORS
+ALTER TABLE public.majors 
+  ADD COLUMN IF NOT EXISTS source TEXT,
+  ADD COLUMN IF NOT EXISTS source_url TEXT,
+  ADD COLUMN IF NOT EXISTS last_verified_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS verified_by UUID REFERENCES auth.users(id);
+
+-- 2. UNIVERSITIES
+ALTER TABLE public.universities 
+  ADD COLUMN IF NOT EXISTS source TEXT,
+  ADD COLUMN IF NOT EXISTS source_url TEXT,
+  ADD COLUMN IF NOT EXISTS last_verified_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS verified_by UUID REFERENCES auth.users(id);
+
+-- 3. UNIVERSITY_MAJORS
+ALTER TABLE public.university_majors
+  ADD COLUMN IF NOT EXISTS status TEXT CHECK (status IN ('draft', 'imported', 'validated', 'verified', 'published', 'archived')) DEFAULT 'draft',
+  ADD COLUMN IF NOT EXISTS source TEXT,
+  ADD COLUMN IF NOT EXISTS source_url TEXT,
+  ADD COLUMN IF NOT EXISTS last_verified_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS verified_by UUID REFERENCES auth.users(id);
+
+-- 4. CAREER_MAJOR_MAPPINGS
+ALTER TABLE public.career_major_mappings
+  ADD COLUMN IF NOT EXISTS status TEXT CHECK (status IN ('draft', 'imported', 'validated', 'verified', 'published', 'archived')) DEFAULT 'draft',
+  ADD COLUMN IF NOT EXISTS source_url TEXT,
+  ADD COLUMN IF NOT EXISTS last_verified_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS verified_by UUID REFERENCES auth.users(id);
+
+-- 5. ADMISSION_DATA
+ALTER TABLE public.admission_data 
+  ADD COLUMN IF NOT EXISTS source TEXT;
+
+-- Convert verified_by to UUID
+ALTER TABLE public.admission_data 
+  ALTER COLUMN verified_by TYPE UUID USING verified_by::UUID;
+
+ALTER TABLE public.admission_data
+  ADD CONSTRAINT admission_data_verified_by_fkey FOREIGN KEY (verified_by) REFERENCES auth.users(id);
+
+-- -------------------------------------------------------------------------
+-- PART 3: RLS ENFORCEMENT (STUDENT-FACING = PUBLISHED ONLY)
+-- -------------------------------------------------------------------------
+
+-- Create new policies
+CREATE POLICY "Public read majors" ON public.majors 
+  FOR SELECT USING (status = 'published');
+
+CREATE POLICY "Public read careers" ON public.careers 
+  FOR SELECT USING (status = 'published');
+
+CREATE POLICY "Public read universities" ON public.universities 
+  FOR SELECT USING (status = 'published');
+
+CREATE POLICY "Public read university_majors" ON public.university_majors 
+  FOR SELECT USING (status = 'published');
+
+CREATE POLICY "Public read admission_data" ON public.admission_data 
+  FOR SELECT USING (data_status = 'published');
+
+CREATE POLICY "Public read career_major_mappings" ON public.career_major_mappings 
+  FOR SELECT USING (status = 'published');
+
+COMMIT;

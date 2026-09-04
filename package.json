@@ -25,21 +25,41 @@
     "check:env": "node ./scripts/check-environment-contract.mjs"
   },
   "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.3.0",
     "@supabase/ssr": "0.12.4",
-    "@supabase/supabase-js": "2.111.0",
+    "@vercel/analytics": "^2.0.1",
+    "cheerio": "^1.2.0",
+    "date-fns": "^4.4.0",
+    "lucide-react": "^1.34.0",
     "next": "16.3.0",
+    "pdf-parse": "^2.4.5",
+    "pg": "^8.23.0",
+    "playwright": "^1.62.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "recharts": "^3.10.1",
     "resend": "6.18.1",
+    "uuid": "^14.0.2",
     "zod": "4.4.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
+    "@supabase/supabase-js": "^2.112.4",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/estree": "^1.0.9",
     "@types/node": "22.10.2",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
+    "@types/uuid": "^10.0.0",
+    "autoprefixer": "^10.5.4",
+    "dotenv": "^17.4.2",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.0",
-    "typescript": "5.7.2"
+    "postcss": "^8.5.26",
+    "supabase": "^2.115.0",
+    "tailwindcss": "^4.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "5.7.2",
+    "vitest": "^4.1.11"
   }
 }

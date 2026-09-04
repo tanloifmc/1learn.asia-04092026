@@ -24,19 +24,19 @@ test.describe("live membership lifecycle", () => {
       const password = `CoreMembership!${randomUUID()}`;
       const { data, error } = await adminClient.auth.admin.createUser({ email: `core-membership-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password, user_metadata: { display_name: `Core ${label}` } });
       if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`);
-      return { id: data.user.id, email: data.user.email, password };
+      return { id: data.user.id, email: data.user.email as string, password };
     }
     operator = await createUser("operator");
     member = await createUser("member");
-    await adminClient.from("user_roles").upsert({ user_id: operator.id, role: "admin" }, { onConflict: "user_id,role" });
+    await (adminClient as any).from("user_roles").upsert({ user_id: operator.id, role: "admin" }, { onConflict: "user_id,role" });
     planCode = `core-plan-${randomUUID().slice(0, 8)}`;
     planName = `Core Membership ${randomUUID().slice(0, 8)}`;
   });
 
   test.afterAll(async () => {
-    if (planId) await adminClient.from("membership_subscriptions").delete().eq("plan_id", planId);
-    if (disposablePlanId) await adminClient.from("membership_plans").delete().eq("id", disposablePlanId);
-    if (planId) await adminClient.from("membership_plans").delete().eq("id", planId);
+    if (planId) await (adminClient as any).from("membership_subscriptions").delete().eq("plan_id", planId);
+    if (disposablePlanId) await (adminClient as any).from("membership_plans").delete().eq("id", disposablePlanId);
+    if (planId) await (adminClient as any).from("membership_plans").delete().eq("id", planId);
     await adminClient.auth.admin.deleteUser(operator.id);
     await adminClient.auth.admin.deleteUser(member.id);
   });
@@ -99,14 +99,14 @@ test.describe("live membership lifecycle", () => {
       await expect(memberPage.getByRole("heading", { name: "Thanh vien hien tai" })).toBeVisible({ timeout: 30_000 });
       await expect(currentMembership.getByText(planName)).toBeVisible();
 
-      const endsBeforeRenewal = (await adminClient.from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at;
+      const endsBeforeRenewal = (await (adminClient as any).from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at;
       if (!endsBeforeRenewal) throw new Error("Membership end date was unavailable.");
       await page.getByLabel("Nguoi dung").selectOption(member.id);
       await page.getByLabel("Goi thanh vien").selectOption(planId);
       const renewalResponse = page.waitForResponse((item) => item.url().includes("/api/admin/billing/subscriptions") && item.request().method() === "POST", { timeout: 45_000 });
       await page.getByRole("button", { name: "Cap hoac gia han" }).click();
       expect((await renewalResponse).status()).toBe(200);
-      await expect.poll(async () => (await adminClient.from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at, { timeout: 20_000 }).not.toBe(endsBeforeRenewal);
+      await expect.poll(async () => (await (adminClient as any).from("membership_subscriptions").select("ends_at").eq("plan_id", planId).eq("user_id", member.id).single()).data?.ends_at, { timeout: 20_000 }).not.toBe(endsBeforeRenewal);
 
       const deleteUsedPlan = page.waitForResponse((item) => item.url().includes(`/api/admin/billing/plans/${planId}`) && item.request().method() === "DELETE", { timeout: 30_000 });
       await membershipEntry.getByRole("button", { name: "Xoa goi" }).click();
@@ -138,3 +138,5 @@ test.describe("live membership lifecycle", () => {
     } finally { await memberContext.close(); }
   });
 });
+
+

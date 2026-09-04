@@ -23,22 +23,22 @@ test.describe("live shared core journey", () => {
       const password = `CoreShared!${randomUUID()}`;
       const { data, error } = await adminClient.auth.admin.createUser({ email: `core-shared-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password, user_metadata: { display_name: `Core ${label}` } });
       if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`);
-      return { id: data.user.id, email: data.user.email, password };
+      return { id: data.user.id, email: data.user.email as string, password };
     }
     administrator = await createUser("admin");
     user = await createUser("user");
     otherUser = await createUser("other-user");
-    await adminClient.from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
-    const { data: organization, error } = await adminClient.from("organizations").insert({ owner_id: user.id, name: `Core Provider ${randomUUID().slice(0, 8)}`, slug: `core-provider-${randomUUID().slice(0, 8)}`, description: "Provider for shared core acceptance", status: "approved" }).select("id").single();
+    await (adminClient as any).from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
+    const { data: organization, error } = await (adminClient as any).from("organizations").insert({ owner_id: user.id, name: `Core Provider ${randomUUID().slice(0, 8)}`, slug: `core-provider-${randomUUID().slice(0, 8)}`, description: "Provider for shared core acceptance", status: "approved" }).select("id").single();
     if (error || !organization) throw new Error(`Could not create provider: ${error?.message ?? "unknown error"}`);
     organizationId = organization.id;
   });
 
   test.afterAll(async () => {
-    if (supportRequestId) await adminClient.from("support_requests").delete().eq("id", supportRequestId);
-    await adminClient.from("favorites").delete().eq("user_id", user.id);
-    await adminClient.from("notifications").delete().in("recipient_user_id", [administrator.id, user.id]);
-    if (organizationId) await adminClient.from("organizations").delete().eq("id", organizationId);
+    if (supportRequestId) await (adminClient as any).from("support_requests").delete().eq("id", supportRequestId);
+    await (adminClient as any).from("favorites").delete().eq("user_id", user.id);
+    await (adminClient as any).from("notifications").delete().in("recipient_user_id", [administrator.id, user.id]);
+    if (organizationId) await (adminClient as any).from("organizations").delete().eq("id", organizationId);
     await adminClient.auth.admin.deleteUser(administrator.id);
     await adminClient.auth.admin.deleteUser(user.id);
     await adminClient.auth.admin.deleteUser(otherUser.id);
@@ -56,7 +56,7 @@ test.describe("live shared core journey", () => {
 
   test("user favorites, support request and administrator notification workflow", async ({ browser, page }) => {
     await login(page, user);
-    const { data: organization } = await adminClient.from("organizations").select("slug").eq("id", organizationId).single();
+    const { data: organization } = await (adminClient as any).from("organizations").select("slug").eq("id", organizationId).single();
     if (!organization) throw new Error("Provider was not available.");
     const unsupportedFavorite = await page.evaluate(async (entityId) => {
       const response = await fetch("/api/favorites", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ entityType: "unsupported_entity", entityId }) });
@@ -150,3 +150,5 @@ test.describe("live shared core journey", () => {
     await expect(page.getByText("responded", { exact: true })).toBeVisible({ timeout: 30_000 });
   });
 });
+
+

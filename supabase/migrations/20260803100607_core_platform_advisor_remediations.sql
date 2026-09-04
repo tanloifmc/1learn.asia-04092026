@@ -1,7 +1,7 @@
 -- Advisor remediations for the reusable core.
 -- The existing event trigger is not exposed as an RPC capability, but revoking
 -- EXECUTE removes the linter warning and preserves trigger execution.
-revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
+-- revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
 
 -- Cover every core foreign key used by ownership, joins or operator workflows.
 create index if not exists user_roles_user_id_idx on public.user_roles (user_id);

@@ -1,0 +1,21 @@
+name: 1learn-phase0-pipeline
+description: |
+  Full SDLC pipeline for 1learn.asia Phase 0 tasks.
+  Reads Roadmap, picks next uncompleted task, implements it through
+  Product Architect → DB Engineer → Backend → Frontend → QA → Security → Release Manager.
+  No human input needed between steps.
+
+nodes:
+  - id: read-roadmap
+    bash: |
+      cat "docs/13_ROADMAP.md" | grep "^\- \`\[ \]\`" | head -5
+
+  - id: implement-task
+    command: phase0-task
+    depends_on: [read-roadmap]
+    prompt_prefix: |
+      The next uncompleted tasks from the Roadmap are:
+      $read-roadmap.output
+
+      Pick the FIRST task and implement it completely, following all steps in the command instructions.
+      Do not stop or ask questions. Complete ALL 7 steps and verify before finishing.

@@ -1,0 +1,3 @@
+BEGIN;
+ALTER TABLE public.universities ADD COLUMN IF NOT EXISTS code text UNIQUE;
+COMMIT;

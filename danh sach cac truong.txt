@@ -1,0 +1,329 @@
+STT	Tên trường	Ký hiệu	Tỉnh, thành phố	Loại hình cơ sở đào tạo	Loại trường
+1	Viện Nghiên cứu Điện tử, Tin học, Tự động hoá	V02			
+2	Viện Nghiên cứu hải sản	V62			
+3	Viện Nghiên cứu Nuôi trồng thuỷ sản I	VTS			
+4	Viện Nghiên cứu quản lý kinh tế Trung ương	V18			
+5	Viện Pasteur Thành phố Hồ Chí Minh	V26			
+6	Viện Sốt rét - Ký sinh trùng - Côn trùng Trung ương	V25			
+7	Viện Sức khoẻ nghề nghiệp và môi trường	VYL			
+8	Viện Toán học	V59			
+9	Viện Thú y	VTY			
+10	Viện Ứng dụng Công nghệ	VUD			
+11	Viện Văn hoá Nghệ thuật quốc gia Việt Nam	V45			
+12	Viện Vệ sinh Dịch tễ Trung ương	V27			
+13	Viện Khoa học Thể dục thể thao	VKT			
+14	Viện Khoa học Thuỷ lợi Việt Nam	VTL			
+15	Viện Khoa học và Công nghệ Giao thông vận tải	V13			
+16	Viện Máy và Dụng cụ công nghiệp	V48			
+17	Viện Năng lượng nguyên tử Việt Nam	V04			
+18	Viện Nghiên cứu Cơ khí	V49			
+19	Viện Nghiên cứu Chiến lược, Chính sách Công Thương	V17			
+20	Viện Kiến trúc Quốc gia	V12			
+21	Viện Khoa học công nghệ xây dựng	V14			
+22	Viện Khoa học Địa chất và Khoáng sản	V47			
+23	Viện Khoa học Đo đạc và Bản đồ	KBD			
+24	Viện Khoa học Giáo dục Việt nam	V46			
+25	Viện Khoa học Khí tượng Thủy văn và Biến đổi khí hậu	V50			
+26	Viện Khoa học Lâm nghiệp Việt Nam	VLN			
+27	Viện Khoa học Nông nghiệp Việt Nam	VKN			
+28	Viện Dầu khí Việt Nam	VDK			
+29	Viện Dinh dưỡng	V66			
+30	Viện Dược liệu	V22			
+31	Viện Hoá học công nghiệp	V11			
+32	Viện Kiểm nghiệm thuốc Trung ương	NQC			
+33	TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT, ĐẠI HỌC ĐÀ NẴNG	DDC			
+34	Viện Công nghiệp thực phẩm	V08			
+35	Viện Cơ điện Nông nghiệp và Công nghệ sau thu hoạch	VCD			
+36	Viện Chăn nuôi	VCN			
+37	Viện Chiến lược phát triển	V19			
+38	TRƯỜNG ĐẠI HỌC Y DƯỢC - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHY			
+39	TRƯỜNG ĐẠI HỌC Y KHOA TOKYO VIỆT NAM	THU			
+40	TRƯỜNG ĐẠI HỌC VIỆT ĐỨC	VGU			
+41	TRƯỜNG ĐẠI HỌC VIỆT NHẬT - ĐẠI HỌC QUỐC GIA HÀ NỘI	VJU			
+42	TRƯỜNG ĐẠI HỌC VINUNI	VIN			
+43	TRƯỜNG ĐẠI HỌC VĂN HOÁ HÀ NỘI	VHH			
+44	TRƯỜNG ĐẠI HỌC VĂN LANG	DVL			
+45	TRƯỜNG ĐẠI HỌC THỂ DỤC THỂ THAO TP. HỒ CHÍ MINH	TDS			
+46	TRƯỜNG ĐẠI HỌC TÂN TẠO	TTU			
+47	TRƯỜNG ĐẠI HỌC TƯ THỤC QUỐC TẾ SÀI GÒN	TTQ			
+48	TRƯỜNG ĐẠI HỌC TÀI CHÍNH - KẾ TOÁN	DKQ			
+49	TRƯỜNG ĐẠI HỌC TÀI CHÍNH - NGÂN HÀNG HÀ NỘI	FBU			
+50	TRƯỜNG ĐẠI HỌC SƯ PHẠM THỂ DỤC THỂ THAO TP. HỒ CHÍ MINH	STS			
+51	TRƯỜNG ĐẠI HỌC QUỐC TẾ BẮC HÀ	DBH			
+52	TRƯỜNG ĐẠI HỌC QUỐC TẾ RMIT VIỆT NAM	RMU			
+53	TRƯỜNG ĐẠI HỌC SÂN KHẤU, ĐIỆN ẢNH TP. HỒ CHÍ MINH	DSD			
+54	TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT NAM ĐỊNH	SKN			
+55	TRƯỜNG ĐẠI HỌC QUẢN LÝ VÀ CÔNG NGHỆ TP. HỒ CHÍ MINH	UMT			
+56	TRƯỜNG ĐẠI HỌC QUANG TRUNG	DQT			
+57	TRƯỜNG ĐẠI HỌC NGUYỄN TRÃI	NTU			
+58	TRƯỜNG ĐẠI HỌC PHAN CHÂU TRINH	DPC			
+59	TRƯỜNG ĐẠI HỌC QUẢN LÝ VÀ CÔNG NGHỆ HẢI PHÒNG	DHP			
+60	TRƯỜNG ĐẠI HỌC NGHỆ THUẬT, ĐẠI HỌC HUẾ	DHN			
+61	TRƯỜNG ĐẠI HỌC MỸ TẠI VIỆT NAM	AUV			
+62	TRƯỜNG ĐẠI HỌC MỸ THUẬT CÔNG NGHIỆP	MTC			
+63	TRƯỜNG ĐẠI HỌC MỸ THUẬT TP. HỒ CHÍ MINH	MTS			
+64	TRƯỜNG ĐẠI HỌC LUẬT - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHL			
+65	TRƯỜNG ĐẠI HỌC LƯƠNG THẾ VINH	DTV			
+66	TRƯỜNG ĐẠI HỌC KHÁNH HOÀ	UKH			
+67	TRƯỜNG ĐẠI HỌC KHOA HỌC VÀ CÔNG NGHỆ HÀ NỘI	KCN			
+68	TRƯỜNG ĐẠI HỌC KINH TẾ QUỐC DÂN	KHA			
+69	TRƯỜNG ĐẠI HỌC KIỂM SÁT HÀ NỘI	DKS			
+70	TRƯỜNG ĐẠI HỌC KINH BẮC	UKB			
+71	TRƯỜNG ĐẠI HỌC FULBRIGHT VIỆT NAM	FUV			
+72	TRƯỜNG ĐẠI HỌC HÀ HOA TIÊN	DHH			
+73	TRƯỜNG ĐẠI HỌC ĐỒNG NAI	DNU			
+74	TRƯỜNG ĐẠI HỌC ĐÔNG ĐÔ	DDD			
+75	TRƯỜNG ĐẠI HỌC CHU VĂN AN	DCA			
+76	TRƯỜNG ĐẠI HỌC DÂN LẬP PHƯƠNG ĐÔNG	DPD			
+77	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG VIỆT HÀN, ĐẠI HỌC ĐÀ NẴNG	VKU			
+78	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ VẠN XUÂN	DVX			
+79	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP QUẢNG NINH	DDM			
+80	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP VINH	DCV			
+81	Trường Cao đẳng Vĩnh Phúc	C16			
+82	TRƯỜNG ĐẠI HỌC ANH QUỐC - VIỆT NAM	BUV			
+83	TRƯỜNG ĐẠI HỌC BẠC LIÊU	DBL			
+84	TRƯỜNG ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	QSB			
+85	TRƯỜNG ĐẠI HỌC CMC	MCA			
+86	TRƯỜNG CAO ĐẲNG SƯ PHẠM QUẢNG TRỊ	C32			
+87	TRƯỜNG CAO ĐẲNG SƯ PHẠM TÂY NINH	C46			
+88	TRƯỜNG CAO ĐẲNG SƯ PHẠM THÁI BÌNH	C26			
+89	TRƯỜNG CAO ĐẲNG SƯ PHẠM TRUNG ƯƠNG TP.HỒ CHÍ MINH	CM3			
+90	TRƯỜNG CAO ĐẲNG SƯ PHẠM YÊN BÁI	C13			
+91	Trường Cao đẳng Vĩnh Long	C57			
+92	TRƯỜNG CAO ĐẲNG SƯ PHẠM LẠNG SƠN	C10			
+93	TRƯỜNG CAO ĐẲNG SƯ PHẠM LONG AN	C49			
+94	Trường Cao đẳng Đại Việt Sài Gòn	0219			
+95	Trường Cao đẳng Hải Dương	C21			
+96	Trường Cao đẳng Ngô Gia Tự Bắc Giang	C18			
+97	Trường Cao đẳng Sơn La	C14			
+98	TRƯỜNG CAO ĐẲNG SƯ PHẠM CAO BẰNG	C06			
+99	TRƯỜNG CAO ĐẲNG SƯ PHẠM ĐẮK LẮK	C40			
+100	TRƯỜNG CAO ĐẲNG SƯ PHẠM GIA LAI	C38
+
+101	TRƯỜNG CAO ĐẲNG SƯ PHẠM HÀ GIANG	C05			
+102	TRƯỜNG CAO ĐẲNG SƯ PHẠM HÀ TÂY	C20			
+103	Trường Cao đẳng Cộng đồng Kon Tum	C36			
+104	Trường Cao đẳng Cộng đồng Lai Châu	CLC			
+105	Trường Cao đẳng Cộng đồng Sóc Trăng	CST			
+106	Trường Cao đẳng Cộng đồng Vĩnh Long	D57			
+107	HỌC VIỆN THANH THIẾU NIÊN VIỆT NAM	HTN			
+108	NHẠC VIỆN TP. HỒ CHÍ MINH	NVS			
+109	Trường Cao đẳng Bắc Kạn	C11			
+110	Trường Cao đẳng Bến Tre	C56			
+111	Trường Cao đẳng Bình Định	C37			
+112	Trường Cao đẳng Bình Phước	C43			
+113	Trường Cao đẳng Cần Thơ	C55			
+114	Trường Cao đẳng Cộng đồng Bình Thuận	C47			
+115	Trường Cao đẳng Cộng đồng Cà Mau	D61			
+116	Trường Cao đẳng Cộng đồng Hà Nội	CHN			
+117	Trường Cao đẳng Cộng đồng Hậu Giang	D64			
+118	Trường Cao đẳng Cộng đồng Hưng Yên	C22			
+119	HỌC VIỆN MÚA VIỆT NAM	CMH			
+120	HỌC VIỆN TOÀ ÁN	HTA			
+121	HỌC VIỆN CHÍNH TRỊ KHU VỰC I	HCC			
+122	HỌC VIỆN CHÍNH TRỊ QUỐC GIA HỒ CHÍ MINH	HVH			
+123	HỌC VIỆN DÂN TỘC	HVD			
+124	HỌC VIỆN HÀNH CHÍNH QUỐC GIA	HCH			
+125	HỌC VIỆN KHOA HỌC VÀ CÔNG NGHỆ	HKC			
+126	HỌC VIỆN KHOA HỌC XÃ HỘI	HXH			
+127	HỌC VIỆN KHOA HỌC, CÔNG NGHỆ VÀ ĐỔI MỚI SÁNG TẠO	V24			
+128	ĐẠI HỌC ĐÀ NẴNG	E			
+129	ĐẠI HỌC HUẾ	D			
+130	ĐẠI HỌC QUỐC GIA HÀ NỘI	A			
+131	ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	C			
+132	ĐẠI HỌC THÁI NGUYÊN	B			
+133	HỌC VIỆN ÂM NHẠC HUẾ	HVA			
+134	HỌC VIỆN ÂM NHẠC QUỐC GIA VIỆT NAM	NVH			
+135	HỌC VIỆN CÁN BỘ THÀNH PHỐ HỒ CHÍ MINH	HVC			
+136	TRƯỜNG ĐẠI HỌC TRƯNG VƯƠNG	DVP			
+137	TRƯỜNG ĐẠI HỌC HÙNG VƯƠNG - TP. HỒ CHÍ MINH	DHV			
+138	TRƯỜNG ĐẠI HỌC Y KHOA PHẠM NGỌC THẠCH	TYS			
+139	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐÔNG Á	DDA			
+140	TRƯỜNG ĐẠI HỌC KINH TẾ NGHỆ AN	CEA			
+141	TRƯỜNG ĐẠI HỌC PHÚ YÊN	DPY			
+142	TRƯỜNG ĐẠI HỌC KIÊN GIANG	TKG			
+143	TRƯỜNG ĐẠI HỌC PHÚ XUÂN	DPX			
+144	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP DỆT MAY HÀ NỘI	CCM			
+145	TRƯỜNG ĐẠI HỌC KINH DOANH VÀ CÔNG NGHỆ HÀ NỘI	DQK			
+146	TRƯỜNG ĐẠI HỌC KỸ THUẬT Y - DƯỢC ĐÀ NẴNG	YDN			
+147	TRƯỜNG ĐẠI HỌC THÁI BÌNH	DTB			
+148	TRƯỜNG ĐẠI HỌC KINH TẾ - KỸ THUẬT BÌNH DƯƠNG	DKB			
+149	TRƯỜNG ĐẠI HỌC VĂN HOÁ, THỂ THAO VÀ DU LỊCH THANH HOÁ	DVD			
+150	TRƯỜNG ĐẠI HỌC THÁI BÌNH DƯƠNG	TBD			
+151	TRƯỜNG CAO ĐẲNG SƯ PHẠM BÀ RỊA-VŨNG TÀU	C52			
+152	TRƯỜNG ĐẠI HỌC TÀI CHÍNH - QUẢN TRỊ KINH DOANH	DFA			
+153	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHI			
+154	TRƯỜNG CAO ĐẲNG ĐÀ LẠT	C42			
+155	TRƯỜNG ĐẠI HỌC THÀNH ĐÔ	TDD			
+156	TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT VINH	SKV			
+157	TRƯỜNG ĐẠI HỌC TÀI NGUYÊN VÀ MÔI TRƯỜNG TP. HỒ CHÍ MINH	DTM			
+158	TRƯỜNG ĐẠI HỌC VÕ TRƯỜNG TOẢN	VTT			
+159	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP VIỆT - HUNG	VHD			
+160	TRƯỜNG ĐẠI HỌC HẢI DƯƠNG	DKT			
+161	TRƯỜNG ĐẠI HỌC Y DƯỢC BUÔN MA THUỘT	BMU			
+162	TRƯỜNG ĐẠI HỌC Y KHOA VINH	YKV			
+163	TRƯỜNG ĐẠI HỌC GIA ĐỊNH	DCG			
+164	TRƯỜNG ĐẠI HỌC TÂY BẮC	TTB			
+165	TRƯỜNG ĐẠI HỌC HẠ LONG	HLU			
+166	TRƯỜNG ĐẠI HỌC THỂ DỤC THỂ THAO ĐÀ NẴNG	TTD			
+167	TRƯỜNG ĐẠI HỌC KIẾN TRÚC TP. HỒ CHÍ MINH	KTS			
+168	TRƯỜNG ĐẠI HỌC XÂY DỰNG MIỀN TRUNG	XDT			
+169	TRƯỜNG ĐẠI HỌC KỸ THUẬT - CÔNG NGHỆ CẦN THƠ	KCC			
+170	HỌC VIỆN NGOẠI GIAO	HQT			
+171	TRƯỜNG ĐẠI HỌC NỘI VỤ HÀ NỘI	DNV			
+172	TRƯỜNG ĐẠI HỌC VĂN HIẾN	DVH			
+173	TRƯỜNG ĐẠI HỌC THÀNH ĐÔNG	DDB			
+174	TRƯỜNG ĐẠI HỌC YERSIN ĐÀ LẠT	DYD			
+175	TRƯỜNG ĐẠI HỌC QUẢNG NAM	DQU			
+176	TRƯỜNG ĐẠI HỌC TÂY NGUYÊN	TTN			
+177	TRƯỜNG ĐẠI HỌC HOA LƯ	DNB			
+178	TRƯỜNG ĐẠI HỌC THỦ ĐÔ HÀ NỘI	HNM			
+179	HỌC VIỆN PHỤ NỮ VIỆT NAM	HPN			
+180	TRƯỜNG CAO ĐẲNG SƯ PHẠM HOÀ BÌNH	C23			
+181	TRƯỜNG ĐẠI HỌC QUỐC TẾ MIỀN ĐÔNG	EIU			
+182	TRƯỜNG ĐẠI HỌC VĂN HOÁ TP. HỒ CHÍ MINH	VHS			
+183	TRƯỜNG ĐẠI HỌC PHENIKAA	DTA			
+184	TRƯỜNG ĐẠI HỌC SƯ PHẠM THỂ DỤC THỂ THAO HÀ NỘI	TDH			
+185	TRƯỜNG ĐẠI HỌC DẦU KHÍ VIỆT NAM	PVU			
+186	TRƯỜNG CAO ĐẲNG SƯ PHẠM BẮC NINH	C19			
+187	TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT VĨNH LONG	VLU			
+188	TRƯỜNG CAO ĐẲNG SƯ PHẠM THỪA THIÊN HUẾ	C33			
+189	TRƯỜNG ĐẠI HỌC ĐIỀU DƯỠNG NAM ĐỊNH	YDD			
+190	TRƯỜNG ĐẠI HỌC HOA SEN	HSU			
+191	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ MIỀN ĐÔNG	DMD			
+192	TRƯỜNG ĐẠI HỌC KINH TẾ CÔNG NGHIỆP LONG AN	DLA			
+193	TRƯỜNG CAO ĐẲNG SƯ PHẠM KIÊN GIANG	C54			
+194	TRƯỜNG ĐẠI HỌC TRÀ VINH	DVT			
+195	TRƯỜNG ĐẠI HỌC ĐẠI NAM	DDN			
+196	TRƯỜNG ĐẠI HỌC TÂN TRÀO	TQU			
+197	TRƯỜNG ĐẠI HỌC PHAN THIẾT	DPT			
+198	TRƯỜNG CAO ĐẲNG SƯ PHẠM ĐIỆN BIÊN	C62			
+199	TRƯỜNG ĐẠI HỌC BÀ RỊA - VŨNG TÀU	BVU			
+200	TRƯỜNG CAO ĐẲNG SƯ PHẠM NGHỆ AN	C29
+01	TRƯỜNG ĐẠI HỌC FPT	FPT			
+202	TRƯỜNG ĐẠI HỌC ĐÀ LẠT	TDL			
+203	TRƯỜNG ĐẠI HỌC THUỶ LỢI	TLA			
+204	TRƯỜNG ĐẠI HỌC QUỐC TẾ HỒNG BÀNG	HIU			
+205	TRƯỜNG ĐẠI HỌC KINH TẾ - TÀI CHÍNH TP. HỒ CHÍ MINH	UEF			
+206	TRƯỜNG ĐẠI HỌC QUỐC TẾ - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	QSQ			
+207	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ TP. HỒ CHÍ MINH	DKC			
+208	TRƯỜNG ĐẠI HỌC NÔNG LÂM TP. HỒ CHÍ MINH	NLS			
+209	HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG	BVH			
+210	TRƯỜNG ĐẠI HỌC ĐÔNG Á	DAD			
+211	TRƯỜNG ĐẠI HỌC KỸ THUẬT Y TẾ HẢI DƯƠNG	DKY			
+212	TRƯỜNG ĐẠI HỌC NÔNG LÂM BẮC GIANG	DBG			
+213	TRƯỜNG ĐẠI HỌC TÔN ĐỨC THẮNG	DTT			
+214	HỌC VIỆN QUẢN LÝ GIÁO DỤC	HVQ			
+215	TRƯỜNG CAO ĐẲNG SƯ PHẠM NAM ĐỊNH	C25			
+216	TRƯỜNG ĐẠI HỌC CÔNG ĐOÀN	LDA			
+217	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI	DCD			
+218	TRƯỜNG ĐẠI HỌC ĐIỆN LỰC	DDL			
+219	TRƯỜNG ĐẠI HỌC HÀ TĨNH	HHT			
+220	TRƯỜNG ĐẠI HỌC LAO ĐỘNG - XÃ HỘI	DLX			
+221	TRƯỜNG ĐẠI HỌC LUẬT, ĐẠI HỌC HUẾ	DHA			
+222	TRƯỜNG ĐẠI HỌC THĂNG LONG	DTL			
+223	TRƯỜNG ĐẠI HỌC Y DƯỢC HẢI PHÒNG	YPB			
+224	HỌC VIỆN BÁO CHÍ VÀ TUYÊN TRUYỀN	HBT			
+225	HỌC VIỆN CHÍNH SÁCH VÀ PHÁT TRIỂN	HCP			
+226	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ VÀ QUẢN LÝ HỮU NGHỊ	DCQ			
+227	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP VIỆT TRÌ	VUI			
+228	TRƯỜNG ĐẠI HỌC HẢI PHÒNG	THP			
+229	TRƯỜNG ĐẠI HỌC KINH TẾ KỸ THUẬT CÔNG NGHIỆP	DKK			
+230	TRƯỜNG ĐẠI HỌC NAM CẦN THƠ	DNC			
+231	TRƯỜNG ĐẠI HỌC SƯ PHẠM NGHỆ THUẬT TRUNG ƯƠNG	GNT			
+232	TRƯỜNG ĐẠI HỌC Y DƯỢC THÁI BÌNH	YTB			
+233	TRƯỜNG ĐẠI HỌC KINH TẾ - CÔNG NGHỆ THÁI NGUYÊN	DVB			
+234	TRƯỜNG ĐẠI HỌC BÌNH DƯƠNG	DBD			
+235	TRƯỜNG ĐẠI HỌC NGOẠI NGỮ - TIN HỌC TP. HỒ CHÍ MINH	DNT			
+236	TRƯỜNG CAO ĐẲNG SƯ PHẠM TRUNG ƯƠNG NHA TRANG	CM2			
+237	TRƯỜNG ĐẠI HỌC CỬU LONG	DCL			
+238	TRƯỜNG ĐẠI HỌC QUẢNG BÌNH	DQB			
+239	TRƯỜNG ĐẠI HỌC XÂY DỰNG MIỀN TÂY	MTU			
+240	HỌC VIỆN HÀNG KHÔNG VIỆT NAM	HHK			
+241	HỌC VIỆN Y DƯỢC HỌC CỔ TRUYỀN VIỆT NAM	HYD			
+242	TRƯỜNG ĐẠI HỌC HÙNG VƯƠNG	THV			
+243	TRƯỜNG ĐẠI HỌC KIẾN TRÚC ĐÀ NẴNG	KTD			
+244	TRƯỜNG ĐẠI HỌC SƯ PHẠM TP. HỒ CHÍ MINH	SPS			
+245	TRƯỜNG ĐẠI HỌC CẦN THƠ	TCT			
+246	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ SÀI GÒN	DSG			
+247	TRƯỜNG ĐẠI HỌC DƯỢC HÀ NỘI	DKH			
+248	TRƯỜNG ĐẠI HỌC HÀNG HẢI VIỆT NAM	HHA			
+249	TRƯỜNG ĐẠI HỌC HOÀ BÌNH	ETU			
+250	TRƯỜNG ĐẠI HỌC KINH TẾ, ĐẠI HỌC HUẾ	DHK			
+251	TRƯỜNG ĐẠI HỌC LÂM NGHIỆP	LNH			
+252	TRƯỜNG ĐẠI HỌC LUẬT HÀ NỘI	LPH			
+253	TRƯỜNG ĐẠI HỌC MỎ - ĐỊA CHẤT	MDA			
+254	TRƯỜNG ĐẠI HỌC MỞ HÀ NỘI	MHN			
+255	TRƯỜNG ĐẠI HỌC NGOẠI NGỮ, ĐẠI HỌC HUẾ	DHF			
+256	TRƯỜNG ĐẠI HỌC SƯ PHẠM HÀ NỘI 2	SP2			
+257	TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT HƯNG YÊN	SKH			
+258	TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC HUẾ	DHS			
+259	TRƯỜNG ĐẠI HỌC TÀI NGUYÊN VÀ MÔI TRƯỜNG HÀ NỘI	DMT			
+260	TRƯỜNG ĐẠI HỌC TÂY ĐÔ	DTD			
+261	TRƯỜNG ĐẠI HỌC THỂ DỤC THỂ THAO BẮC NINH	TDB			
+262	TRƯỜNG ĐẠI HỌC THƯƠNG MẠI	TMA			
+263	TRƯỜNG ĐẠI HỌC AN GIANG - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	TAG			
+264	TRƯỜNG ĐẠI HỌC LẠC HỒNG	DLH			
+265	TRƯỜNG ĐẠI HỌC NHA TRANG	TSN			
+266	TRƯỜNG ĐẠI HỌC KIẾN TRÚC HÀ NỘI	KTA			
+267	TRƯỜNG ĐẠI HỌC MỸ THUẬT VIỆT NAM	MTH			
+268	TRƯỜNG ĐẠI HỌC Y DƯỢC CẦN THƠ	YCT			
+269	TRƯỜNG ĐẠI HỌC Y DƯỢC, ĐẠI HỌC THÁI NGUYÊN	DTY			
+270	TRƯỜNG ĐẠI HỌC HÀ NỘI	NHF			
+271	TRƯỜNG ĐẠI HỌC NGÂN HÀNG TP. HỒ CHÍ MINH	NHS			
+272	TRƯỜNG ĐẠI HỌC KINH TẾ VÀ QUẢN TRỊ KINH DOANH, ĐẠI HỌC THÁI NGUYÊN	DTE			
+273	ĐẠI HỌC BÁCH KHOA HÀ NỘI	BKA			
+274	TRƯỜNG ĐẠI HỌC BÁCH KHOA, ĐẠI HỌC ĐÀ NẴNG	DDK			
+275	TRƯỜNG ĐẠI HỌC XÂY DỰNG HÀ NỘI	XDA			
+276	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	QSC			
+277	TRƯỜNG ĐẠI HỌC SAO ĐỎ	SDU			
+278	TRƯỜNG ĐẠI HỌC Y TẾ CÔNG CỘNG	YTC			
+279	ĐẠI HỌC Y DƯỢC TP. HỒ CHÍ MINH	YDS			
+280	TRƯỜNG ĐẠI HỌC TÀI CHÍNH - MARKETING	DMS			
+281	TRƯỜNG ĐẠI HỌC THỦ DẦU MỘT	TDM			
+282	TRƯỜNG ĐẠI HỌC KỸ THUẬT CÔNG NGHIỆP, ĐẠI HỌC THÁI NGUYÊN	DTK			
+283	TRƯỜNG ĐẠI HỌC PHẠM VĂN ĐỒNG	DPQ			
+284	TRƯỜNG ĐẠI HỌC QUY NHƠN	DQN			
+285	TRƯỜNG ĐẠI HỌC KINH TẾ - LUẬT - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	QSK			
+286	TRƯỜNG ĐẠI HỌC MỞ TP. HỒ CHÍ MINH	MBS			
+287	TRƯỜNG ĐẠI HỌC TIỀN GIANG	TTG			
+288	TRƯỜNG ĐẠI HỌC Y HÀ NỘI	YHB			
+289	TRƯỜNG ĐẠI HỌC NÔNG LÂM, ĐẠI HỌC THÁI NGUYÊN	DTN			
+290	TRƯỜNG ĐẠI HỌC ĐỒNG THÁP	SPD			
+291	TRƯỜNG CAO ĐẲNG SƯ PHẠM TRUNG ƯƠNG	CM1			
+292	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP HÀ NỘI	DCN			
+293	TRƯỜNG ĐẠI HỌC NGOẠI THƯƠNG	NTH			
+294	HỌC VIỆN NÔNG NGHIỆP VIỆT NAM	HVN			
+295	TRƯỜNG ĐẠI HỌC HỒNG ĐỨC	HDT			
+296	TRƯỜNG ĐẠI HỌC KHOA HỌC, ĐẠI HỌC HUẾ	DHT			
+297	TRƯỜNG ĐẠI HỌC VINH	TDV			
+298	HỌC VIỆN NGÂN HÀNG	NHH			
+299	TRƯỜNG ĐẠI HỌC SÂN KHẤU ĐIỆN ẢNH HÀ NỘI	SKD			
+300	TRƯỜNG ĐẠI HỌC SƯ PHẠM HÀ NỘI	SPH	
+301	TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC THÁI NGUYÊN	DTS			
+302	TRƯỜNG ĐẠI HỌC SÀI GÒN	SGD			
+303	TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	QSX			
+304	TRƯỜNG ĐẠI HỌC Y DƯỢC, ĐẠI HỌC HUẾ	DHY			
+305	TRƯỜNG ĐẠI HỌC NÔNG LÂM, ĐẠI HỌC HUẾ	DHL			
+306	ĐẠI HỌC KINH TẾ TP. HỒ CHÍ MINH	KSA			
+307	TRƯỜNG ĐẠI HỌC CÔNG THƯƠNG TP. HỒ CHÍ MINH	DCT			
+308	TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH	GTS			
+309	TRƯỜNG ĐẠI HỌC LUẬT TP. HỒ CHÍ MINH	LPS			
+310	TRƯỜNG ĐẠI HỌC NGUYỄN TẤT THÀNH	NTT			
+311	TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT TP. HỒ CHÍ MINH	SPK			
+312	TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHT			
+313	TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN - ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH	QST			
+314	HỌC VIỆN TÀI CHÍNH	HTC			
+315	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ GIAO THÔNG VẬN TẢI	GTA			
+316	TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG, ĐẠI HỌC THÁI NGUYÊN	DTC			
+317	TRƯỜNG ĐẠI HỌC DUY TÂN	DDT			
+318	TRƯỜNG ĐẠI HỌC KHOA HỌC, ĐẠI HỌC THÁI NGUYÊN	DTZ			
+319	TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP TP. HỒ CHÍ MINH	HUI			
+320	TRƯỜNG ĐẠI HỌC GIÁO DỤC - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHS			
+321	TRƯỜNG ĐẠI HỌC KINH TẾ, ĐẠI HỌC ĐÀ NẴNG	DDQ			
+322	TRƯỜNG ĐẠI HỌC NGOẠI NGỮ, ĐẠI HỌC ĐÀ NẴNG	DDF			
+323	TRƯỜNG ĐẠI HỌC KINH TẾ - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHE			
+324	TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHX			
+325	TRƯỜNG ĐẠI HỌC NGOẠI NGỮ - ĐẠI HỌC QUỐC GIA HÀ NỘI	QHF			
+326	TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI	GHA			
+327	TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC ĐÀ NẴNG	DDS

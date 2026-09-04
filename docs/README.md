@@ -1,42 +1,62 @@
-# Application Core Platform Documentation
+# 1learn.asia — Project Documentation
 
-This folder is the single source of truth for the application core.
+## Đọc theo thứ tự này (bắt buộc)
 
-Any developer or AI agent working on this codebase must read these files before adding or changing features:
+| # | File | Mục đích | Đọc khi nào |
+|---|---|---|---|
+| 1 | `00_PRODUCT_VISION.md` | Tại sao sản phẩm tồn tại | Luôn luôn đọc trước |
+| 2 | `product-bible.md` | SSoT cho mọi quyết định sản phẩm | Luôn luôn đọc trước |
+| 3 | `01_PRODUCT_REQUIREMENTS.md` | Business model, freemium, assessment frameworks, data sources | Trước khi code feature mới |
+| 4 | `02_SOFTWARE_REQUIREMENTS_SPECIFICATION.md` | Spec chi tiết từng feature | Trước khi code bất kỳ feature nào |
+| 5 | `04_DATABASE_SPECIFICATION.md` | Schema tất cả domain tables | Trước khi tạo migration |
+| 6 | `06_AI_AND_MATCHING_SPECIFICATION.md` | Thuật toán matching + AI guardrails | Trước khi implement engine |
+| 7 | `13_ROADMAP.md` | Tiến độ hiện tại + task breakdown | Mỗi phiên làm việc |
+| 8 | `14_DECISION_LOG.md` | Lý do các quyết định đã được đưa ra | Khi cần hiểu context |
 
-1. `00-system-overview.md`
-2. `01-feature-registry.md`
-3. `02-module-completion-tracker.md`
-4. `03-data-contracts.md`
-5. `04-api-contracts.md`
-6. `05-development-rules.md`
-7. `06-project-board.md`
-8. `07-source-architecture.md`
-9. `08-infrastructure-integrations.md`
-10. `09-acceptance-playbook.md`
-11. The relevant file in `modules/`
+## Core Platform Documentation (kế thừa từ starter kit)
 
-The goal of this project is to create a reusable application core that can be copied into future products. Domain-specific features, such as travel planning, marketplace listings, education content, or booking workflows, must be implemented as modules on top of this core.
+| # | File | Mục đích |
+|---|---|---|
+| `00-system-overview.md` | Tổng quan hệ thống core | 
+| `01-feature-registry.md` | Registry tính năng core |
+| `02-module-completion-tracker.md` | Tiến độ core modules |
+| `03-data-contracts.md` | Schema core tables |
+| `04-api-contracts.md` | API contracts core |
+| `05-development-rules.md` | Coding rules |
+| `06-project-board.md` | Project board core |
+| `07-source-architecture.md` | Cấu trúc source code |
+| `08-infrastructure-integrations.md` | Supabase, Vercel, Resend, GitHub |
+| `09-acceptance-playbook.md` | Acceptance test patterns |
+| `modules/` | Chi tiết từng core module |
 
-## Current Build Status
+## Agent System
 
-The reusable core is implemented and deployed to Supabase/GitHub/Vercel Preview. The exact module percentages and acceptance evidence are maintained in `02-module-completion-tracker.md` and `06-project-board.md`; this summary must not override them.
+All agent definitions: `.agents/agents/`
 
-| Area | Status | Completion |
-| --- | --- | --- |
-| Documentation foundation | Verified and synchronized | 100% |
-| Application code | Implemented, under staged acceptance | See module tracker |
-| Database schema | Six migrations deployed to Supabase | See data contracts |
-| API routes | Implemented by module | See API contracts |
-| Automated tests | Repeatable Playwright browser harness passes locally and in GitHub CI | See project board |
+| Agent | File | Role |
+|---|---|---|
+| Orchestrator | `.agents/agents/orchestrator/agent.md` | Điều phối tất cả agents |
+| Product Architect | `.agents/agents/product-architect/agent.md` | Bảo vệ Product Bible |
+| Backend Engineer | `.agents/agents/backend-engineer/agent.md` | API + business logic |
+| Frontend Engineer | `.agents/agents/frontend-engineer/agent.md` | UI + components |
+| Database Engineer | `.agents/agents/database-engineer/agent.md` | Migrations + RLS |
+| AI Matching Engineer | `.agents/agents/ai-matching-engineer/agent.md` | Matching engine + AI |
+| QA Engineer | `.agents/agents/qa-engineer/agent.md` | Tests + bug reports |
+| Security Reviewer | `.agents/agents/security-reviewer/agent.md` | Security + privacy |
+| Release Manager | `.agents/agents/release-manager/agent.md` | Deployment control |
 
 ## Documentation Rules
 
-- Every module must have a matching file in `docs/modules/`.
-- Every implemented feature must be listed in `01-feature-registry.md`.
-- Every module completion percentage must be updated in `02-module-completion-tracker.md`.
-- Database tables, columns, enums, indexes, and policies must be documented in `03-data-contracts.md`.
-- API routes, request payloads, response payloads, auth requirements, and side effects must be documented in `04-api-contracts.md`.
-- If code and documentation disagree, the task is not complete.
-- The project board is updated at the start and end of every implementation task.
-- Completion can move to `100%` only after the acceptance playbook has recorded evidence.
+1. Mọi table mới phải được define trong `04_DATABASE_SPECIFICATION.md` TRƯỚC khi tạo migration.
+2. Mọi feature mới phải có spec trong `02_SOFTWARE_REQUIREMENTS_SPECIFICATION.md` TRƯỚC khi code.
+3. Khi hoàn thành một task → update `13_ROADMAP.md` (mark `[x]`).
+4. Mọi quyết định kiến trúc lớn → thêm vào `14_DECISION_LOG.md`.
+5. Code và documentation không được mâu thuẫn — nếu mâu thuẫn, task chưa hoàn thành.
+
+## Quick Status Check
+
+Xem tiến độ hiện tại: [`13_ROADMAP.md`](./13_ROADMAP.md)
+
+Xem task đang làm: Tìm `[/]` trong `13_ROADMAP.md`
+
+Xem quyết định đã đưa ra: [`14_DECISION_LOG.md`](./14_DECISION_LOG.md)

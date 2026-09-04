@@ -1,0 +1,193 @@
+# Điểm chuẩn Đại học Bách khoa Hà Nội năm 2026
+
+09-08-2026
+
+Chiều nay (9/8), Đại học Bách khoa Hà Nội công bố điểm chuẩn xét tuyển đại học vào 68 chương trình đào tạo năm 2026, theo đó, mức điểm chuẩn dao động từ 20,06 đến 29,54 theo điểm thi tốt nghiệp THPT. Điểm chuẩn Đại học Bách khoa Hà Nội cao nhất là 29,54 theo điểm thi tốt nghiệp THPT, tương đương với điểm XTTN diện 1.2 là 96,75; điểm XTTN diện 1.3 là 96,09 và điểm TSA là 82,12
+
+Theo **GS. Vũ Văn Yêm - Phó Giám đốc Đại học Bách khoa Hà Nội**, tính tới thời điểm 13h00 chiều nay, công tác lọc ảo của nhóm xét tuyển miền Bắc do Đại học Bách khoa Hà Nội chủ trì đã hoàn thành nhiệm vụ theo quy trình chung. Mặc dù năm nay có thêm một số điểm mới trong công tác xét tuyển, nhưng kết quả lọc ảo đã được thực hiện đồng bộ, chính xác và bàn giao cho các trường trong nhóm đúng thời hạn quy định của Bộ Giáo dục và Đào tạo.
+
+### Biến động điểm chuẩn 2026: Khối ngành STEM chiếm ưu thế
+
+Nhìn chung, điểm chuẩn trúng tuyển vào các chương trình đào tạo của Đại học Bách khoa Hà Nội đều tăng so với năm 2025. Đặc biệt, khối ngành đào tạo về STEM tăng mạnh do hiệu ứng từ chính sách học bổng của Chính phủ cũng như nhu cầu thực tế của thị trường lao động. Thống kê chi tiết như sau:
+
+- **3/68** chương trình có mức điểm chuẩn trên **29 điểm**.
+- **14/68** chương trình có mức điểm chuẩn trên **28 điểm**.
+- **30/68** chương trình có mức điểm chuẩn trên **27 điểm**.
+- **53/68** chương trình có mức điểm chuẩn trên **24 điểm**.
+
+Chương trình tiên tiến **Khoa học dữ liệu và Trí tuệ nhân tạo (IT-E10)** tiếp tục có mức điểm chuẩn cao nhất năm nay là **29,54 điểm** (theo điểm thi tốt nghiệp THPT). Các vị trí bám sát tiếp theo đều thuộc về những ngành có độ cạnh tranh cực lớn:
+
+- Chương trình **Khoa học máy tính (IT1)**: 29,27 điểm.
+- Chương trình **Kỹ thuật Điều khiển - Tự động hoá (EE2)**: 28,98 điểm.
+- Chương trình **Kỹ thuật Vi điện tử và Công nghệ nano (MS2)**: 28,64 điểm.
+- Chương trình **Kỹ thuật Điện tử - Viễn thông (ET1)**: 28,57 điểm.
+- Chương trình **Kỹ thuật Cơ điện tử (ME1)**: 28,47 điểm.
+
+Đáng chú ý, chương trình mới mở năm nay là **Khoa học tính toán cho các hệ thống thông minh (MI-E22)** cũng đã đạt mức điểm chuẩn rất cao là **27,97 điểm**. Ở chiều ngược lại, 02 chương trình có mức điểm chuẩn thấp nhất là **BF-E19** và **EM-E17** với mức **20,06 điểm**.
+
+### Chi tiết điểm chuẩn các chương trình đào tạo năm 2026
+
+![Bảng điểm chuẩn Đại học Bách khoa Hà Nội 2026 - Phần 1](https://ts.hust.edu.vn/storage/app/public/posts/August2026/gen-h-z8132712018808_6236b93e1223e5e7419c2070d508c342.jpg)
+
+![Bảng điểm chuẩn Đại học Bách khoa Hà Nội 2026 - Phần 2](https://ts.hust.edu.vn/storage/app/public/posts/August2026/gen-h-z8132712018789_f2396fc4cc4e52dd396cc8624f9fa192.jpg)
+
+### Quy định về độ lệch điểm giữa các tổ hợp xét tuyển
+
+Căn cứ theo hướng dẫn chung của Bộ Giáo dục và Đào tạo và phổ điểm thi tốt nghiệp THPT năm 2026, Đại học Bách khoa Hà Nội công bố độ lệch điểm giữa các tổ hợp xét tuyển như sau:
+
+![Bảng quy đổi độ lệch điểm các tổ hợp xét tuyển 2026](https://ts.hust.edu.vn/storage/app/public/posts/August2026/gen-n-z8132761741849_3ff33f2a957cade498377a55329e664e.jpg)
+
+Theo đó, **không có độ lệch điểm** giữa các tổ hợp A00, A01, B00, D07, K01 khi xét tuyển vào khối ngành kỹ thuật; và giữa các tổ hợp D01, D04, DD2 khi xét vào khối ngành kinh tế, giáo dục, ngoại ngữ.
+
+Tuy nhiên, đối với một số chương trình thuộc khối ngành kinh tế, giáo dục và ngoại ngữ sử dụng tổ hợp thuộc cả 2 nhóm trên, điểm chuẩn đối với các tổ hợp **A00, A01, B00, D07, K01** sẽ **cao hơn 0,5 điểm** so với tổ hợp **D01, D04, DD2**.
+
+> **Ví dụ 1:** Chương trình _EM1 - Quản lý năng lượng_ xét tuyển 4 tổ hợp (K01, A00, A01, D01). Nếu điểm trúng tuyển tổ hợp D01 là **24,56** thì điểm trúng tuyển tổ hợp K01, A00, A01 sẽ là **25,06**.
+>
+> **Ví dụ 2:** Chương trình _FL4 - Tiếng Hàn Khoa học và Công nghệ_ xét tuyển 3 tổ hợp (K01, D01, DD2). Nếu điểm trúng tuyển tổ hợp D01 là **22,98** thì tổ hợp DD2 vẫn là **22,98**, còn tổ hợp K01 sẽ là **23,48**.
+
+_🔗 Phụ huynh và thí sinh có thể tra cứu thêm công cụ quy đổi điểm chuẩn tương đương năm 2026 của ĐHBK Hà Nội tại đây: [Công cụ quy đổi điểm Bách Khoa 2026](https://tsbkhn.shinyapps.io/QuyDoi-2026BK/)._
+
+### Hướng dẫn cách xác định Điểm Xét Tuyển (ĐX)
+
+Điểm chuẩn được xác định dựa trên Điểm xét (ĐX) làm tròn đến 2 chữ số thập phân, cụ thể:
+
+- **Tổ hợp không có môn chính (thang 30):**
+
+ĐX = (Môn 1 + Môn 2 + Môn 3) + Điểm ưu tiên(1)
+- **Tổ hợp có môn chính là Toán (thang 30):**
+
+ĐX = \[(Môn 1 + Môn 2 + Môn 3 + Môn chính) x 3/4\] + Điểm ưu tiên(1)
+- **Tổ hợp K01 (thang 30):**
+
+ĐX = \[(Toán x 3 + Ngữ Văn x 1 + Lý/Hóa/Sinh/Tin x 2) x 1/2\] + Điểm ưu tiên(1)
+- **Kỳ thi Đánh giá tư duy (ĐGTD) 2025/2026, tổ hợp K00 (thang 100):**
+
+ĐX = (Điểm thi ĐGTD(2) \+ Điểm thưởng(4)) \+ Điểm ưu tiên(3)
+- **Xét tuyển tài năng diện 1.2 và 1.3 (thang 100):**
+
+ĐX = Điểm XTTN + Điểm ưu tiên(3)
+
+* * *
+
+_**Ghi chú:**_
+
+_(1) Điểm ưu tiên đối tượng, khu vực theo Quy chế tuyển sinh ban hành kèm Thông tư 06/2026/TT-BGDĐT._
+
+_(2) Điểm thi ĐGTD là điểm cao nhất trong các lần thi năm 2025 và 2026._
+
+_(3) Điểm ưu tiên đối tượng, khu vực quy về thang điểm 100._
+
+_(4) Điểm thưởng cho thí sinh có chứng chỉ IELTS (Academic) hoặc tương đương theo Quyết định số 4740/QĐ-ĐHBK._
+
+- Lưu tin
+- Bình luận
+
+- [Chia sẻ bài viết này qua Facebook](http://www.facebook.com/sharer.php?u=https://ts.hust.edu.vn/tin-tuc/diem-chuan-dai-hoc-bach-khoa-ha-noi-nam-2026 "Chia sẻ bài viết này qua Facebook")
+- [Chia sẻ bài viết này qua Twitter](http://twitter.com/share?url=https://ts.hust.edu.vn/tin-tuc/diem-chuan-dai-hoc-bach-khoa-ha-noi-nam-2026 "Chia sẻ bài viết này qua Twitter")
+- Chia sẻ
+
+### Có thể bạn sẽ thích
+
+[![Mở đăng ký Kỳ thi Đánh giá tư duy (TSA) năm 2024 - Đợt 3](https://ts.hust.edu.vn/storage/app/public/posts/February2024/DC7c3uku98CjsLFsgXR7.jpg)](https://ts.hust.edu.vn/tin-tuc/mo-dang-ky-ky-thi-danh-gia-tu-duy-tsa-nam-2024-dot-3)
+
+### [Mở đăng ký Kỳ thi Đánh giá tư duy (TSA) năm 2024 - Đợt 3](https://ts.hust.edu.vn/tin-tuc/mo-dang-ky-ky-thi-danh-gia-tu-duy-tsa-nam-2024-dot-3)
+
+- ![icons](https://ts.hust.edu.vn/public/images/author.png)Lê Giang
+- ![icon](https://ts.hust.edu.vn/public/images/calendar.png)06-02-2024![icons](https://ts.hust.edu.vn/public/images/eye.png)25241
+
+
+[![Thông báo kế hoạch hoàn trả lệ phí nộp thừa cho thí sinh đăng ký xét tuyển Đại học năm 2025](https://ts.hust.edu.vn/storage/app/public/posts/September2025/GVXkd7m7d6iGtwHlZ4Ng.jpg)](https://ts.hust.edu.vn/tin-tuc/thong-bao-ke-hoach-hoan-tra-le-phi-nop-thua-cho-thi-sinh-dang-ky-xet-tuyen-dai-hoc-nam-2025)
+
+### [Thông báo kế hoạch hoàn trả lệ phí nộp thừa cho thí sinh đăng ký xét tuyển Đại học năm 2025](https://ts.hust.edu.vn/tin-tuc/thong-bao-ke-hoach-hoan-tra-le-phi-nop-thua-cho-thi-sinh-dang-ky-xet-tuyen-dai-hoc-nam-2025)
+
+- ![icons](https://ts.hust.edu.vn/public/images/author.png)Lê Giang
+- ![icon](https://ts.hust.edu.vn/public/images/calendar.png)24-09-2025![icons](https://ts.hust.edu.vn/public/images/eye.png)16723
+
+
+[![Ngưỡng yêu cầu đối với thí sinh xét tuyển tài năng đợt 2 và hướng dẫn xác nhận nhập học](https://ts.hust.edu.vn/storage/app/public/posts/September2023/tVlG9ksdnbq25ouHmG6U.jpg)](https://ts.hust.edu.vn/tin-tuc/nguong-yeu-cau-doi-voi-thi-sinh-xet-tuyen-tai-nang-dot-2-va-huong-dan-xac-nhan-nhap-hoc)
+
+### [Ngưỡng yêu cầu đối với thí sinh xét tuyển tài năng đợt 2 và hướng dẫn xác nhận nhập học](https://ts.hust.edu.vn/tin-tuc/nguong-yeu-cau-doi-voi-thi-sinh-xet-tuyen-tai-nang-dot-2-va-huong-dan-xac-nhan-nhap-hoc)
+
+- ![icons](https://ts.hust.edu.vn/public/images/author.png)Lê Giang
+- ![icon](https://ts.hust.edu.vn/public/images/calendar.png)21-09-2022![icons](https://ts.hust.edu.vn/public/images/eye.png)13610
+
+
+[![ASEA-UNINET Scholarship 2021](https://ts.hust.edu.vn/storage/app/public/posts/September2023/PhH2685kXALMlvOPlrWR.jpg)](https://ts.hust.edu.vn/tin-tuc/asea-uninet-scholarship-2021)
+
+### [ASEA-UNINET Scholarship 2021](https://ts.hust.edu.vn/tin-tuc/asea-uninet-scholarship-2021)
+
+- ![icons](https://ts.hust.edu.vn/public/images/author.png)Lê Giang
+- ![icon](https://ts.hust.edu.vn/public/images/calendar.png)02-02-2021![icons](https://ts.hust.edu.vn/public/images/eye.png)5366
+
+
+[![Hướng dẫn xét tuyển thẳng và Ưu tiên xét tuyển (Phụ lục 2 - 3 - 4)](https://ts.hust.edu.vn/storage/app/public/posts/September2023/HWkkN3mBDG4zXLeAk5rY.jpg)](https://ts.hust.edu.vn/tin-tuc/huong-dan-xet-tuyen-thang-va-uu-tien-xet-tuyen-phu-luc-2-3-4)
+
+### [Hướng dẫn xét tuyển thẳng và Ưu tiên xét tuyển (Phụ lục 2 - 3 - 4)](https://ts.hust.edu.vn/tin-tuc/huong-dan-xet-tuyen-thang-va-uu-tien-xet-tuyen-phu-luc-2-3-4)
+
+- ![icons](https://ts.hust.edu.vn/public/images/author.png)Lê Giang
+- ![icon](https://ts.hust.edu.vn/public/images/calendar.png)26-09-2019![icons](https://ts.hust.edu.vn/public/images/eye.png)6081
+
+
+[![Dự kiến phương án tuyển sinh đại học 2026 của Bách khoa Hà Nội](https://ts.hust.edu.vn/storage/app/public/posts/October2025/He6OiQiakXecK3RVIFaW.jpg)](https://ts.hust.edu.vn/tin-tuc/du-kien-phuong-an-tuyen-sinh-dai-hoc-2026-cua-bach-khoa-ha-noi)
+
+### [Dự kiến phương án tuyển sinh đại học 2026 của Bách khoa Hà Nội](https://ts.hust.edu.vn/tin-tuc/du-kien-phuong-an-tuyen-sinh-dai-hoc-2026-cua-bach-khoa-ha-noi)
+
+- ![icons](https://ts.hust.edu.vn/public/images/author.png)Lê Giang
+- ![icon](https://ts.hust.edu.vn/public/images/calendar.png)24-10-2025![icons](https://ts.hust.edu.vn/public/images/eye.png)32035
+
+
+- ![search](https://ts.hust.edu.vn/storage/app/public/settings/icons/search-document.png)[Hướng dẫntra cứu](https://ts.hust.edu.vn/tin-tuc/huong-dan-tra-cuu "Hướng dẫn tra cứu")
+- ![phone](https://ts.hust.edu.vn/storage/app/public/settings/icons/hotline.png)[đại học0243 868 3408](tel:0243 868 3408)
+- ![phone](https://ts.hust.edu.vn/storage/app/public/settings/icons/hotline.png)[Sau đại học0243 868 3408](tel:0243 868 3408)
+
+- [sv388](https://shreeji-enterprise.in.net/ "sv388")
+- [ga6789](https://tc2000-app.in.net/ "ga6789")
+- [tartanhockey.com](https://www.tartanhockey.com/ "tartanhockey.com")
+- [Tài Xỉu Online AI](https://taixiu.com.se/ "Tài Xỉu Online AI")
+- [Sunwin](http://viper.co.com/ "Sunwin")
+- [Go88](https://go88vip.jp.net/ "Go88")
+- [okvip](https://kvi.co.com/ "okvip")
+- [bk8](https://avatorfree.it.com/ "bk8")
+- [tk88](https://aviapalyin.it.com/ "tk88")
+- [ko66](https://baron69-max.it.com/ "ko66")
+- [sv66](https://robopragma.it.com/ "sv66")
+- [woot.eu.com](https://woot.eu.com/ "woot.eu.com")
+- [w88.mov](https://w88.mov/ "w88.mov")
+- [789win](https://thedukeofmountdeer.com/ "789win")
+- [xocdia88.com.co](http://xocdia88.com.co/ "xocdia88.com.co")
+- [ev88.com.de](https://ev88.com.de/ "ev88.com.de")
+- [68gamebai.com.se](https://68gamebai.com.se/ "68gamebai.com.se")
+- [Nohu90](https://polycode.co/ "Nohu90")
+- [KUBET](https://kubet.com.vc/ "KUBET")
+- [mb66.com.de](https://mb66.com.de/ "mb66.com.de")
+- [98win](https://98win.nagoya/ "98win")
+- [m88](https://m88.com.vc/ "m88")
+- [B52 Club](https://b52.com.de/ "B52 Club")
+- [hb88](https://hb88.com.vc/ "hb88")
+- [99OK](https://99ok.nagoya/ "99OK")
+- [sunwin](https://taisunwin.com.se/ "sunwin")
+- [https://sv388.deals](https://sv388.deals/ "https://sv388.deals")
+- [bk8](https://bk88.eu.com/ "bk8")
+
+- [Home](https://ts.hust.edu.vn/)
+- [Hướng nghiệp](https://ts.hust.edu.vn/b/huong-nghiep)
+  - [Đăng ký trải nghiệm khối THPT](https://docs.google.com/forms/d/e/1FAIpQLSfx3VNVqtDBDokm_rpKnTSkE3SMZPaKWKiFLXRslcXtTJsnzw/viewform)
+- [Tuyển sinh Đại học](https://ts.hust.edu.vn/p/dai-hoc)
+  - [Thông tin chung](https://ts.hust.edu.vn/b/thong-tin-chung)
+  - [Brochure Thông tin tuyển sinh](https://nxbbachkhoa.vn/ebook-free/12397/0/1)
+  - [Chương trình đào tạo đại học](https://ts.hust.edu.vn/training-cate/nganh-dao-tao-dai-hoc)
+  - [Xét tuyển tài năng](https://ts.hust.edu.vn/b/xet-tuyen-tai-nang)
+  - [Kỳ thi đánh giá tư duy](https://ts.hust.edu.vn/b/ky-thi-danh-gia-tu-duy)
+  - [Xác thực chứng chỉ Ngoại ngữ](https://ts.hust.edu.vn/tin-tuc/huong-dan-dang-ky-xac-thuc-chung-chi-ngoai-ngu-2026)
+  - [Điểm chuẩn các năm](https://ts.hust.edu.vn/b/diem-chuan-tuyen-sinh)
+- [Tuyển sinh Sau đại học](https://ts.hust.edu.vn/p/sau-dai-hoc)
+  - [Tuyển sinh Kỹ sư chuyên sâu](https://ts.hust.edu.vn/b/tuyen-sinh-ky-su-chuyen-sau)
+  - [Tuyển sinh cao học](https://ts.hust.edu.vn/b/tuyen-sinh-cao-hoc)
+  - [Tuyển sinh nghiên cứu sinh](https://ts.hust.edu.vn/b/tuyen-sinh-ncs)
+- [International Admissions](https://ts.hust.edu.vn/en/program-cate/undergraduate-programs)
+- [Học phí - Học bổng](https://ts.hust.edu.vn/tin-tuc/hoc-phi-dai-hoc-chinh-quy)
+  - [Học phí](https://ts.hust.edu.vn/tin-tuc/hoc-phi-dai-hoc-chinh-quy)
+  - [Học bổng](https://ts.hust.edu.vn/tin-tuc/ho-tro-tai-chinh-cho-sinh-vien)
+- [Liên hệ](https://ts.hust.edu.vn/p/lien-he)
+  - [Ban TS-HN](https://ts.hust.edu.vn/p/lien-he)
+  - [Đơn vị đào tạo](https://ts.hust.edu.vn/tin-tuc/danh-sach-to-tu-van-chuyen-sau-cac-chuong-trinh-nganh-hoc)

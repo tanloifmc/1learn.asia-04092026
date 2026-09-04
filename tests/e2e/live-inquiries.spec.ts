@@ -23,25 +23,25 @@ test.describe("live inquiry journey", () => {
       const password = `CoreInquiry!${randomUUID()}`;
       const { data, error } = await admin.auth.admin.createUser({ email: `core-inquiry-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password });
       if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`);
-      return { id: data.user.id, email: data.user.email, password };
+      return { id: data.user.id, email: data.user.email as string, password };
     }
     sender = await createUser("sender");
     provider = await createUser("provider");
     otherProvider = await createUser("other-provider");
-    const { data, error } = await admin.from("organizations").insert({ owner_id: provider.id, name: "Core Inquiry Provider", slug: `core-inquiry-${randomUUID().slice(0, 8)}`, status: "approved" }).select("id").single();
+    const { data, error } = await (admin as any).from("organizations").insert({ owner_id: provider.id, name: "Core Inquiry Provider", slug: `core-inquiry-${randomUUID().slice(0, 8)}`, status: "approved" }).select("id").single();
     if (error || !data) throw new Error(`Could not create provider organization: ${error?.message ?? "unknown error"}`);
     organizationId = data.id;
-    const { data: otherOrganization, error: otherOrganizationError } = await admin.from("organizations").insert({ owner_id: otherProvider.id, name: "Core Other Inquiry Provider", slug: `core-other-inquiry-${randomUUID().slice(0, 8)}`, status: "approved" }).select("id").single();
+    const { data: otherOrganization, error: otherOrganizationError } = await (admin as any).from("organizations").insert({ owner_id: otherProvider.id, name: "Core Other Inquiry Provider", slug: `core-other-inquiry-${randomUUID().slice(0, 8)}`, status: "approved" }).select("id").single();
     if (otherOrganizationError || !otherOrganization) throw new Error(`Could not create second provider organization: ${otherOrganizationError?.message ?? "unknown error"}`);
     otherOrganizationId = otherOrganization.id;
-    await admin.from("user_roles").upsert({ user_id: provider.id, role: "provider" }, { onConflict: "user_id,role" });
-    await admin.from("user_roles").upsert({ user_id: otherProvider.id, role: "provider" }, { onConflict: "user_id,role" });
+    await (admin as any).from("user_roles").upsert({ user_id: provider.id, role: "provider" }, { onConflict: "user_id,role" });
+    await (admin as any).from("user_roles").upsert({ user_id: otherProvider.id, role: "provider" }, { onConflict: "user_id,role" });
   });
 
   test.afterAll(async () => {
-    await admin.from("inquiries").delete().eq("organization_id", organizationId);
-    await admin.from("organizations").delete().eq("id", organizationId);
-    await admin.from("organizations").delete().eq("id", otherOrganizationId);
+    await (admin as any).from("inquiries").delete().eq("organization_id", organizationId);
+    await (admin as any).from("organizations").delete().eq("id", organizationId);
+    await (admin as any).from("organizations").delete().eq("id", otherOrganizationId);
     await admin.auth.admin.deleteUser(sender.id);
     await admin.auth.admin.deleteUser(provider.id);
     await admin.auth.admin.deleteUser(otherProvider.id);
@@ -100,3 +100,5 @@ test.describe("live inquiry journey", () => {
     }
   });
 });
+
+

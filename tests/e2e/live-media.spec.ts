@@ -25,13 +25,13 @@ test.describe("live media uploads", () => {
       const password = `CoreMedia!${randomUUID()}`;
       const { data, error } = await admin.auth.admin.createUser({ email: `core-media-${label}-${randomUUID()}@example.invalid`, email_confirm: true, password });
       if (error || !data.user) throw new Error(`Could not create ${label}: ${error?.message ?? "unknown error"}`);
-      return { id: data.user.id, email: data.user.email, password };
+      return { id: data.user.id, email: data.user.email as string, password };
     }
     user = await createUser("user");
     provider = await createUser("provider");
     attacker = await createUser("attacker");
-    await admin.from("user_roles").upsert({ user_id: provider.id, role: "provider" }, { onConflict: "user_id,role" });
-    const { data: organization, error } = await admin.from("organizations").insert({ owner_id: provider.id, name: `Core Media Provider ${randomUUID().slice(0, 8)}`, slug: `core-media-provider-${randomUUID().slice(0, 8)}`, status: "draft" }).select("id").single();
+    await (admin as any).from("user_roles").upsert({ user_id: provider.id, role: "provider" }, { onConflict: "user_id,role" });
+    const { data: organization, error } = await (admin as any).from("organizations").insert({ owner_id: provider.id, name: `Core Media Provider ${randomUUID().slice(0, 8)}`, slug: `core-media-provider-${randomUUID().slice(0, 8)}`, status: "draft" }).select("id").single();
     if (error || !organization) throw new Error(`Could not create organization: ${error?.message ?? "unknown error"}`);
     organizationId = organization.id;
   });
@@ -41,7 +41,7 @@ test.describe("live media uploads", () => {
       const { data: files } = await admin.storage.from(bucket).list(prefix);
       if (files?.length) await admin.storage.from(bucket).remove(files.map((file) => `${prefix}/${file.name}`));
     }
-    if (organizationId) await admin.from("organizations").delete().eq("id", organizationId);
+    if (organizationId) await (admin as any).from("organizations").delete().eq("id", organizationId);
     await admin.auth.admin.deleteUser(user.id);
     await admin.auth.admin.deleteUser(provider.id);
     await admin.auth.admin.deleteUser(attacker.id);
@@ -64,17 +64,17 @@ test.describe("live media uploads", () => {
     await page.getByLabel("Chon anh").setInputFiles({ name: "not-an-image.txt", mimeType: "text/plain", buffer: Buffer.from("not an image") });
     expect((await invalidAvatarResponse).status()).toBe(422);
     await expect(page.getByRole("status")).toContainText("Khong the tai anh");
-    expect((await admin.from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
+    expect((await (admin as any).from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
     const oversizedAvatarResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
     await page.getByLabel("Chon anh").setInputFiles({ name: "too-large.png", mimeType: "image/png", buffer: Buffer.alloc(5 * 1024 * 1024 + 1, 1) });
     expect((await oversizedAvatarResponse).status()).toBe(422);
     await expect(page.getByRole("status")).toContainText("Khong the tai anh");
-    expect((await admin.from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
+    expect((await (admin as any).from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url).toBeNull();
     const avatarResponse = page.waitForResponse((item) => item.url().includes("/api/media/upload") && item.request().method() === "POST", { timeout: 30_000 });
     await page.getByLabel("Chon anh").setInputFiles({ name: "avatar.png", mimeType: "image/png", buffer: imagePayload });
     expect((await avatarResponse).status()).toBe(201);
     await expect(page.getByRole("status")).toContainText("Da tai anh len");
-    await expect.poll(async () => (await admin.from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url, { timeout: 20_000 }).toContain(`/avatars/${user.id}/`);
+    await expect.poll(async () => (await (admin as any).from("profiles").select("avatar_url").eq("id", user.id).single()).data?.avatar_url, { timeout: 20_000 }).toContain(`/avatars/${user.id}/`);
 
     const providerContext = await browser.newContext();
     const providerPage = await providerContext.newPage();
@@ -85,7 +85,7 @@ test.describe("live media uploads", () => {
       await providerPage.getByRole("heading", { name: "Logo doanh nghiep" }).locator("..").getByLabel("Chon anh").setInputFiles({ name: "logo.png", mimeType: "image/png", buffer: imagePayload });
       expect((await logoResponse).status()).toBe(201);
       await expect(providerPage.getByRole("status")).toContainText("Da tai anh len");
-      await expect.poll(async () => (await admin.from("organizations").select("logo_url").eq("id", organizationId).single()).data?.logo_url, { timeout: 20_000 }).toContain(`/organization-media/${organizationId}/`);
+      await expect.poll(async () => (await (admin as any).from("organizations").select("logo_url").eq("id", organizationId).single()).data?.logo_url, { timeout: 20_000 }).toContain(`/organization-media/${organizationId}/`);
     } finally {
       await providerContext.close();
     }
@@ -120,3 +120,5 @@ test.describe("live media uploads", () => {
     expect(logoFiles?.some((file) => file.name === `rls-owner-${suffix}.png`)).toBe(true);
   });
 });
+
+

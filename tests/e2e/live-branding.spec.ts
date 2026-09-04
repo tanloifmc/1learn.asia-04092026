@@ -38,8 +38,8 @@ test.describe("live branding and navigation settings", () => {
       password,
     });
     if (error || !data.user) throw new Error(`Could not create administrator: ${error?.message ?? "unknown error"}`);
-    administrator = { id: data.user.id, email: data.user.email, password };
-    const { error: roleError } = await admin.from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
+    administrator = { id: data.user.id, email: data.user.email as string, password };
+    const { error: roleError } = await (admin as any).from("user_roles").upsert({ user_id: administrator.id, role: "admin" }, { onConflict: "user_id,role" });
     if (roleError) throw new Error(`Could not assign administrator role: ${roleError.message}`);
   });
 
@@ -49,17 +49,17 @@ test.describe("live branding and navigation settings", () => {
     for (const key of settingKeys) {
       const original = originals.get(key);
       if (original) {
-        await admin.from("app_settings").upsert({
+        await (admin as any).from("app_settings").upsert({
           key: original.key,
           value: original.value,
           is_public: original.is_public,
         });
       } else {
-        await admin.from("app_settings").delete().eq("key", key);
+        await (admin as any).from("app_settings").delete().eq("key", key);
       }
     }
     if (administrator) {
-      await admin.from("audit_logs").delete().eq("actor_user_id", administrator.id);
+      await (admin as any).from("audit_logs").delete().eq("actor_user_id", administrator.id);
       await admin.auth.admin.deleteUser(administrator.id);
     }
   });
@@ -118,3 +118,5 @@ test.describe("live branding and navigation settings", () => {
     }
   });
 });
+
+

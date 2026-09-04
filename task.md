@@ -1,0 +1,18 @@
+- [x] **Validity Evaluator (Spec 08)**
+  - [x] Create `src/features/assessment/utils/validity-evaluator.ts`
+  - [x] Implement `evaluateValidity(inputs): GlobalValidity` with precedence: `UNDETERMINED > INVALID > QUESTIONABLE > VALID`
+  - [x] Apply rules: missing metadata (UNDETERMINED), attention failures (1=QUESTIONABLE, >=2=INVALID), speeding (<20%=VALID, 20-40%=QUESTIONABLE, >=40%=INVALID), straight-line blocks (1=QUESTIONABLE, >=2=INVALID)
+- [x] **Integrate Validity into Profile Builder**
+  - [x] Modify `profile-builder.ts` to call `evaluateValidity` or read it properly without losing `INVALID` and `UNDETERMINED` states.
+- [x] **Big Five Interpretation (Spec 07)**
+  - [x] Modify `interpretation-engine.ts` to separate `big_five` from generic `processFramework`.
+  - [x] Calculate `Mean(O,C,E,A,N)`.
+  - [x] Calculate `D = score - Mean`.
+  - [x] Map `D >= 10` to `prominent`, `D <= -10` to `lower`, otherwise `moderate`.
+  - [x] Update `INTERPRETATION_DICT` for `big_five` to use these new levels.
+- [x] **Testing**
+  - [x] Write deterministic unit tests for Validity covering all cases.
+  - [x] Write deterministic unit tests for Big Five covering all cases.
+  - [x] Execute tests and verify PASS.
+- [x] **Reporting**
+  - [x] Generate Remediation Audit report as requested.

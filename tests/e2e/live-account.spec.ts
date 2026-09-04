@@ -23,7 +23,7 @@ test.describe("live account journey", () => {
       user_metadata: { display_name: "Core Account" },
     });
     if (error || !data.user) throw new Error(`Could not create account user: ${error?.message ?? "unknown error"}`);
-    user = { id: data.user.id, email: data.user.email, password };
+    user = { id: data.user.id, email: data.user.email as string, password };
   });
 
   test.afterAll(async () => {
@@ -64,8 +64,8 @@ test.describe("live account journey", () => {
 
     await expect.poll(async () => {
       const [{ data: profile }, { data: preferences }] = await Promise.all([
-        adminClient.from("profiles").select("display_name, phone, locale, timezone").eq("id", user.id).maybeSingle(),
-        adminClient.from("account_preferences").select("email_notifications, product_updates").eq("user_id", user.id).maybeSingle(),
+        (adminClient as any).from("profiles").select("display_name, phone, locale, timezone").eq("id", user.id).maybeSingle(),
+        (adminClient as any).from("account_preferences").select("email_notifications, product_updates").eq("user_id", user.id).maybeSingle(),
       ]);
       return profile?.display_name === displayName
         && profile.phone === "0901234567"
@@ -89,3 +89,5 @@ test.describe("live account journey", () => {
     await login(page);
   });
 });
+
+

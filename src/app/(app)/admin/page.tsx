@@ -12,7 +12,13 @@ export default async function AdminPage() {
       <p>Ban dang dang nhap voi quyen: {account.roles.join(", ")}.</p>
       <section className="admin-grid" aria-label="Chuc nang quan tri">
         <Link className="list-item" href="/admin/content/posts"><h2>Quan ly bai viet</h2><p>Tao, xuat ban va luu tru noi dung.</p></Link>
-        {isAdministrator ? <Link className="list-item" href="/admin/settings"><h2>Cau hinh ung dung</h2><p>Quan ly du lieu thuong hieu va cau hinh cong khai.</p></Link> : null}
+        {isAdministrator ? (
+          <>
+            <Link className="list-item" href="/admin/settings"><h2>Cau hinh ung dung</h2><p>Quan ly du lieu thuong hieu va cau hinh cong khai.</p></Link>
+            <Link className="list-item" href="/admin/analytics"><h2>Analytics Dashboard</h2><p>Theo doi conversion funnel va metric nguoi dung.</p></Link>
+            <Link className="list-item" href="/admin/analytics/data"><h2>Data Quality</h2><p>Kiem duyet chat luong du lieu (Careers, Majors, Unis).</p></Link>
+          </>
+        ) : null}
       </section>
     </main>
   );

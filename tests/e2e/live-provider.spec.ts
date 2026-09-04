@@ -62,7 +62,7 @@ test.describe("live provider onboarding journey", () => {
     const updateResponse = page.waitForResponse((response) => response.url().includes("/api/provider/organization") && response.request().method() === "PATCH", { timeout: 45_000 });
     await page.getByRole("button", { name: "Luu ho so" }).click();
     expect((await updateResponse).status()).toBe(200);
-    await expect.poll(async () => (await admin.from("organizations").select("name, description, contact_phone, website_url").eq("owner_id", userId).single()).data, { timeout: 20_000 }).toMatchObject({
+    await expect.poll(async () => (await (admin as any).from("organizations").select("name, description, contact_phone, website_url").eq("owner_id", userId).single()).data, { timeout: 20_000 }).toMatchObject({
       name: updatedName,
       description: updatedDescription,
       contact_phone: "0900000000",
