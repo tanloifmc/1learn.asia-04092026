@@ -22,6 +22,8 @@ export const metadata: Metadata = {
   description: "Nền tảng hướng nghiệp thông minh, giúp học sinh trung học phổ thông tự tin đưa ra quyết định dựa trên dữ liệu thực tế về bản thân.",
 };
 
+import { Analytics } from "@vercel/analytics/react";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,6 +38,7 @@ export default function RootLayout({
         </main>
         <BackToTop />
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
