@@ -37,7 +37,7 @@ export const options = {
     },
 };
 
-export default function () {
+export default function runScenarios() {
     // Traffic Mix Model
     const rand = Math.random(); // 0.0 to 1.0
 

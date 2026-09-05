@@ -150,6 +150,7 @@ export default function CheckoutPage() {
           <div className="flex flex-col items-center justify-center bg-[#F7F5F0] p-6 md:p-8 rounded-3xl border border-[#0E1B3D]/5 h-full">
             <p className="font-bold text-[#0E1B3D] mb-6">Quét mã QR để thanh toán nhanh</p>
             <div className="bg-white rounded-2xl p-4 shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={qrUrl} alt="QR Code Thanh Toán" className="w-64 h-auto" />
             </div>
           </div>

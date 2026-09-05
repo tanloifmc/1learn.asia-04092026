@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { useCallback, useTransition } from 'react';
+import { useCallback, useTransition, useMemo } from 'react';
 import Image from 'next/image';
 import { Bookmark, ArrowRight, Activity } from 'lucide-react';
 import { toggleSavedItem } from '../actions';
@@ -32,7 +32,10 @@ export function CareerCard({ career, matchScore, isSaved }: CareerCardProps) {
     });
   };
 
-  const currentCompareIds = searchParams.get('compare')?.split(',').filter(Boolean) || [];
+  const compareParam = searchParams.get('compare');
+  const currentCompareIds = useMemo(() => {
+    return compareParam?.split(',').filter(Boolean) || [];
+  }, [compareParam]);
   const isSelectedForCompare = currentCompareIds.includes(career.id);
 
   const toggleCompare = useCallback((e: React.MouseEvent) => {
