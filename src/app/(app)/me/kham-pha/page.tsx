@@ -31,47 +31,70 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
     );
   }
 
-  // 2. Fetch or create session for this student + version
-  let { data: currentSession } = await supabase
-    .from("assessment_sessions")
-    .select("id, status")
-    .eq("student_id", user.id)
-    .eq("version_id", version.id)
-    .eq("status", "in_progress")
-    .maybeSingle();
-
-  // If already completed and not requesting a new one → redirect to report
-  // If they want to force a new one, they can pass ?new=1 in the URL (to be implemented on UI side)
-  // For now, if they have a completed session, we redirect to report unless we change this logic.
-  const { data: completedSession } = await supabase
-    .from("assessment_sessions")
-    .select("id")
-    .eq("student_id", user.id)
-    .eq("version_id", version.id)
-    .eq("status", "completed")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  // 2. Run independent queries in parallel
+  const [
+    { data: currentSession },
+    { data: completedSession },
+    { count },
+    { data: questionsRaw, error: qError }
+  ] = await Promise.all([
+    // A. Check in-progress session
+    supabase
+      .from("assessment_sessions")
+      .select("id, status")
+      .eq("student_id", user.id)
+      .eq("version_id", version.id)
+      .eq("status", "in_progress")
+      .maybeSingle(),
+    // B. Check completed session
+    supabase
+      .from("assessment_sessions")
+      .select("id")
+      .eq("student_id", user.id)
+      .eq("version_id", version.id)
+      .eq("status", "completed")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    // C. Check limit
+    supabase
+      .from("student_reports")
+      .select("*", { count: "exact", head: true })
+      .eq("student_id", user.id)
+      .gte("created_at", new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString()),
+    // D. Fetch 121 questions
+    supabase
+      .from("assessment_questions")
+      .select(`
+        id,
+        question_code,
+        module,
+        order_index,
+        question_text,
+        is_reverse_scored,
+        assessment_dimensions!inner(
+          id,
+          code,
+          framework,
+          name,
+          matching_role
+        )
+      `)
+      .eq("version_id", version.id)
+      .order("order_index", { ascending: true })
+  ]);
 
   const forceNew = searchParams?.new === '1';
 
-  // Temporary: we will let them bypass this if they click "Làm lại bài khảo sát" which can pass a query param.
-  // We'll leave the basic redirect, but if we need a new session, we skip this block.
+  // If already completed and not requesting a new one → redirect to report
   if (completedSession && !forceNew) {
     redirect("/me/bao-cao");
   }
 
-  if (!currentSession) {
-    // Check 12 reports per year limit
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-    
-    const { count, error: countError } = await supabase
-      .from("student_reports")
-      .select("*", { count: "exact", head: true })
-      .eq("student_id", user.id)
-      .gte("created_at", oneYearAgo.toISOString());
+  let activeSession = currentSession;
 
+  if (!activeSession) {
+    // Check 12 reports per year limit
     if (count && count >= 12) {
       return (
         <div className="pb-12 max-w-2xl mx-auto pt-20">
@@ -95,30 +118,8 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
     if (sessionError || !newSession) {
       return <div className="pb-12 text-red-600">Lỗi tạo phiên làm bài. Vui lòng tải lại trang.</div>;
     }
-    currentSession = newSession;
+    activeSession = newSession;
   }
-
-  // 3. Fetch all 121 questions with their dimension metadata
-  // NOTE: RLS policy "Student reads questions via session" will allow this since session is in_progress
-  const { data: questionsRaw, error: qError } = await supabase
-    .from("assessment_questions")
-    .select(`
-      id,
-      question_code,
-      module,
-      order_index,
-      question_text,
-      is_reverse_scored,
-      assessment_dimensions!inner(
-        id,
-        code,
-        framework,
-        name,
-        matching_role
-      )
-    `)
-    .eq("version_id", version.id)
-    .order("order_index", { ascending: true });
 
   if (qError || !questionsRaw || questionsRaw.length === 0) {
     console.error("Error fetching questions:", qError);
@@ -129,7 +130,7 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
   const { data: existingResponses } = await supabase
     .from("assessment_responses")
     .select("question_id, response_value")
-    .eq("session_id", currentSession.id);
+    .eq("session_id", activeSession.id);
 
   const initialAnswers: Record<string, number> = {};
   for (const r of existingResponses ?? []) {
@@ -166,7 +167,7 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
       </header>
 
       <AssessmentEngine
-        sessionId={currentSession.id}
+        sessionId={activeSession.id}
         questions={questions}
         initialAnswers={initialAnswers}
       />

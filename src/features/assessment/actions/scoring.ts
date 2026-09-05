@@ -159,12 +159,17 @@ export async function calculateAndCompleteSession(sessionId: string) {
 
   // 8. Trigger Profile Builder + Matching Engine (async chain)
   try {
-    const profileResult = await buildStudentProfile(user.id);
+    const { createAdminClient } = await import("@/lib/supabase/admin");
+    const adminClient = createAdminClient();
+
+    const profileResult = await buildStudentProfile(user.id, adminClient);
     if (profileResult.success && profileResult.profile) {
-      await runMatchingEngine(user.id, profileResult.profile.profile_version);
+      await runMatchingEngine(user.id, profileResult.profile.profile_version, adminClient);
       
       // 9. Generate Report Snapshot
       await generateReportSnapshot(user.id, resultId);
+    } else {
+      console.error("Profile builder failed:", profileResult.error);
     }
   } catch (matchErr) {
     // Don't fail the whole flow if matching engine has an issue

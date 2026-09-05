@@ -1,7 +1,8 @@
 import { hasPublicSupabaseConfig } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
+import { cache } from "react";
 
-export async function getCurrentAccount() {
+export const getCurrentAccount = cache(async () => {
   if (!hasPublicSupabaseConfig()) return null;
   const supabase = await createClient();
   const { data: claimsData } = await supabase.auth.getClaims();
@@ -20,4 +21,4 @@ export async function getCurrentAccount() {
     profile,
     roles: roles?.map(({ role }) => role) ?? [],
   };
-}
+});

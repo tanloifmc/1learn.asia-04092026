@@ -153,41 +153,48 @@ export default async function ReportPage() {
               <span className="text-white/90 text-xs font-bold tracking-widest uppercase">Báo cáo Khám phá Bản thân · Miễn phí</span>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between border-y border-white/10 py-10">
+            <div className="flex flex-col md:flex-row gap-10 items-start justify-between py-10">
               {/* Left: Certificate Text & Student Info */}
-              <div className="flex-1">
-                <h1 className="font-serif text-3xl md:text-5xl text-white mb-3 leading-tight">
+              <div className="flex-1 w-full">
+                <p className="text-[#B89862] text-sm md:text-base tracking-[0.25em] uppercase font-bold mb-4 flex items-center gap-3">
+                  <span className="w-12 h-[2px] bg-[#B89862] inline-block"></span>
                   Báo Cáo Định Hướng Nghề Nghiệp
-                </h1>
-                <p className="text-[#B89862] text-sm md:text-base tracking-widest uppercase font-bold mb-10">
-                  Hồ Sơ Cá Nhân Hóa
                 </p>
+                <h1 className="font-serif text-4xl md:text-6xl text-white mb-10 leading-tight">
+                  <span className="block text-white/60 text-2xl md:text-4xl mb-2">Hồ sơ cá nhân hóa của</span>
+                  <span className="text-[#B89862] block mt-2 text-5xl md:text-7xl drop-shadow-2xl">{studentInfo.displayName}</span>
+                </h1>
 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-6 p-6 md:p-8 rounded-[32px] bg-white/5 border border-white/10 backdrop-blur-xl max-w-2xl shadow-2xl relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none" />
+                  
                   <div
-                    className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center font-black text-2xl md:text-3xl text-white flex-shrink-0 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/20 relative overflow-hidden"
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-[24px] flex items-center justify-center font-black text-3xl md:text-4xl text-white flex-shrink-0 shadow-[0_12px_40px_rgba(0,0,0,0.3)] border-2 border-white/20 relative overflow-hidden z-10"
                     style={{ backgroundColor: studentInfo.avatarColor }}
                   >
                     {studentInfo.avatarUrl ? (
-                      <Image src={studentInfo.avatarUrl} alt="Avatar" fill className="object-cover" sizes="80px" />
+                      <Image src={studentInfo.avatarUrl} alt="Avatar" fill className="object-cover" sizes="96px" />
                     ) : (
                       studentInfo.initials || "?"
                     )}
                   </div>
-                  <div>
-                    <p className="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold mb-1.5">Học sinh</p>
-                    <p className="text-white font-serif text-2xl md:text-3xl leading-none mb-3">{studentInfo.displayName}</p>
-                    <div className="flex flex-wrap items-center gap-4 md:gap-6 text-white/60 text-xs md:text-sm">
+                  <div className="z-10">
+                    <div className="flex flex-wrap items-center gap-3 md:gap-4 text-white/90 text-sm md:text-base font-medium mb-4">
+                      {studentInfo.birthYear && (
+                        <span className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full border border-white/10 shadow-sm"><Calendar className="w-4 h-4 text-[#B89862]" /> Sinh năm {studentInfo.birthYear}</span>
+                      )}
                       {studentInfo.grade && (
-                        <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4" /> Lớp {studentInfo.grade}</span>
+                        <span className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full border border-white/10 shadow-sm"><GraduationCap className="w-4 h-4 text-[#B89862]" /> Lớp {studentInfo.grade}</span>
                       )}
                       {studentInfo.region && (
-                        <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4" /> {studentInfo.region}</span>
-                      )}
-                      {completedDate && (
-                        <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {completedDate}</span>
+                        <span className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full border border-white/10 shadow-sm"><MapPin className="w-4 h-4 text-[#B89862]" /> {studentInfo.region}</span>
                       )}
                     </div>
+                    {completedDate && (
+                      <p className="text-white/40 text-xs md:text-sm flex items-center gap-2 font-medium">
+                        <CheckCircle className="w-4 h-4 text-emerald-400/50" /> Hoàn thành khảo sát ngày {completedDate}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

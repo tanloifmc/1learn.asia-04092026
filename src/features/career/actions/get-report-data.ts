@@ -28,6 +28,7 @@ export interface StudentInfo {
   initials: string;
   grade: number | null;
   region: string | null;
+  birthYear: number | null;
   avatarColor: string;
   avatarUrl?: string | null;
 }
@@ -83,7 +84,7 @@ export async function getFullReportData(studentId: string): Promise<FullReportDa
       .maybeSingle(),
     supabase
       .from("student_profiles")
-      .select("grade, region, profiles(display_name, avatar_url)")
+      .select("grade, region, birth_year, profiles(display_name, avatar_url)")
       .eq("id", studentId)
       .maybeSingle(),
   ]);
@@ -100,6 +101,7 @@ export async function getFullReportData(studentId: string): Promise<FullReportDa
     initials: getInitials(rawName),
     grade: profile?.grade || null,
     region: profile?.region || null,
+    birthYear: profile?.birth_year || null,
     avatarColor: getAvatarColor(rawName),
     avatarUrl: baseProfile?.avatar_url || null,
   };

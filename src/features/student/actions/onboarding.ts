@@ -8,13 +8,24 @@ export async function saveOnboardingStep1Action(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { success: false, error: "Not authenticated" };
 
+  const displayName = String(formData.get("display_name")).trim();
+  const birthYear = Number(formData.get("birth_year"));
   const grade = Number(formData.get("grade"));
   const region = String(formData.get("region"));
+
+  if (displayName) {
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ display_name: displayName })
+      .eq("id", user.id);
+    if (profileError) return { success: false, error: profileError.message };
+  }
 
   const { error } = await supabase
     .from("student_profiles")
     .upsert({
       id: user.id,
+      birth_year: birthYear,
       grade,
       region,
       onboarding_step: 2

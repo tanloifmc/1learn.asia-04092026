@@ -8,7 +8,7 @@ import {
   saveOnboardingStep3Action, 
   saveOnboardingStep4Action 
 } from "@/features/student/actions/onboarding";
-import { ArrowRight, Check, MapPin, GraduationCap, Brain, Home, Globe2, Loader2 } from "lucide-react";
+import { ArrowRight, Check, MapPin, GraduationCap, Brain, Home, Globe2, Loader2, Calendar } from "lucide-react";
 
 const TOTAL_STEPS = 4;
 
@@ -106,24 +106,58 @@ export function OnboardingWizard({ initialStep = 1 }: { initialStep?: number }) 
           <form onSubmit={handleStep1} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-[#0E1B3D] mb-2 uppercase tracking-wider">Khối lớp (9-12)</label>
+                <label className="block text-sm font-bold text-[#0E1B3D] mb-2 uppercase tracking-wider">Họ và tên đầy đủ</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <GraduationCap className="h-5 w-5 text-[#0E1B3D]/40" />
+                    <span className="text-[#0E1B3D]/40 font-bold">@</span>
                   </div>
                   <input 
-                    name="grade" 
-                    type="number" 
-                    min="9" 
-                    max="12" 
-                    placeholder="VD: 10"
+                    name="display_name" 
+                    type="text" 
+                    placeholder="VD: Nguyễn Văn A"
                     required 
                     className="w-full bg-[#0E1B3D]/5 border-none rounded-2xl py-4 pl-12 pr-4 text-[#0E1B3D] font-medium focus:ring-2 focus:ring-[#B89862]/50 transition-shadow outline-none" 
                   />
                 </div>
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-[#0E1B3D] mb-2 uppercase tracking-wider">Năm sinh</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Calendar className="h-5 w-5 text-[#0E1B3D]/40" />
+                    </div>
+                    <input 
+                      name="birth_year" 
+                      type="number" 
+                      min="1990" 
+                      max="2020" 
+                      placeholder="VD: 2008"
+                      required 
+                      className="w-full bg-[#0E1B3D]/5 border-none rounded-2xl py-4 pl-12 pr-4 text-[#0E1B3D] font-medium focus:ring-2 focus:ring-[#B89862]/50 transition-shadow outline-none" 
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-[#0E1B3D] mb-2 uppercase tracking-wider">Khối lớp (9-12)</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <GraduationCap className="h-5 w-5 text-[#0E1B3D]/40" />
+                    </div>
+                    <input 
+                      name="grade" 
+                      type="number" 
+                      min="9" 
+                      max="12" 
+                      placeholder="VD: 10"
+                      required 
+                      className="w-full bg-[#0E1B3D]/5 border-none rounded-2xl py-4 pl-12 pr-4 text-[#0E1B3D] font-medium focus:ring-2 focus:ring-[#B89862]/50 transition-shadow outline-none" 
+                    />
+                  </div>
+                </div>
+              </div>
               <div>
-                <label className="block text-sm font-bold text-[#0E1B3D] mb-2 uppercase tracking-wider">Địa điểm</label>
+                <label className="block text-sm font-bold text-[#0E1B3D] mb-2 uppercase tracking-wider">Tỉnh / Thành phố</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <MapPin className="h-5 w-5 text-[#0E1B3D]/40" />
@@ -137,6 +171,15 @@ export function OnboardingWizard({ initialStep = 1 }: { initialStep?: number }) 
                   />
                 </div>
               </div>
+            </div>
+            
+            <div className="bg-[#B89862]/5 border border-[#B89862]/20 rounded-xl p-4 flex gap-3">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-xl">✨</span>
+              </div>
+              <p className="text-sm text-[#0E1B3D]/70 leading-relaxed">
+                <strong>Mẹo:</strong> Khai báo họ tên đầy đủ sẽ giúp Báo cáo của bạn trông chuyên nghiệp hơn. Sau khi hoàn tất khảo sát, đừng quên vào phần <strong>Hồ sơ</strong> để tải lên ảnh đại diện cá nhân nhé!
+              </p>
             </div>
             
             <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-2 py-4 bg-[#0E1B3D] text-white font-bold rounded-full hover:bg-[#B89862] hover:text-[#0E1B3D] transition-all shadow-md group">

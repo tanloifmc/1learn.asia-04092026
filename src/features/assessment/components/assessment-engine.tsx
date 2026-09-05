@@ -249,7 +249,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
               onClick={() => setActiveTab(mod)}
               className={`flex-1 min-w-[140px] px-4 py-4 rounded-2xl border-2 text-left transition-all relative overflow-hidden ${
                 isActive
-                  ? `border-[#0E1B3D] bg-white shadow-md`
+                  ? `border-[#0E1B3D] bg-[#0E1B3D] shadow-md`
                   : `border-[#0E1B3D]/10 bg-white hover:border-[#0E1B3D]/30`
               }`}
             >
@@ -257,12 +257,14 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
                 <div className={`absolute top-0 left-0 w-full h-1 ${meta.bg}`} />
               )}
               <div className="flex justify-between items-start mb-1">
-                <span className={`text-sm font-bold ${isActive ? 'text-[#0E1B3D]' : 'text-[#0E1B3D]/60'}`}>
+                <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-[#0E1B3D]/70'}`}>
                   {meta.title}
                 </span>
                 {isModComplete && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
               </div>
-              <p className="text-xs text-[#0E1B3D]/40 font-medium">{answeredInMod} / {groupedQuestions[mod].length} câu</p>
+              <p className={`text-xs font-medium ${isActive ? 'text-white/60' : 'text-[#0E1B3D]/40'}`}>
+                {answeredInMod} / {groupedQuestions[mod].length} câu
+              </p>
             </button>
           );
         })}
@@ -333,7 +335,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
                 
                 {/* Horizontal Options */}
                 <div className="pl-0 md:pl-10">
-                  <div className="flex justify-between md:grid md:grid-cols-5 gap-1 sm:gap-2 md:gap-4 max-w-3xl">
+                  <div className="grid grid-cols-5 gap-1 sm:gap-2 md:gap-4 max-w-3xl">
                     {labels.map(option => {
                       const isSelected = currentAnswer === option.value;
                       return (
@@ -341,7 +343,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
                           key={option.value}
                           onClick={() => handleSelect(q.id, option.value)}
                           disabled={isSaving}
-                          className={`relative flex flex-col items-center p-2 sm:p-3 md:p-4 rounded-xl border-2 transition-all duration-200 group ${
+                          className={`relative flex flex-col items-center p-2 sm:p-3 md:p-4 rounded-xl border-2 transition-all duration-200 group active:scale-90 ${
                             isSelected
                               ? `${selectedBorderClass} ${selectedBgClass}`
                               : "border-[#0E1B3D]/10 hover:border-[#B89862]/40 hover:bg-[#B89862]/5"
