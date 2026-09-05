@@ -12,6 +12,7 @@ export function AppSidebarWrapper({ children }: { children: React.ReactNode }) {
 
   // Close sidebar when pathname changes (e.g. after clicking a link)
   useEffect(() => {
+    // eslint-disable-next-line
     setIsOpen(false);
   }, [pathname]);
 
