@@ -272,21 +272,24 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
       <div className="bg-white rounded-[32px] border border-[#0E1B3D]/8 shadow-[0_20px_60px_rgba(14,27,61,0.04)] overflow-hidden mb-8">
         
         {/* Legend Header */}
-        <div className={`${activeMeta.bg} px-8 py-8 md:px-12 text-white`}>
-          <h2 className="font-serif text-3xl mb-3">{activeMeta.title}</h2>
-          <p className="text-white/80 text-sm md:text-base max-w-3xl mb-8 leading-relaxed">
+        <div className="px-6 md:px-12 py-8 md:py-10 border-b border-[#0E1B3D]/5">
+          <div className="flex items-center gap-3 mb-4">
+            <div className={`w-2 h-8 rounded-full ${activeMeta.bg}`}></div>
+            <h2 className="font-serif text-3xl text-[#0E1B3D]">{activeMeta.title}</h2>
+          </div>
+          <p className="text-[#0E1B3D]/70 text-sm md:text-base max-w-3xl mb-8 leading-relaxed pl-5">
             {activeMeta.description}
           </p>
           
-          <div className="bg-black/20 rounded-2xl p-6 backdrop-blur-sm">
-            <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-4">Quy ước mức độ điểm:</p>
+          <div className="bg-[#0E1B3D]/5 rounded-2xl p-6 ml-0 md:ml-5">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#0E1B3D]/40 mb-4">Quy ước mức độ điểm:</p>
             <div className="grid grid-cols-5 gap-2 md:gap-4">
               {labels.map(l => (
                 <div key={l.value} className="text-center flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-bold mb-2">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center font-bold text-[#0E1B3D] mb-2 shadow-sm border border-[#0E1B3D]/5 transition-transform hover:scale-110">
                     {l.value}
                   </div>
-                  <span className="text-[10px] md:text-xs font-medium text-white/90 px-1 leading-tight">{l.label}</span>
+                  <span className="text-[10px] md:text-xs font-medium text-[#0E1B3D]/70 px-1 leading-tight">{l.label}</span>
                 </div>
               ))}
             </div>
@@ -318,7 +321,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
             else if (activeTab === 'validity') { selectedBorderClass = "border-[#555555]"; selectedBgClass = "bg-[#555555]/5"; selectedTextBgClass = "bg-[#555555]"; }
 
             return (
-              <div key={q.id} className="p-8 md:p-12 hover:bg-[#0E1B3D]/[0.01] transition-colors">
+              <div key={q.id} className="p-4 sm:p-8 md:p-12 hover:bg-[#0E1B3D]/[0.01] transition-colors">
                 <div className="flex gap-4 mb-6">
                   <span className="text-lg font-serif font-bold text-[#B89862] shrink-0">
                     {index + 1}.
@@ -330,7 +333,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
                 
                 {/* Horizontal Options */}
                 <div className="pl-0 md:pl-10">
-                  <div className="flex justify-between md:grid md:grid-cols-5 gap-2 md:gap-4 max-w-3xl">
+                  <div className="flex justify-between md:grid md:grid-cols-5 gap-1 sm:gap-2 md:gap-4 max-w-3xl">
                     {labels.map(option => {
                       const isSelected = currentAnswer === option.value;
                       return (
@@ -338,19 +341,19 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
                           key={option.value}
                           onClick={() => handleSelect(q.id, option.value)}
                           disabled={isSaving}
-                          className={`relative flex flex-col items-center p-3 md:p-4 rounded-xl border-2 transition-all duration-200 group ${
+                          className={`relative flex flex-col items-center p-2 sm:p-3 md:p-4 rounded-xl border-2 transition-all duration-200 group ${
                             isSelected
                               ? `${selectedBorderClass} ${selectedBgClass}`
                               : "border-[#0E1B3D]/10 hover:border-[#B89862]/40 hover:bg-[#B89862]/5"
                           } ${isSaving ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
                         >
-                          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-base md:text-lg transition-colors ${
+                          <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-sm sm:text-base md:text-lg transition-colors shrink-0 ${
                             isSelected
                               ? `${selectedTextBgClass} text-white shadow-md`
                               : "bg-[#0E1B3D]/5 text-[#0E1B3D]/60 group-hover:bg-[#B89862]/20 group-hover:text-[#B89862]"
                           }`}>
                             {isSaving && isSelected ? (
-                              <Loader2 className="w-5 h-5 animate-spin" />
+                              <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                             ) : (
                               option.value
                             )}
