@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { RadarChart } from "@/components/ui/charts/radar-chart";
 import { getFullReportData } from "@/features/career/actions/get-report-data";
+import { ReportGeneratorState } from "./report-generator-state";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -118,7 +119,23 @@ export default async function ReportPage() {
     .limit(1)
     .maybeSingle();
 
-  if (!reportDoc || !reportDoc.report_data || !reportDoc.report_data.base) return <EmptyState />;
+  if (!reportDoc || !reportDoc.report_data || !reportDoc.report_data.base) {
+    // Report is missing. Did they actually complete the assessment?
+    const { data: result } = await supabase
+      .from("assessment_results")
+      .select("id")
+      .eq("student_id", user.id)
+      .eq("is_current", true)
+      .maybeSingle();
+
+    if (result) {
+      // Assessment completed, but report failed to generate (e.g. timeout)
+      return <ReportGeneratorState resultId={result.id} />;
+    }
+
+    // No assessment result found either -> truly empty
+    return <EmptyState />;
+  }
 
   type ReportType = NonNullable<Awaited<ReturnType<typeof getFullReportData>>>;
   const report = reportDoc.report_data.base as ReportType;
@@ -155,17 +172,22 @@ export default async function ReportPage() {
 
             <div className="flex flex-col md:flex-row gap-10 items-start justify-between py-10">
               {/* Left: Certificate Text & Student Info */}
-              <div className="flex-1 w-full">
-                <p className="text-[#B89862] text-sm md:text-base tracking-[0.25em] uppercase font-bold mb-4 flex items-center gap-3">
-                  <span className="w-12 h-[2px] bg-[#B89862] inline-block"></span>
-                  Báo Cáo Định Hướng Nghề Nghiệp
-                </p>
-                <h1 className="font-serif text-4xl md:text-6xl text-white mb-10 leading-tight">
-                  <span className="block text-white/60 text-2xl md:text-4xl mb-2">Hồ sơ cá nhân hóa của</span>
-                  <span className="text-[#B89862] block mt-2 text-5xl md:text-7xl drop-shadow-2xl">{studentInfo.displayName}</span>
+              <div className="flex-1 w-full text-center md:text-left">
+                <div className="inline-flex items-center justify-center md:justify-start gap-3 mb-6 bg-white/10 px-6 py-2 rounded-full border border-white/20 backdrop-blur-md shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#B89862] animate-pulse"></span>
+                  <span className="text-[#B89862] text-xs md:text-sm tracking-[0.2em] uppercase font-bold">
+                    Báo Cáo Định Hướng Nghề Nghiệp
+                  </span>
+                </div>
+                
+                <h1 className="font-serif text-3xl md:text-5xl text-white mb-2 leading-tight font-light">
+                  Hồ sơ cá nhân hóa của
                 </h1>
+                <div className="font-serif text-5xl md:text-7xl text-[#B89862] mb-12 drop-shadow-[0_4px_24px_rgba(184,152,98,0.4)] font-black uppercase tracking-tight">
+                  {studentInfo.displayName}
+                </div>
 
-                <div className="flex items-center gap-6 p-6 md:p-8 rounded-[32px] bg-white/5 border border-white/10 backdrop-blur-xl max-w-2xl shadow-2xl relative overflow-hidden">
+                <div className="flex flex-col md:flex-row items-center gap-6 p-6 md:p-8 rounded-[32px] bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl relative overflow-hidden mx-auto md:mx-0 inline-block text-left">
                   <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none" />
                   
                   <div

@@ -173,13 +173,16 @@ export function OnboardingWizard({ initialStep = 1 }: { initialStep?: number }) 
               </div>
             </div>
             
-            <div className="bg-[#B89862]/5 border border-[#B89862]/20 rounded-xl p-4 flex gap-3">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">✨</span>
+            <div className="bg-gradient-to-br from-[#B89862]/10 to-[#E5CFA3]/10 border border-[#B89862]/30 rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center md:items-start shadow-sm">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center flex-shrink-0 shadow-md border border-[#B89862]/20">
+                <span className="text-2xl">📸</span>
               </div>
-              <p className="text-sm text-[#0E1B3D]/70 leading-relaxed">
-                <strong>Mẹo:</strong> Khai báo họ tên đầy đủ sẽ giúp Báo cáo của bạn trông chuyên nghiệp hơn. Sau khi hoàn tất khảo sát, đừng quên vào phần <strong>Hồ sơ</strong> để tải lên ảnh đại diện cá nhân nhé!
-              </p>
+              <div className="text-center md:text-left">
+                <h4 className="font-bold text-[#0E1B3D] mb-1">Mẹo để Báo cáo đẹp hơn!</h4>
+                <p className="text-sm text-[#0E1B3D]/70 leading-relaxed">
+                  Khai báo họ tên đầy đủ sẽ giúp Báo cáo trông chuyên nghiệp hơn. Sau khi hoàn tất khảo sát, đừng quên vào phần <strong>Hồ sơ</strong> để tải lên ảnh đại diện cá nhân nhé! Một tấm ảnh đẹp sẽ làm Báo cáo của bạn nổi bật hơn rất nhiều.
+                </p>
+              </div>
             </div>
             
             <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-2 py-4 bg-[#0E1B3D] text-white font-bold rounded-full hover:bg-[#B89862] hover:text-[#0E1B3D] transition-all shadow-md group">

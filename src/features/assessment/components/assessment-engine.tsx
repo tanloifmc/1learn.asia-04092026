@@ -157,14 +157,25 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
       return;
     }
     startTransition(async () => {
-      const result = await calculateAndCompleteSession(sessionId);
-      if (result.success) {
-        setIsComplete(true);
-        setTimeout(() => {
-          router.push('/me/bao-cao');
-        }, 2500);
-      } else {
-        setError(`Lỗi tính điểm: ${result.error}`);
+      try {
+        const result = await calculateAndCompleteSession(sessionId);
+        if (result.success) {
+          setIsComplete(true);
+          setTimeout(() => {
+            router.push('/me/bao-cao');
+          }, 2500);
+        } else if (result.error === "Session already completed") {
+          setIsComplete(true);
+          setTimeout(() => {
+            router.push('/me/bao-cao');
+          }, 1000);
+        } else {
+          setError(`Lỗi tính điểm: ${result.error}`);
+        }
+      } catch (err: any) {
+        console.error("Submit error (timeout?):", err);
+        // If it's a timeout, the DB might have already saved the result.
+        setError("Quá thời gian kết nối. Hệ thống có thể đã lưu kết quả, vui lòng làm mới trang (F5) hoặc vào mục Báo cáo.");
       }
     });
   }, [sessionId, router, totalAnswered, questions.length]);
