@@ -116,11 +116,26 @@ export async function runMatchingEngine(studentId: string, profileVersion?: numb
   const { data: careers, error: careerErr } = await supabase
     .from("careers")
     .select("*")
-    .in("status", ["published", "verified"]);
+    .in("status", ["published", "verified"])
+    .eq("is_production_eligible", true)
+    .not("source_url", "is", null)
+    .not("last_verified_at", "is", null);
 
   if (careerErr || !careers || careers.length === 0) {
     if (careerErr) console.error("Career fetch error:", careerErr);
-    return { success: true, status: 'completed', matches: 0 };
+    await supabase
+      .from("match_runs")
+      .update({
+        status: "insufficient_data",
+        insufficient_reason: careerErr ? "CAREER_CATALOG_QUERY_FAILED" : "NO_PRODUCTION_ELIGIBLE_CAREER_CATALOG",
+        completed_at: new Date().toISOString(),
+      })
+      .eq("id", run.id);
+    return {
+      success: true,
+      status: "insufficient_data",
+      reason: careerErr ? "CAREER_CATALOG_QUERY_FAILED" : "NO_PRODUCTION_ELIGIBLE_CAREER_CATALOG",
+    };
   }
 
   const matches = [];

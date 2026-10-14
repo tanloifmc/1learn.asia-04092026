@@ -13,13 +13,18 @@ export async function resumeReportGenerationAction(resultId: string) {
   // First, verify the result belongs to this user
   const { data: result, error: resultError } = await supabase
     .from("assessment_results")
-    .select("id")
+    .select("id, confidence")
     .eq("id", resultId)
     .eq("student_id", user.id)
     .single();
 
   if (resultError || !result) {
     return { success: false, error: "Assessment result not found or unauthorized" };
+  }
+
+  const confidence = result.confidence as { level?: string; is_usable?: boolean } | null;
+  if (!confidence?.is_usable || !["VALID", "QUESTIONABLE"].includes(confidence.level ?? "")) {
+    return { success: false, error: "Assessment result is not eligible for report generation." };
   }
 
   try {

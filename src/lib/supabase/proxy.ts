@@ -22,6 +22,9 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  await supabase.auth.getClaims();
+  // Validate the incoming token with Supabase before rendering server routes.
+  // `getClaims()` can fail closed when the runtime cannot resolve the local
+  // JWT verification material; `getUser()` is the server-authoritative check.
+  await supabase.auth.getUser();
   return response;
 }

@@ -70,31 +70,32 @@ export default async function UniversityLandingPage({ params }: PageProps) {
     .from("university_majors")
     .select("id, original_major_name, majors(id, name, code, fields(name))")
     .eq("university_id", slug)
+    .eq("status", "published")
+    .eq("is_production_eligible", true)
     .limit(60);
 
   // 3. Admission data — latest scores per major
-  const majorIds = (uniMajors || [])
-    .map(um => (um.majors as any)?.id)
-    .filter(Boolean);
+  const programIds = (uniMajors || []).map(um => um.id);
 
   let admissionData: Record<string, { min: number; max: number; year: number }> = {};
 
-  if (majorIds.length > 0) {
+  if (programIds.length > 0) {
     const { data: admData } = await supabase
       .from("admission_data")
-      .select("major_id, total_score, year")
-      .eq("university_id", slug)
-      .in("major_id", majorIds)
-      .order("year", { ascending: false });
+      .select("university_major_id, cutoff_score, academic_year")
+      .in("university_major_id", programIds)
+      .eq("data_status", "published")
+      .eq("is_production_eligible", true)
+      .order("academic_year", { ascending: false });
 
     for (const ad of admData || []) {
-      if (!ad.major_id || !ad.total_score) continue;
-      const k = ad.major_id;
-      if (!admissionData[k] || ad.year > admissionData[k].year) {
-        admissionData[k] = { min: ad.total_score, max: ad.total_score, year: ad.year };
-      } else if (ad.year === admissionData[k].year) {
-        admissionData[k].min = Math.min(admissionData[k].min, ad.total_score);
-        admissionData[k].max = Math.max(admissionData[k].max, ad.total_score);
+      if (!ad.university_major_id || ad.cutoff_score == null) continue;
+      const k = ad.university_major_id;
+      if (!admissionData[k] || ad.academic_year > admissionData[k].year) {
+        admissionData[k] = { min: ad.cutoff_score, max: ad.cutoff_score, year: ad.academic_year };
+      } else if (ad.academic_year === admissionData[k].year) {
+        admissionData[k].min = Math.min(admissionData[k].min, ad.cutoff_score);
+        admissionData[k].max = Math.max(admissionData[k].max, ad.cutoff_score);
       }
     }
   }
@@ -110,7 +111,7 @@ export default async function UniversityLandingPage({ params }: PageProps) {
       majorId: major.id,
       name: um.original_major_name || major.name,
       code: major.code,
-      adm: admissionData[major.id],
+      adm: admissionData[um.id],
     });
   }
 

@@ -1,8 +1,9 @@
 "use server";
 
-import { CareerChainItem } from "@/features/career/actions/get-premium-report-data";
+import { CareerCatalogStatus, CareerChainItem } from "@/features/career/actions/get-premium-report-data";
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
+const AI_REQUEST_TIMEOUT_MS = 15_000;
 
 export interface PremiumNarrativeInput {
   studentName: string | null;
@@ -12,6 +13,7 @@ export interface PremiumNarrativeInput {
   workValues: Array<{ name: string; score: number }>;
   topStrengths: Array<{ name: string; score: number }>;
   careerChain: CareerChainItem[];
+  careerCatalogStatus: CareerCatalogStatus;
 }
 
 export interface PremiumNarrativeResult {
@@ -73,6 +75,7 @@ TUYỆT ĐỐI TUÂN THỦ:
         max_tokens: 2000,
         response_format: { type: "json_object" },
       }),
+      signal: AbortSignal.timeout(AI_REQUEST_TIMEOUT_MS),
     });
 
     if (!res.ok) {
@@ -98,12 +101,18 @@ function buildPremiumPrompt(input: PremiumNarrativeInput): string {
   const wv = input.workValues.map(v => `${v.name}: ${v.score}`).join(", ");
   const careers = input.careerChain.map(c => `ID:${c.careerId} - ${c.careerName} (Score: ${c.matchScore})`).join(", ");
 
+  const catalogConstraint = input.careerCatalogStatus === "insufficient"
+    ? "Dữ liệu nghề-ngành-trường đã kiểm chứng hiện chưa đủ. TUYỆT ĐỐI không nêu, suy luận, hoặc khuyến nghị bất kỳ nghề, ngành, trường hay lộ trình tuyển sinh cụ thể nào. careerReasons phải là {}. exploreDirection chỉ được hướng dẫn học sinh tiếp tục khám phá thế mạnh cá nhân, không gọi tên nhóm ngành."
+    : "Chỉ được thảo luận các nghề nghiệp có ID trong dữ liệu đầu vào; không bổ sung nghề, ngành, trường hoặc số liệu khác.";
+
   return `DỮ LIỆU:
 - Tên: ${name}
 - Holland: ${input.hollandCode} (${input.hollandNames})
 - Big Five: ${b5}
 - Giá trị nghề nghiệp: ${wv}
 - Nghề nghiệp đề xuất: ${careers}
+
+RÀNG BUỘC DỮ LIỆU: ${catalogConstraint}
 
 YÊU CẦU OUTPUT JSON CHÍNH XÁC THEO FORMAT SAU:
 {
@@ -148,7 +157,9 @@ function buildTemplatePremiumNarrative(input: PremiumNarrativeInput): PremiumNar
     executiveSummary: {
       identityNarrative: `Dựa trên mã Holland ${input.hollandCode}, bạn là người có thiên hướng ${input.hollandNames}.`,
       standOuts: "Bạn có sự kết hợp đặc biệt giữa tính cách và giá trị nghề nghiệp cá nhân.",
-      exploreDirection: "Hãy tập trung khám phá các nhóm ngành liên quan đến thế mạnh chính của bạn."
+      exploreDirection: input.careerCatalogStatus === "insufficient"
+        ? "Hãy tiếp tục khám phá thế mạnh cá nhân; hệ thống sẽ chỉ đề xuất nghề và ngành khi dữ liệu đã được kiểm chứng đầy đủ."
+        : "Hãy tập trung khám phá các nhóm ngành liên quan đến thế mạnh chính của bạn."
     },
     workingStyle: {
       thinking: "Bạn có xu hướng tư duy logic và thực tế dựa trên dữ liệu.",
@@ -163,7 +174,7 @@ function buildTemplatePremiumNarrative(input: PremiumNarrativeInput): PremiumNar
       }
     ],
     actionPlan: [
-      { milestone: "Giai đoạn 1: Khám phá", task: "Tìm hiểu sâu hơn về 3 nghề nghiệp đứng đầu." },
+      { milestone: "Giai đoạn 1: Khám phá", task: input.careerCatalogStatus === "insufficient" ? "Ghi nhận các hoạt động học tập và trải nghiệm giúp bạn kiểm chứng thế mạnh cá nhân." : "Tìm hiểu sâu hơn về 3 nghề nghiệp đứng đầu." },
       { milestone: "Giai đoạn 2: Trải nghiệm", task: "Tham gia các khoá học hoặc hoạt động ngoại khoá liên quan." },
       { milestone: "Giai đoạn 3: Quyết định", task: "Lựa chọn ngành học và trường đại học mục tiêu." }
     ],

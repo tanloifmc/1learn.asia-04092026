@@ -12,6 +12,7 @@
  */
 
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
+const AI_REQUEST_TIMEOUT_MS = 15_000;
 
 interface NarrativeInput {
   studentName: string | null;
@@ -74,6 +75,7 @@ QUY TẮC BẮT BUỘC:
         max_tokens: 800,
         response_format: { type: "json_object" },
       }),
+      signal: AbortSignal.timeout(AI_REQUEST_TIMEOUT_MS),
     });
 
     if (!res.ok) {

@@ -3,29 +3,54 @@ import { getCurrentAccount } from "@/features/account/current-account";
 import { trackToAdapters } from "@/lib/analytics/adapter";
 import { BehavioralEvent, BaseAnalyticsPayload } from "@/lib/analytics/registry";
 import { cookies } from "next/headers";
+import { rateLimit } from "@/lib/security/rate-limit";
+import { z } from "zod";
 
 const ALLOWED_BEHAVIORAL_EVENTS = [
   'PAGE_VIEW',
   'CAREER_EXPLORED',
   'MAJOR_EXPLORED',
   'UNIVERSITY_EXPLORED',
-];
+] as const;
+
+const identifierSchema = z.string().trim().min(8).max(128).optional();
+const pageViewPropertiesSchema = z.object({
+  path: z.string().startsWith("/").max(2048),
+  search: z.string().max(2048),
+  title: z.string().max(256),
+}).strict();
+const explorationPropertiesSchema = z.object({
+  target_id: z.uuid(),
+  slug: z.string().trim().min(1).max(160),
+}).strict();
+const analyticsRequestSchema = z.object({
+  event_name: z.enum(ALLOWED_BEHAVIORAL_EVENTS),
+  anonymous_id: identifierSchema,
+  session_id: identifierSchema,
+  properties: z.union([pageViewPropertiesSchema, explorationPropertiesSchema]),
+}).strict();
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { event_name, properties, anonymous_id, session_id, url } = body;
-
-    // 1. Validate Event Name
-    if (!ALLOWED_BEHAVIORAL_EVENTS.includes(event_name)) {
+    const body = analyticsRequestSchema.safeParse(await req.json());
+    if (!body.success) {
       return NextResponse.json(
-        { error: `Event ${event_name} is not a valid behavioral event or is not allowed from client.` },
+        { error: "Invalid analytics event payload." },
         { status: 400 }
       );
     }
 
-    // 2. Rate Limiting (Đơn giản: Có thể triển khai Redis/Upstash sau. Tạm thời chặn nếu spam liên tục)
-    // TODO: Implement rate limiting
+    const { event_name, properties, anonymous_id, session_id } = body.data;
+
+    const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+    const rateLimitKey = anonymous_id ?? session_id ?? forwardedFor;
+    if (!rateLimitKey) {
+      return NextResponse.json({ error: "Analytics identifier is required." }, { status: 400 });
+    }
+    const rateLimitResponse = rateLimit(`analytics:${rateLimitKey}`, 60, 60_000);
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
 
     // 3. Get User Auth
     let user_id = undefined;
@@ -50,7 +75,7 @@ export async function POST(req: Request) {
       session_id,
       source: 'client',
       platform: 'web',
-      properties: properties || {},
+      properties,
       utm_source,
       utm_medium,
       utm_campaign,

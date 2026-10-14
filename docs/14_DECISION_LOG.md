@@ -179,6 +179,49 @@
 - **Quyết định:** Định vị sản phẩm là **Life Goal Management Platform** — không phải Career App hay LMS. Nghề nghiệp là một trong những mục tiêu cuộc đời cần quản trị. Về sau có thể mở rộng sang các loại mục tiêu khác (personal development, health, relationships). MVP tập trung vào mục tiêu nghề nghiệp + học tập.
 - **Hệ quả:** Cập nhật `00_PRODUCT_VISION.md` và `product-bible.md` để phản ánh định vị này. Roadmap phần sau có thể mở rộng beyond career.
 
+### DL-014: Chuỗi master data fail-closed cho khuyến nghị học tập và nghề nghiệp
+- **Ngày:** 2026-09-22
+- **Người quyết định:** Product Owner + CTO
+- **Trạng thái:** Accepted
+- **Bối cảnh:** Audit Dev DB phát hiện 4.043 quan hệ trường–ngành nhưng chỉ 1 bản ghi có URL nguồn và thời điểm kiểm tra; `career_major_mappings` có 0 bản ghi. Việc chỉ lọc `status = published/verified` cho phép Matching và Premium Report đưa ra khuyến nghị không có căn cứ.
+- **Các phương án đã xem xét:**
+  1. Giữ catalog hiện tại và thêm cảnh báo UI — vẫn để engine tạo kết luận từ dữ liệu không thể truy vết.
+  2. Đánh dấu hàng loạt là verified — tạo xác nhận giả, vi phạm DL-003.
+  3. Bắt buộc mọi nút trong chuỗi nghề → ngành → chương trình/trường có provenance và production eligibility — giảm phạm vi hiển thị ban đầu nhưng bảo toàn tính đúng đắn.
+- **Quyết định:** Option 3. Student-facing query, matching, university recommendation và roadmap chỉ dùng record/cạnh có `is_production_eligible = true`, URL nguồn, thời điểm xác minh và trạng thái hợp lệ. Nếu chưa đủ catalog, trả `insufficient_data` có lý do rõ ràng; không suy diễn hoặc thay bằng mock.
+- **Hệ quả:** Thêm eligibility cho hai bảng nối, constraints/RLS fail-closed, audit log cho import, và data pipeline nguồn chính thức trước khi mở rộng catalog. Các report có thể hiển thị assessment insight nhưng không được hiển thị “nghề/ngành/trường phù hợp” khi chuỗi chưa đủ chứng cứ.
+
+---
+
+### DL-015: Chứng cứ theo field cho master data tái sử dụng
+- **Ngày:** 2026-09-22
+- **Người quyết định:** Product Owner + CTO
+- **Trạng thái:** Accepted
+- **Bối cảnh:** Catalog Dev có thể tái sử dụng về cấu trúc (300 nghề, 378 ngành, 411 trường, 4.043 quan hệ trường–ngành), nhưng nguồn của một record không chứng minh tất cả thuộc tính: RIASEC nghề, quan hệ nghề→ngành, và chương trình tuyển sinh có các nguồn khác nhau.
+- **Quyết định:** Thêm `master_data_evidence` append-only, trace theo `(entity_type, entity_id, field_path)`, URL, SHA-256 nội dung nguồn, claim, lần lấy và trạng thái review. Trigger database từ chối promotion `is_production_eligible` nếu evidence bắt buộc thiếu.
+- **Hệ quả:** Dữ liệu cũ giữ nguyên làm candidate catalog; không bulk verify. Pipeline chỉ được promotion từng record/chunk sau khi nguồn chính thức được hash và review. Điều này cho phép tái sử dụng dữ liệu có sẵn mà không biến nó thành xác nhận giả.
+
+---
+
+### DL-016: Phân tách thẩm quyền của nguồn ngành, trường và chương trình
+- **Ngày:** 2026-09-23
+- **Người quyết định:** Product Owner + CTO
+- **Trạng thái:** Accepted
+- **Bối cảnh:** Thông tư 09/2022/TT-BGDĐT xác định mã và tên ngành đào tạo, còn danh mục công khai của Bộ GD&ĐT xác định cơ sở giáo dục/mã cơ sở. Cả hai nguồn đều không chứng minh rằng một trường đang tuyển sinh một ngành cụ thể trong một kỳ tuyển sinh.
+- **Quyết định:** Dùng Thông tư 09 chỉ cho `majors.identity`; dùng danh mục Bộ GD&ĐT chỉ cho `universities.identity`; chỉ promote `university_majors.programme` và `admission_data.admission` khi có URL trang tuyển sinh/chương trình chính thức của chính trường, hash nội dung và evidence đã review.
+- **Hệ quả:** Không tạo liên kết trường→ngành hoặc điểm chuẩn từ phép suy diễn tên/mã. Import pipeline phải tách ba loại nguồn và dừng fail-closed khi thiếu chứng cứ cấp chương trình.
+
+---
+
+### DL-017: Mã hóa RIASEC khi nguồn chuẩn chỉ công bố mã chữ
+
+- **Ngày:** 2026-09-23
+- **Người quyết định:** Product Owner + CTO
+- **Trạng thái:** Accepted
+- **Bối cảnh:** O*NET có thể công bố Interest code như `IC` cho một nghề, nhưng không công bố intensity số cho từng chữ cái trên trang occupation. Tự gán các điểm liên tục như `I = 0.88` sẽ tạo dữ liệu không có nguồn.
+- **Quyết định:** Khi một nguồn chuẩn chỉ nêu tập dimension RIASEC, lưu representation binary: dimension được nêu là `1`, dimension không được nêu là `0`. Evidence bắt buộc ghi rõ mã nguồn và representation này. Chỉ dùng điểm liên tục khi nguồn có số liệu/scale tương ứng.
+- **Hệ quả:** Matching vẫn deterministic nhưng không được diễn giải binary profile thành mức độ “mạnh/yếu”. Pipeline phải dùng evidence `riasec_profile` và không được tái sử dụng các profile domain-level suy diễn trước đây.
+
 ---
 
 *Mọi quyết định quan trọng phải được thêm vào đây. Format: DL-[số thứ tự tăng dần].*

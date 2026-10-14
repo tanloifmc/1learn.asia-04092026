@@ -360,6 +360,16 @@ Mục tiêu: Theo dõi chính xác phễu người dùng và quản lý chất l
 - `[x]` Xây dựng UI **Admin Analytics Dashboard** (xem tổng phễu).
 - `[x]` Xây dựng UI **Data Quality Dashboard** (thống kê bao nhiêu nghề nghiệp/trường chưa được verify).
 
+### Production Master Data Foundation (in progress — release blocker)
+
+- `[x]` Schema/RLS fail-closed cho provenance và `is_production_eligible` trên chuỗi nghề → ngành → chương trình/trường.
+- `[x]` Audit trail `master_data_import_runs`, database integrity probes và E2E empty-catalog state.
+- `[x]` Sổ chứng cứ theo field (`master_data_evidence`), SHA-256 nguồn, trigger chống promotion thiếu evidence; đã kiểm chứng thực tế RMIT University Vietnam → Cử nhân Kinh doanh → chương trình từ trang chính thức.
+- `[x]` Đối chiếu và promote 377 ngành mã 7 chữ số với Thông tư 09/2022/TT-BGDĐT: mỗi ngành có hash PDF Chính phủ và bản trích xuất đối chiếu, import audit ghi nhận 377 accepted / 0 rejected.
+- `[/]` Nhập và review catalog trường/chương trình từ nguồn chính thức; đã đối chiếu và promotion 327/327 cơ sở/mã cơ sở trong danh mục Bộ GD&ĐT bằng pipeline live (exact normalized-name match, SHA-256 nguồn và verifier độc lập). Tổng 328 trường hiện đủ điều kiện vì có thêm 1 trường đã có chứng cứ độc lập trước đó. Có 3 chương trình có provenance + evidence hoàn chỉnh (RMIT Bachelor of Business; BH120 Software Engineering; BP094 Computer Science); hai chương trình Computing đã có 4 requirement học thuật chính thức (GPA lớp 12 ≥ 7.0/10.0 và Toán lớp 12 ≥ 6.0/10.0), mỗi batch có SHA-256/import audit. Catalog chương trình vẫn là release blocker.
+- `[/]` Đã promotion hai chuỗi nghề→ngành có evidence độc lập: O*NET Software Developers (15-1252.00, RIASEC `IC` được lưu binary theo dimension được nguồn nêu) → Kỹ thuật phần mềm 7480103 → RMIT BH120 Software Engineering; và → Khoa học máy tính 7480101 → RMIT BP094 Computer Science. Chưa đủ coverage để mở Career Matching/Premium Report.
+- `[ ]` Bổ sung và review độc lập catalog nghề → ngành → chương trình/trường đủ coverage để mở lại Career Matching/Premium Report.
+
 ---
 
 ## Phase 11 — Product Experience & UI System (ƯU TIÊN CAO)

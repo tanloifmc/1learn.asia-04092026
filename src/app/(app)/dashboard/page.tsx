@@ -65,6 +65,7 @@ export default async function DashboardPage() {
 
   // 3. Goal
   const goalReadiness = await getGoalReadiness(user.id);
+  const readinessScore = goalReadiness.score;
   const { data: goal } = await supabase
     .from("student_goals")
     .select("career_id, careers(name), university_id, universities(short_name)")
@@ -172,11 +173,12 @@ export default async function DashboardPage() {
                     <div className="mt-8 bg-white/50 p-4 rounded-2xl border border-[#0E1B3D]/5 backdrop-blur-sm">
                       <div className="flex justify-between text-sm mb-2 font-bold text-[#0E1B3D]">
                         <span>Mức độ sẵn sàng</span>
-                        <span className="text-[#B89862] text-base">{typeof goalReadiness === 'number' ? goalReadiness : (goalReadiness as any)?.score ?? 0}%</span>
+                        <span className="text-[#B89862] text-base">{readinessScore === null ? "Chưa đủ dữ liệu" : `${readinessScore}%`}</span>
                       </div>
                       <div className="w-full bg-[#0E1B3D]/5 h-3 rounded-full overflow-hidden shadow-inner">
-                        <div className="bg-gradient-to-r from-[#0E1B3D] to-[#B89862] h-full rounded-full transition-all duration-1000" style={{ width: `${typeof goalReadiness === 'number' ? goalReadiness : (goalReadiness as any)?.score ?? 0}%` }}></div>
+                        <div className="bg-gradient-to-r from-[#0E1B3D] to-[#B89862] h-full rounded-full transition-all duration-1000" style={{ width: `${readinessScore ?? 0}%` }}></div>
                       </div>
+                      {readinessScore === null && <p className="mt-2 text-xs text-[#0E1B3D]/50">Thêm điểm học tập đã chuẩn hóa để đánh giá khả năng đáp ứng mục tiêu.</p>}
                     </div>
                   </div>
                   <Link href="/goal" className="px-8 py-4 rounded-full text-base font-bold bg-[#0E1B3D] text-white hover:bg-[#B89862] hover:text-[#0E1B3D] transition-all shadow-md hover:shadow-lg hover:-translate-y-1 flex items-center justify-center gap-2 whitespace-nowrap">

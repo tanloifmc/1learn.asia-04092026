@@ -19,7 +19,8 @@ export class RequirementEngine {
       .select('*')
       .eq('target_type', targetType)
       .eq('target_id', targetId)
-      .in('status', ['verified', 'published']);
+      .in('status', ['verified', 'published'])
+      .eq('is_production_eligible', true);
 
     if (error) {
       console.error("Error fetching target requirements:", error);

@@ -2,34 +2,89 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentAccount } from "@/features/account/current-account";
-import { getActiveRoadmap } from "@/features/roadmap/actions";
+import { RoadmapGenerator } from "@/features/roadmap/engine/roadmap-generator";
 import { revalidatePath } from "next/cache";
 
-export async function setCareerGoalAction(careerId: string, majorCode?: string, universityId?: string) {
+export async function setCareerGoalAction(
+  careerId: string,
+  majorCode?: string,
+  universityId?: string,
+  programId?: string,
+) {
   const supabase = await createClient();
   const account = await getCurrentAccount();
   if (!account) return { success: false, error: "Not authenticated" };
 
   const studentId = account.userId;
 
-  // Lookup major_id from code if provided
-  let majorId: string | null = null;
-  if (majorCode) {
-    const { data: major } = await supabase
-      .from("majors")
-      .select("id")
-      .eq("code", majorCode)
-      .maybeSingle();
-    majorId = major?.id || null;
+  const { data: career, error: careerError } = await supabase
+    .from("careers")
+    .select("id, name")
+    .eq("id", careerId)
+    .eq("status", "published")
+    .eq("is_production_eligible", true)
+    .maybeSingle();
+
+  if (careerError || !career) {
+    return { success: false, error: "Không tìm thấy nghề nghiệp mục tiêu." };
   }
 
-  // Deactivate existing primary goals
-  await supabase
+  if (!majorCode || !universityId || !programId) {
+    return {
+      success: false,
+      error: "Hãy chọn một chương trình đào tạo cụ thể để tạo lộ trình có điều kiện đầu vào đã được kiểm chứng.",
+    };
+  }
+
+  const { data: major, error: majorError } = await supabase
+    .from("majors")
+    .select("id")
+    .eq("code", majorCode)
+    .eq("status", "published")
+    .eq("is_production_eligible", true)
+    .maybeSingle();
+
+  if (majorError || !major) {
+    return { success: false, error: "Không tìm thấy ngành học mục tiêu đã được kiểm chứng." };
+  }
+
+  const { data: mapping, error: mappingError } = await supabase
+    .from("career_major_mappings")
+    .select("id")
+    .eq("career_id", careerId)
+    .eq("major_id", major.id)
+    .eq("status", "published")
+    .eq("is_production_eligible", true)
+    .maybeSingle();
+
+  if (mappingError || !mapping) {
+    return { success: false, error: "Ngành học này chưa có liên kết đã được kiểm chứng với nghề đã chọn." };
+  }
+
+  const { data: program, error: programError } = await supabase
+    .from("university_majors")
+    .select("id, university_id, major_id")
+    .eq("id", programId)
+    .eq("university_id", universityId)
+    .eq("major_id", major.id)
+    .eq("status", "published")
+    .eq("is_production_eligible", true)
+    .maybeSingle();
+
+  if (programError || !program) {
+    return { success: false, error: "Chương trình đào tạo này không còn đủ dữ liệu đã kiểm chứng để lập lộ trình." };
+  }
+
+  const majorId = major.id;
+
+  const { error: deactivateError } = await supabase
     .from("student_goals")
-    .update({ status: "archived" })
+    .update({ is_primary: false })
     .eq("student_id", studentId)
     .eq("is_primary", true)
     .eq("status", "active");
+
+  if (deactivateError) return { success: false, error: deactivateError.message };
 
   // Get student grade for target year calculation
   const { data: profile } = await supabase
@@ -39,15 +94,18 @@ export async function setCareerGoalAction(careerId: string, majorCode?: string, 
     .maybeSingle();
 
   const currentYear = new Date().getFullYear();
-  const grade = profile?.grade || 10;
-  const yearsToGrad = 12 - grade + 1; // Years until graduation
-  const targetYear = currentYear + yearsToGrad + 4; // Grad + 4 years uni
+  const grade = profile?.grade;
+  const targetYear = grade && grade >= 1 && grade <= 12
+    ? currentYear + (12 - grade + 1) + 4
+    : null;
 
   // Create new primary goal
   const { error: goalError } = await supabase
     .from("student_goals")
     .insert({
       student_id: studentId,
+      goal_type: "career",
+      goal_text: career.name,
       career_id: careerId,
       major_id: majorId,
       university_id: universityId || null,
@@ -58,17 +116,22 @@ export async function setCareerGoalAction(careerId: string, majorCode?: string, 
 
   if (goalError) return { success: false, error: goalError.message };
 
-  // Check if roadmap already exists for this student
-  const { data: existingRoadmap } = await getActiveRoadmap();
+  let roadmapWarning: string | undefined;
 
-  if (!existingRoadmap) {
-    // Try to auto-generate roadmap
-    try {
-      const { generateRoadmapAction } = await import("@/features/roadmap/actions");
-      await generateRoadmapAction(studentId, "career", careerId);
-    } catch {
-      // Roadmap generation failure is non-blocking — goal was still created
-    }
+  const generator = new RoadmapGenerator(supabase as any);
+  const generation = await generator.generateRoadmap(
+    studentId,
+    "university_major",
+    program.id,
+    {
+      target_career_id: careerId,
+      target_major_id: majorId,
+      target_university_id: universityId,
+      target_program_id: program.id,
+    },
+  );
+  if (generation.status !== "success" && generation.status !== "satisfied") {
+    roadmapWarning = generation.message ?? "Chưa thể tạo lộ trình cho mục tiêu này.";
   }
 
 
@@ -76,5 +139,5 @@ export async function setCareerGoalAction(careerId: string, majorCode?: string, 
   revalidatePath("/roadmap");
   revalidatePath("/me/bao-cao");
 
-  return { success: true };
+  return { success: true, roadmapWarning };
 }

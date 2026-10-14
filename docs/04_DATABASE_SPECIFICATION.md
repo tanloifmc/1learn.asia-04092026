@@ -186,6 +186,23 @@ RLS: Student reads own. Admin reads all.
 
 ---
 
+### `student_reports`
+Snapshot báo cáo được sinh phía server từ một assessment đủ điều kiện. Không tạo report cho validity `INVALID` hoặc `UNDETERMINED`.
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | `uuid PK` | |
+| `student_id` | `uuid` | References `student_profiles(id)` |
+| `assessment_result_id` | `uuid` | References `assessment_results(id)` |
+| `report_type` | `text` | `free` hoặc `premium` |
+| `report_data` | `jsonb` | Snapshot dữ liệu đã render cho report |
+| `created_at` | `timestamptz` | |
+
+Index: `student_id`, `assessment_result_id`.
+RLS: Student chỉ đọc report của chính mình. Report chỉ được ghi bởi server action sau khi kiểm tra ownership và validity.
+
+---
+
 ### `student_career_profiles`
 Computed profile vector (được cập nhật sau mỗi lần complete assessment).
 
@@ -233,7 +250,7 @@ Database nghề nghiệp. Thiết kế chuẩn bị cho Career Matching Engine.
 | `possible_challenges` | `jsonb` | Array of strings |
 | `work_style` | `jsonb` | Array of strings |
 | `company_examples` | `jsonb` | Ví dụ minh họa, không phải realtime jobs |
-| `riasec_profile` | `jsonb` | Schema: `{ R: 0.2, I: 0.9, A: 0.2, S: 0.3, E: 0.5, C: 0.6 }` (cho Matching) |
+| `riasec_profile` | `jsonb` | Schema: `{ R: 0.2, I: 0.9, A: 0.2, S: 0.3, E: 0.5, C: 0.6 }` (cho Matching). Nếu nguồn chuẩn chỉ công bố mã chữ (ví dụ O*NET `IC`) thay vì intensity, lưu binary `1` đúng cho các dimension được công bố và `0` cho dimension không được công bố; evidence phải nêu rõ cách mã hóa, không tự suy diễn cường độ. |
 | `riasec_primary` | `char(1)` | Generated Column: auto-calculated từ `riasec_profile` (max value) |
 | `ability_weights` | `jsonb` | {logical: 0.8, verbal: 0.5, ...} |
 | `status` | `career_status` | draft, needs_verification, verified, published, archived |
@@ -346,6 +363,7 @@ Database ngành học đại học.
 | `status` | `major_status` | |
 | `source` | `text` | |
 | `last_verified_at` | `timestamptz` | |
+| `is_production_eligible` | `boolean` | Chỉ `true` khi nguồn và lần xác minh đã được kiểm duyệt cho vận hành thật. Engine không được tạo roadmap từ dữ liệu `false`. |
 | `created_at` | `timestamptz` | |
 | `updated_at` | `timestamptz` | |
 
@@ -390,12 +408,91 @@ Junction: trường đào tạo ngành gì.
 | `id` | `uuid PK` | |
 | `university_id` | `uuid` | References `universities(id)` |
 | `major_id` | `uuid` | References `majors(id)` |
-| `admission_methods` | `jsonb` | Phương thức tuyển sinh của trường này cho ngành này |
-| `is_active` | `boolean` | Ngành có còn tuyển không |
+| `program_name` | `text` | Tên chương trình chính thức của trường |
+| `degree_level` | `text` | Ví dụ `undergraduate` |
+| `campus` | `text` | Cơ sở đào tạo của chương trình |
+| `program_type` | `text` | Ví dụ `standard`, `full_time`, `international`. Bắt buộc không rỗng khi `is_production_eligible = true`. |
+| `active_from` | `smallint` | Năm bắt đầu hiệu lực/thời điểm catalog xác nhận, nếu nguồn cung cấp |
+| `active_until` | `smallint` | Năm kết thúc hiệu lực, nếu nguồn xác nhận chương trình dừng tuyển |
+| `status` | `text` | `draft`, `verified`, `published`, `archived` |
+| `source` | `text` | Tên nguồn chính thức xác nhận chương trình |
+| `source_url` | `text` | URL chính xác chứng minh trường đang đào tạo chương trình |
+| `last_verified_at` | `timestamptz` | Thời điểm kiểm tra nguồn gần nhất |
+| `verified_by` | `uuid` | Curator đã kiểm tra, có thể null với import tự động chờ duyệt |
+| `verification_status` | `text` | `PENDING_VERIFICATION`, `INCOMPLETE`, `CURATED`, `VERIFIED` |
+| `original_major_code` | `text` | Mã ngành nguyên gốc từ nguồn trường trước khi map vào taxonomy chuẩn |
+| `original_major_name` | `text` | Tên ngành/chương trình nguyên gốc từ nguồn trường |
+| `mapping_status` | `text` | `UNMAPPED` hoặc trạng thái mapping taxonomy đã được chấp nhận |
+| `is_production_eligible` | `boolean` | Chỉ `true` khi quan hệ, nguồn và thời điểm kiểm tra hợp lệ. Student-facing query và engine bắt buộc lọc cột này. |
 | `created_at` | `timestamptz` | |
 
-Unique: `university_id`, `major_id`
+Candidate có thể trùng để giữ dữ liệu chờ review. Catalog production có unique partial theo `(university_id, major_id, normalized program_type)`; chương trình thiếu `program_type` không thể production-eligible.
 Index: `university_id`, `major_id`
+
+### `career_major_mappings`
+Quan hệ nghề → ngành học, tách biệt khỏi JSON tự do trong profile nghề để có thể kiểm chứng và audit.
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | `uuid PK` | |
+| `career_id` | `uuid` | References `careers(id)` |
+| `major_id` | `uuid` | References `majors(id)` |
+| `relationship_type` | `mapping_relationship_type` | `primary`, `related`, `alternative` |
+| `relevance_score` | `numeric(3,2)` | 0–1, là trọng số có nguồn, không tự suy diễn |
+| `status` | `text` | `draft`, `verified`, `published`, `archived` |
+| `source` | `text` | Nguồn xác lập quan hệ |
+| `source_url` | `text` | URL/tài liệu chính xác của nguồn |
+| `last_verified_at` | `timestamptz` | Thời điểm kiểm tra nguồn |
+| `verified_by` | `uuid` | Curator duyệt, nếu có |
+| `is_production_eligible` | `boolean` | Chỉ `true` khi status, source, URL và thời điểm kiểm tra đều hợp lệ. |
+| `created_at` | `timestamptz` | |
+
+Unique: `(career_id, major_id)`.
+Index: partial index trên `(career_id, major_id)` khi `is_production_eligible = true`.
+RLS: End user chỉ đọc mapping `published` + `is_production_eligible`; admin đọc toàn bộ.
+
+### `master_data_import_runs`
+Audit trail bất biến cho mỗi đợt nhập master data. Không lưu nội dung nguồn đầy đủ; lưu fingerprint và thống kê để tái kiểm tra.
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | `uuid PK` | |
+| `domain` | `text` | `career`, `major`, `university`, `university_major`, `career_major_mapping`, `admission` |
+| `source_name` | `text` | Tên nguồn chính thức |
+| `source_url` | `text` | URL nguồn hoặc trang index |
+| `source_version` | `text` | Phiên bản/năm công bố nếu nguồn có |
+| `source_sha256` | `text` | Fingerprint file/nội dung nhập để tái lập audit |
+| `status` | `text` | `running`, `completed`, `failed`, `rejected` |
+| `input_records` | `integer` | Số record đầu vào, >= 0 |
+| `accepted_records` | `integer` | Số record đã ghi, >= 0 |
+| `rejected_records` | `integer` | Số record bị từ chối, >= 0 |
+| `started_at` / `completed_at` | `timestamptz` | Vòng đời import |
+| `verified_by` | `uuid` | Người duyệt nếu import được xác nhận |
+| `notes` | `text` | Lý do từ chối hoặc phạm vi import |
+| `created_at` | `timestamptz` | |
+
+RLS: chỉ admin đọc; không có client write policy. Service role/pipeline ghi log.
+
+### `master_data_evidence`
+Sổ chứng cứ theo **từng field/quan hệ** của master data. Không thay thế `source`/`source_url` trên record; dùng để chứng minh độc lập các dữ liệu có vòng đời khác nhau, như RIASEC của nghề, quan hệ nghề→ngành, hay một chương trình đang tuyển sinh.
+
+| Column | Type | Notes |
+|---|---|---|
+| `entity_type` | `text` | `career`, `major`, `university`, `university_major`, `career_major_mapping`, `admission` |
+| `entity_id` | `uuid` | ID bản ghi được dẫn chứng; trigger bắt buộc ID tồn tại trong đúng bảng |
+| `field_path` | `text` | Ví dụ: `identity`, `riasec_profile`, `programme`, `relationship`, `admission` |
+| `source_name`, `source_url`, `source_type` | `text` | Nguồn gốc và loại nguồn |
+| `source_sha256` | `text` | SHA-256 của nội dung nguồn tại thời điểm thu thập, 64 ký tự hex |
+| `claim` | `text` | Mệnh đề ngắn, có thể audit, mà nguồn chứng minh |
+| `review_status` | `text` | `pending`, `verified`, `superseded`, `rejected` |
+| `retrieved_at`, `verified_at` | `timestamptz` | Thời điểm lấy và xác minh |
+| `import_run_id` | `uuid` | Trace về một đợt import nếu có |
+
+RLS: chỉ admin đọc; không có client write. Service role/import pipeline ghi evidence. Khi một record được đổi sang `is_production_eligible = true`, trigger phải xác nhận evidence `verified` cho các field bắt buộc: career cần `identity` + `riasec_profile`; major/university cần `identity`; program cần `programme`; mapping cần `relationship`; admission cần `admission`.
+
+`master_data_import_runs.domain` cũng gồm `target_requirement`, để mỗi batch yêu cầu đầu vào của roadmap có URL nguồn, SHA-256, số record nhận/từ chối và thời điểm hoàn thành. `target_requirements` hiện vẫn dùng `source`, `source_url`, `last_verified_at` làm provenance bắt buộc; không được gán evidence entity type giả khi schema evidence chưa hỗ trợ nó.
+
+**Production eligibility invariant:** Một record được student-facing engine sử dụng chỉ khi bản thân record và mọi cạnh liên quan bắt buộc trong chuỗi đều `is_production_eligible = true`, có `source`, `source_url`, `last_verified_at`, trạng thái đã xác minh/xuất bản phù hợp, **và** có `master_data_evidence` đã `verified` cho các field bắt buộc. Thiếu bất kỳ cạnh nào phải trả `insufficient_data`, không được thay bằng dữ liệu suy đoán.
 
 ---
 
@@ -468,6 +565,7 @@ Lớp dữ liệu trung gian chuẩn hóa yêu cầu của các Target (Trườn
 | `requirement_value` | `text` | Giữ text để cover nhiều loại (VD: "B2", "8.0", "2") |
 | `unit` | `text` | CEFR, score_10, projects, etc. |
 | `importance` | `text` | critical, high, medium, low |
+| `satisfaction_group` | `text nullable` | Các requirement có cùng target và group là **lựa chọn thay thế**: đạt một requirement là đạt group (ví dụ IELTS hoặc TOEFL). `NULL` nghĩa là requirement độc lập và bắt buộc riêng. Không dùng group để làm mất các điều kiện đồng thời của cùng một chứng chỉ. |
 | `status` | `requirement_verification_status` | draft, verified, published, archived |
 | `source` | `text` | Nguồn lấy dữ liệu |
 | `source_url` | `text` | |
@@ -475,6 +573,8 @@ Lớp dữ liệu trung gian chuẩn hóa yêu cầu của các Target (Trườn
 | `created_at` | `timestamptz` | |
 
 Index: `target_id`, `target_type`, `status`
+
+**Semantics khi đánh giá gap/readiness:** Mọi requirement có `satisfaction_group IS NULL` phải đạt độc lập. Với một group không rỗng, engine chỉ coi là gap khi **không có** lựa chọn nào trong group được chứng minh đã đạt. Engine tạo tối đa một milestone cho một group; milestone phải nêu rõ đây là lựa chọn thay thế, không được yêu cầu học sinh đạt toàn bộ chứng chỉ trong group.
 
 ---
 
@@ -550,6 +650,10 @@ Các task nhỏ trong từng milestone.
 
 Index: `milestone_id`, `status`, `due_date`
 RLS: Student update status/evidence of own tasks. Engine manages creation.
+
+**Tính toàn vẹn khi sinh roadmap:** Sau khi engine đã tính gap từ requirement hợp lệ, việc archive roadmap cũ, tạo roadmap mới, milestones và tasks phải chạy trong một transaction. Không được trả thành công nếu bất kỳ milestone/task nào không được ghi. Mỗi milestone/task phải trace được về `target_requirements` có `status ∈ {verified, published}` và `is_production_eligible = true`.
+
+**Database operation:** `replace_student_roadmap(...)` là RPC service-only; transaction lấy advisory lock theo `student_id`, xác minh mọi requirement nguồn, archive roadmap active cũ và ghi đầy đủ roadmap/milestone/task. `anon` và `authenticated` không có quyền gọi RPC này.
 
 ---
 
@@ -649,10 +753,32 @@ Lưu trữ giao dịch thanh toán nâng cấp tài khoản.
 | `method` | `payment_method` | bank_transfer |
 | `plan_id` | `uuid` | References `membership_plans(id)` |
 | `transaction_code` | `text` | UNIQUE. Mã giao dịch sinh ngẫu nhiên để so khớp (VD: 1L-XXXXXX) |
+| `provider_transaction_id` | `text` | UNIQUE khi có giá trị. ID giao dịch bất biến từ SePay để chống webhook giao lại. |
+| `provider_payload` | `jsonb` | Payload webhook đã xác thực chữ ký, chỉ được ghi server-side. |
+| `confirmed_at` | `timestamptz` | Thời điểm payment được xác nhận atomically. |
 | `created_at` | `timestamptz` | |
 | `updated_at` | `timestamptz` | |
 
-RLS: Users can insert and read own. Admin reads and updates all.
+RLS: User chỉ đọc giao dịch của mình; không được trực tiếp INSERT/UPDATE amount, plan hay trạng thái. Tạo pending transaction phải qua RPC xác thực `auth.uid()` và chỉ nhận `plan_code`. Webhook dùng RPC service-only để ghi payment, gia hạn subscription và idempotency trong cùng một transaction. Subscription và payment của user phải cascade khi tài khoản bị xóa.
+
+---
+
+### `analytics_events`
+Sự kiện vận hành và phễu sản phẩm; không lưu PII hoặc câu trả lời khảo sát thô.
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | `uuid PK` | |
+| `event_name` | `text` | Tên event theo `12_ANALYTICS_SPECIFICATION.md` |
+| `event_version` | `text NOT NULL` | Mặc định `v1`; cho phép thay đổi payload có kiểm soát |
+| `user_id` | `uuid nullable` | Người dùng đã xác thực, nếu có |
+| `anonymous_id`, `session_id` | `text nullable` | Nhận diện phiên không chứa PII |
+| `source`, `platform` | `text nullable` | Nguồn ghi event và nền tảng; `platform` mặc định `web` |
+| `properties` | `jsonb NOT NULL` | Payload đã được allow-list/kiểm soát phía server |
+| `utm_source`, `utm_medium`, `utm_campaign`, `referrer` | `text nullable` | Attribution không chứa PII |
+| `created_at` | `timestamptz` | |
+
+RLS: Không cho `anon` hoặc `authenticated` ghi trực tiếp. Browser gửi event qua endpoint server được allow-list; service role ghi sau khi server-side validation. Admin chỉ đọc theo policy hiện hữu.
 
 ---
 

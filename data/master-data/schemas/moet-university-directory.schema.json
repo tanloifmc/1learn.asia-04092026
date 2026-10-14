@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reportedTotal", "institutions"],
+  "properties": {
+    "reportedTotal": {
+      "type": "integer",
+      "description": "Total number of institutions stated by the source directory."
+    },
+    "institutions": {
+      "type": "array",
+      "description": "Every institution listed across all directory pages, with no inferred records.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ordinal", "officialCode", "officialName", "detailUrl"],
+        "properties": {
+          "ordinal": { "type": "integer" },
+          "officialCode": { "type": "string" },
+          "officialName": { "type": "string" },
+          "detailUrl": { "type": "string" }
+        }
+      }
+    }
+  }
+}

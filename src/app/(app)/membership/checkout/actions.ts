@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentAccount } from "@/features/account/current-account";
-import crypto from "crypto";
 
 export async function getOrCreatePendingTransaction() {
   const account = await getCurrentAccount();
@@ -12,52 +11,18 @@ export async function getOrCreatePendingTransaction() {
 
   const supabase = await createClient();
 
-  // Get the premium plan
-  const { data: plan, error: planErr } = await supabase
-    .from("membership_plans")
-    .select("id, price_amount")
-    .eq("code", "PREMIUM_1Y")
-    .limit(1)
-    .single();
+  const { data, error } = await (supabase as any).rpc("create_pending_membership_payment", {
+    p_plan_code: "PREMIUM_1Y",
+  });
 
-  if (planErr || !plan) {
-    return { success: false, error: "Premium plan not found" };
+  const payment = Array.isArray(data) ? data[0] : data;
+  if (error || !payment?.transaction_code || payment.amount === undefined) {
+    return { success: false, error: error?.message ?? "Không thể tạo giao dịch thanh toán." };
   }
 
-  // Check if there is an existing pending transaction
-  const { data: existingTx, error: existingErr } = await supabase
-    .from("payment_transactions")
-    .select("transaction_code, amount")
-    .eq("user_id", account.userId)
-    .eq("plan_id", plan.id)
-    .eq("status", "pending")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
-
-  if (existingTx && !existingErr) {
-    return { success: true, transactionCode: existingTx.transaction_code, amount: existingTx.amount };
-  }
-
-  // Generate a random 6-character alphanumeric code
-  const codeSuffix = crypto.randomBytes(3).toString("hex").toUpperCase();
-  const transactionCode = `1L-${codeSuffix}`;
-
-  // Create payment transaction
-  const { error: txErr } = await supabase
-    .from("payment_transactions")
-    .insert({
-      user_id: account.userId,
-      amount: plan.price_amount,
-      plan_id: plan.id,
-      status: "pending",
-      method: "bank_transfer",
-      transaction_code: transactionCode
-    });
-
-  if (txErr) {
-    return { success: false, error: txErr.message };
-  }
-
-  return { success: true, transactionCode, amount: plan.price_amount };
+  return {
+    success: true,
+    transactionCode: payment.transaction_code as string,
+    amount: Number(payment.amount),
+  };
 }

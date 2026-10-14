@@ -157,6 +157,21 @@ export async function calculateAndCompleteSession(sessionId: string) {
     return { success: false, error: rpcError.message };
   }
 
+  if (!scoringResult.confidence.is_usable) {
+    await trackServerEvent('ASSESSMENT_COMPLETED', {
+      assessment_version: session.version_id,
+      duration_seconds: scoringResult.quality.total_duration_seconds ?? 0,
+      completion_rate: responses.length / totalQCount,
+    }, user.id);
+
+    return {
+      success: true,
+      resultId,
+      requiresRetake: true,
+      validity: scoringResult.confidence.level,
+    };
+  }
+
   // 8. Trigger Profile Builder + Matching Engine (async chain)
   try {
     const { createAdminClient } = await import("@/lib/supabase/admin");

@@ -162,23 +162,30 @@ export async function getFullReportData(studentId: string): Promise<FullReportDa
   if (matchRun) {
     const { data: matches } = await supabase
       .from("career_matches")
-      .select("match_score, confidence_level, factors, careers(id, name, code, category, salary_min, salary_max)")
+      .select("match_score, confidence_level, factors, careers(id, name, code, career_domain_code)")
       .eq("run_id", matchRun.id)
       .order("rank", { ascending: true })
       .limit(5);
 
     if (matches) {
-      careerMatches = matches.map(m => ({
-        careerId: (m.careers as any).id,
-        careerName: (m.careers as any).name,
-        careerCode: (m.careers as any).code,
-        matchScore: Math.round(m.match_score),
-        confidenceLevel: m.confidence_level,
-        category: (m.careers as any).category,
-        salaryMin: (m.careers as any).salary_min,
-        salaryMax: (m.careers as any).salary_max,
-        factors: (m.factors as any[]) || [],
-      }));
+      careerMatches = matches.flatMap((match) => {
+        const career = match.careers as any;
+        if (!career) return [];
+
+        return [{
+          careerId: career.id,
+          careerName: career.name,
+          careerCode: career.code,
+          matchScore: Math.round(match.match_score),
+          confidenceLevel: match.confidence_level,
+          category: career.career_domain_code,
+          // Salary has no verified, normalized source in the production
+          // career schema, so the report must not invent or surface one.
+          salaryMin: null,
+          salaryMax: null,
+          factors: (match.factors as any[]) || [],
+        }];
+      });
     }
   }
 

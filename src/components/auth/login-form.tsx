@@ -38,8 +38,9 @@ export function LoginForm() {
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
       <div className="space-y-1">
-        <label className="text-xs font-semibold text-navy/80 uppercase tracking-wider">Email</label>
+        <label htmlFor="login-email" className="text-xs font-semibold text-navy/80 uppercase tracking-wider">Email</label>
         <input 
+          id="login-email"
           name="email" 
           type="email" 
           autoComplete="email" 
@@ -50,8 +51,9 @@ export function LoginForm() {
       </div>
       
       <div className="space-y-1">
-        <label className="text-xs font-semibold text-navy/80 uppercase tracking-wider">Mật khẩu</label>
+        <label htmlFor="login-password" className="text-xs font-semibold text-navy/80 uppercase tracking-wider">Mật khẩu</label>
         <input 
+          id="login-password"
           name="password" 
           type="password" 
           autoComplete="current-password" 

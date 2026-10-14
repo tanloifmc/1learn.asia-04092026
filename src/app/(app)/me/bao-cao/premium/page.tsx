@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import { getFullReportData } from "@/features/career/actions/get-report-data";
 import { getPremiumReportData } from "@/features/career/actions/get-premium-report-data";
-import { generateReportSnapshot } from "@/features/career/actions/generate-report-snapshot";
 import { SetGoalButton } from "./set-goal-button";
+import { PremiumReportGenerator } from "./premium-report-generator";
 import { Chapter1 } from "./sections/PremiumChapter1";
 import { Chapter2 } from "./sections/PremiumChapter2";
 import { Chapter4 } from "./sections/PremiumChapter4";
@@ -96,22 +96,9 @@ export default async function PremiumReportPage() {
 
   if (!reportDoc || !reportDoc.report_data) redirect("/me/bao-cao");
 
-  // If user upgraded to premium but only has free snapshot OR missing narratives, upgrade it now!
   if (!reportDoc.report_data.premium || !reportDoc.report_data.premium.narratives) {
-    await generateReportSnapshot(user.id, reportDoc.assessment_result_id);
-    // Refetch
-    const { data: refetched } = await supabase
-      .from("student_reports")
-      .select("id, assessment_result_id, report_data, created_at")
-      .eq("student_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    
-    if (refetched) reportDoc = refetched;
+    return <PremiumReportGenerator assessmentResultId={reportDoc.assessment_result_id} />;
   }
-
-  if (!reportDoc.report_data.premium) redirect("/me/bao-cao");
 
   type BaseReportType = NonNullable<Awaited<ReturnType<typeof getFullReportData>>>;
   type PremiumReportType = NonNullable<Awaited<ReturnType<typeof getPremiumReportData>>>;
@@ -124,6 +111,7 @@ export default async function PremiumReportPage() {
 
   const careerChain = premiumData?.careerChain || [];
   const gapAnalysis = premiumData?.gapAnalysis || [];
+  const catalogIsInsufficient = premiumData?.careerCatalogStatus === "insufficient";
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] pb-28">
@@ -264,8 +252,6 @@ export default async function PremiumReportPage() {
                         </div>
                       </div>
 
-                      {/* Set as Goal button */}
-                      <SetGoalButton careerId={career.careerId} careerName={career.careerName} />
                     </div>
 
                     {career.description && (
@@ -320,33 +306,41 @@ export default async function PremiumReportPage() {
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 {major.universities.map((uni) => (
-                                  <Link
+                                  <div
                                     key={uni.universityId}
-                                    href={`/universities/${uni.universityId}`}
                                     className="flex items-center gap-3 p-3 rounded-xl border border-[#0E1B3D]/8 hover:border-[#4A2545]/25 hover:bg-[#4A2545]/4 transition-all group"
                                   >
-                                    <div className="w-8 h-8 rounded-xl bg-[#0E1B3D]/5 flex items-center justify-center flex-shrink-0">
-                                      <GraduationCap className="w-4 h-4 text-[#0E1B3D]/50 group-hover:text-[#4A2545] transition-colors" />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                      <div className="font-semibold text-[#0E1B3D] text-xs truncate group-hover:text-[#4A2545] transition-colors">
-                                        {uni.shortName || uni.universityName}
+                                    <Link href={`/universities/${uni.universityId}`} className="flex min-w-0 flex-1 items-center gap-3">
+                                      <div className="w-8 h-8 rounded-xl bg-[#0E1B3D]/5 flex items-center justify-center flex-shrink-0">
+                                        <GraduationCap className="w-4 h-4 text-[#0E1B3D]/50 group-hover:text-[#4A2545] transition-colors" />
                                       </div>
-                                      <div className="flex items-center gap-2 mt-0.5">
-                                        {uni.province && (
-                                          <span className="text-[10px] text-[#0E1B3D]/40 flex items-center gap-0.5">
-                                            <MapPin className="w-2.5 h-2.5" />{uni.province}
-                                          </span>
-                                        )}
-                                        {uni.maxScore && (
-                                          <span className="text-[10px] font-bold text-[#B89862]">
-                                            ≤ {uni.maxScore} điểm
-                                          </span>
-                                        )}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="font-semibold text-[#0E1B3D] text-xs truncate group-hover:text-[#4A2545] transition-colors">
+                                          {uni.shortName || uni.universityName}
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-0.5">
+                                          {uni.province && (
+                                            <span className="text-[10px] text-[#0E1B3D]/40 flex items-center gap-0.5">
+                                              <MapPin className="w-2.5 h-2.5" />{uni.province}
+                                            </span>
+                                          )}
+                                          {uni.maxScore && (
+                                            <span className="text-[10px] font-bold text-[#B89862]">
+                                              ≤ {uni.maxScore} điểm
+                                            </span>
+                                          )}
+                                        </div>
                                       </div>
-                                    </div>
-                                    <ChevronRight className="w-3.5 h-3.5 text-[#0E1B3D]/25 group-hover:text-[#4A2545] flex-shrink-0 transition-colors" />
-                                  </Link>
+                                    </Link>
+                                    <SetGoalButton
+                                      careerId={career.careerId}
+                                      careerName={career.careerName}
+                                      majorCode={major.majorCode}
+                                      universityId={uni.universityId}
+                                      programId={uni.programId}
+                                      variant="card"
+                                    />
+                                  </div>
                                 ))}
                               </div>
                             </div>
@@ -368,11 +362,19 @@ export default async function PremiumReportPage() {
         ) : (
           <Card className="p-6 md:p-12 text-center">
             <Briefcase className="w-12 h-12 text-[#0E1B3D]/20 mx-auto mb-4" />
-            <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">Chưa có gợi ý nghề nghiệp</h3>
-            <p className="text-[#0E1B3D]/50 text-sm mb-6">Hãy hoàn thành bài khảo sát để hệ thống phân tích và gợi ý nghề nghiệp phù hợp nhất.</p>
-            <Link href="/me/kham-pha" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0E1B3D] text-white font-bold text-sm hover:bg-[#B89862] hover:text-[#0E1B3D] transition-all">
-              Hoàn thành khảo sát <ArrowRight className="w-4 h-4" />
-            </Link>
+            <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">
+              {catalogIsInsufficient ? "Chưa đủ dữ liệu nghề nghiệp đã kiểm chứng" : "Chưa có gợi ý nghề nghiệp"}
+            </h3>
+            <p className="text-[#0E1B3D]/50 text-sm mb-6">
+              {catalogIsInsufficient
+                ? "Phần phân tích cá nhân vẫn có giá trị. Hệ thống sẽ chỉ mở gợi ý nghề, ngành và trường khi chuỗi dữ liệu nguồn đã được kiểm chứng đầy đủ."
+                : "Hãy hoàn thành bài khảo sát để hệ thống phân tích và gợi ý nghề nghiệp phù hợp nhất."}
+            </p>
+            {!catalogIsInsufficient && (
+              <Link href="/me/kham-pha" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0E1B3D] text-white font-bold text-sm hover:bg-[#B89862] hover:text-[#0E1B3D] transition-all">
+                Hoàn thành khảo sát <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </Card>
         )}
 

@@ -192,7 +192,7 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
       validity_rules: {
         expected_answers: { 'VQ_A01': 4 },
         max_attention_failures_allowed: 1,
-        max_straightline_streak_allowed: 10,
+        straightline_block_threshold: 8,
         expected_duration_seconds: 600
       }
     };
@@ -213,7 +213,7 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
       validity_rules: {
         expected_answers: { 'VQ_A01': 4, 'VQ_A02': 1 },
         max_attention_failures_allowed: 1,
-        max_straightline_streak_allowed: 10,
+        straightline_block_threshold: 8,
         expected_duration_seconds: 600
       }
     };
@@ -234,7 +234,7 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
       validity_rules: {
         expected_answers: { 'VQ_A01': 4, 'VQ_A02': 1, 'VQ_A03': 5 },
         max_attention_failures_allowed: 1,
-        max_straightline_streak_allowed: 10,
+        straightline_block_threshold: 8,
         expected_duration_seconds: 600
       }
     };
@@ -245,8 +245,8 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
     expect(result.confidence.is_usable).toBe(true);
   });
 
-  test('Straight-line ≥8 consecutive (9 items) → straightline_blocks=1, QUESTIONABLE', () => {
-    // 9 consecutive same answers → 1 block (≥8 triggers block), streak=9 ≤ max_allowed=10, so QUESTIONABLE not INVALID
+  test('Straight-line >=8 consecutive (9 items) → straightline_blocks=1, QUESTIONABLE', () => {
+    // Nine consecutive scored answers produce exactly one block.
     const riasecDim = makeDimWithFormula('d-r', 'R', 'riasec', 'primary', 6, 30, '((raw - 6) / 24) * 100');
     const responses = Array.from({ length: 9 }, (_, i) => makeResponse(`q${i}`, `R0${i+1}`, 'd-r', 'riasec', 'primary', 3));
     const config = {
@@ -254,33 +254,35 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
       validity_rules: {
         expected_answers: { 'VQ_A01': 4 }, // needs at least one expected_answer to avoid UNDETERMINED
         max_attention_failures_allowed: 1,
-        max_straightline_streak_allowed: 10,
+        straightline_block_threshold: 8,
         expected_duration_seconds: 600
       }
     };
     const result = calculateScoringV1(responses, [riasecDim], config);
-    // 9 consecutive same → 1 block triggered at index 8
+    // The block begins once the eighth consecutive scored response is reached.
     expect(result.quality.straightline_blocks).toBe(1);
     expect(result.quality.score).toBe(85); // 100 - 15
-    // streak=9 ≤ max_allowed_streak=10 → not INVALID, but 1 block → QUESTIONABLE
     expect(result.confidence.level).toBe('QUESTIONABLE');
   });
 
-  test('Straight-line > max_allowed_streak (12 > 10) → INVALID', () => {
-    // 12 consecutive same → max_streak_reached=12 > max_allowed=10 → INVALID
+  test('Two separate straight-line blocks → INVALID', () => {
     const riasecDim = makeDimWithFormula('d-r', 'R', 'riasec', 'primary', 6, 30, '((raw - 6) / 24) * 100');
-    const responses = Array.from({ length: 12 }, (_, i) => makeResponse(`q${i}`, `R0${i+1}`, 'd-r', 'riasec', 'primary', 3));
+    const responses = [
+      ...Array.from({ length: 8 }, (_, i) => makeResponse(`q${i}`, `R0${i + 1}`, 'd-r', 'riasec', 'primary', 3)),
+      makeResponse('separator', 'R09', 'd-r', 'riasec', 'primary', 4),
+      ...Array.from({ length: 8 }, (_, i) => makeResponse(`q${i + 9}`, `R${i + 10}`, 'd-r', 'riasec', 'primary', 3)),
+    ];
     const config = {
       options_scale: { min: 1, max: 5 },
       validity_rules: {
         expected_answers: { 'VQ_A01': 4 },
         max_attention_failures_allowed: 1,
-        max_straightline_streak_allowed: 10,
+        straightline_block_threshold: 8,
         expected_duration_seconds: 600
       }
     };
     const result = calculateScoringV1(responses, [riasecDim], config);
-    expect(result.quality.straightline_blocks).toBeGreaterThanOrEqual(1);
+    expect(result.quality.straightline_blocks).toBe(2);
     expect(result.confidence.level).toBe('INVALID');
     expect(result.confidence.is_usable).toBe(false);
   });
@@ -293,6 +295,21 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
       validity_rules: { expected_answers: {} } // no expected_duration_seconds either
     };
     const result = calculateScoringV1(responses, [riasecDim], config);
+    expect(result.confidence.level).toBe('UNDETERMINED');
+    expect(result.confidence.is_usable).toBeNull();
+  });
+
+  test('Missing straight-line threshold → UNDETERMINED', () => {
+    const responses = [makeResponse('q1', 'VQ_A01', 'd-vq', 'validity', 'quality', 4)];
+    const config = {
+      options_scale: { min: 1, max: 5 },
+      validity_rules: {
+        expected_answers: { VQ_A01: 4 },
+        expected_duration_seconds: 600,
+      },
+    };
+
+    const result = calculateScoringV1(responses, dims, config);
     expect(result.confidence.level).toBe('UNDETERMINED');
     expect(result.confidence.is_usable).toBeNull();
   });
@@ -312,7 +329,7 @@ describe('Quality / Validity Checks — production validity engine in scoring.ts
       validity_rules: {
         expected_answers: { 'VQ_A01': 4, 'VQ_A02': 1 },
         max_attention_failures_allowed: 1,
-        max_straightline_streak_allowed: 10,
+        straightline_block_threshold: 8,
         expected_duration_seconds: 600
       }
     };

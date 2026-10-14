@@ -31,12 +31,12 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
     );
   }
 
-  // 2. Run independent queries in parallel
+  // 2. Read session state before fetching questions. Question RLS grants access
+  // only after an in-progress session exists for the authenticated student.
   const [
     { data: currentSession },
     { data: completedSession },
-    { count },
-    { data: questionsRaw, error: qError }
+    { count }
   ] = await Promise.all([
     // A. Check in-progress session
     supabase
@@ -61,27 +61,7 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
       .from("student_reports")
       .select("*", { count: "exact", head: true })
       .eq("student_id", user.id)
-      .gte("created_at", new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString()),
-    // D. Fetch 121 questions
-    supabase
-      .from("assessment_questions")
-      .select(`
-        id,
-        question_code,
-        module,
-        order_index,
-        question_text,
-        is_reverse_scored,
-        assessment_dimensions!inner(
-          id,
-          code,
-          framework,
-          name,
-          matching_role
-        )
-      `)
-      .eq("version_id", version.id)
-      .order("order_index", { ascending: true })
+      .gte("created_at", new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString())
   ]);
 
   const forceNew = searchParams?.new === '1';
@@ -120,6 +100,26 @@ export default async function KhamPhaPage({ searchParams }: { searchParams: { ne
     }
     activeSession = newSession;
   }
+
+  const { data: questionsRaw, error: qError } = await supabase
+    .from("assessment_questions")
+    .select(`
+      id,
+      question_code,
+      module,
+      order_index,
+      question_text,
+      is_reverse_scored,
+      assessment_dimensions!inner(
+        id,
+        code,
+        framework,
+        name,
+        matching_role
+      )
+    `)
+    .eq("version_id", version.id)
+    .order("order_index", { ascending: true });
 
   if (qError || !questionsRaw || questionsRaw.length === 0) {
     console.error("Error fetching questions:", qError);

@@ -17,19 +17,38 @@ export async function setPrimaryGoalAndGenerateRoadmapAction(
   try {
     const supabase = await createClient();
 
-    // 1. Deactivate current primary goal
-    await supabase
+    const sourceTable = targetType === "career" ? "careers" : targetType === "major" ? "majors" : targetType === "university" ? "universities" : "fields";
+    const { data: target, error: targetError } = await (supabase as any)
+      .from(sourceTable)
+      .select("id, name")
+      .eq("id", targetId)
+      .maybeSingle();
+    if (targetError || !target) return { success: false, error: "Không tìm thấy mục tiêu đã chọn." };
+
+    const { data: profile } = await supabase
+      .from("student_profiles")
+      .select("grade")
+      .eq("id", studentId)
+      .maybeSingle();
+    const currentYear = new Date().getFullYear();
+    const targetYear = profile?.grade && profile.grade >= 1 && profile.grade <= 12
+      ? currentYear + (12 - profile.grade + 1) + 4
+      : null;
+
+    const { error: deactivateError } = await supabase
       .from("student_goals")
       .update({ is_primary: false })
       .eq("student_id", studentId)
       .eq("is_primary", true);
+    if (deactivateError) return { success: false, error: deactivateError.message };
 
-    // 2. Insert new primary goal
     const newGoal: any = {
       student_id: studentId,
       status: "active",
       is_primary: true,
-      target_year: new Date().getFullYear() + 3 // Default 3 years ahead
+      target_year: targetYear,
+      goal_type: targetType === "career" ? "career" : targetType === "university" ? "university" : "general",
+      goal_text: target.name,
     };
 
     if (targetType === 'career') {
@@ -49,11 +68,10 @@ export async function setPrimaryGoalAndGenerateRoadmapAction(
       return { success: false, error: "Không thể lưu mục tiêu vào hệ thống." };
     }
 
-    // 3. Generate Roadmap
     const roadmapResult = await generateRoadmapAction(studentId, targetType, targetId);
     
     if (!roadmapResult.success) {
-      return { success: false, error: roadmapResult.error || "Lỗi khi sinh lộ trình, nhưng mục tiêu đã được lưu." };
+      return { success: false, error: roadmapResult.error || "Không thể tạo lộ trình cho mục tiêu đã lưu." };
     }
 
     revalidatePath('/goal');

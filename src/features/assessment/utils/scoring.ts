@@ -68,7 +68,7 @@ export interface AssessmentScoringConfig {
   validity_rules?: {
     expected_answers?: Record<string, number>;
     max_attention_failures_allowed?: number;
-    max_straightline_streak_allowed?: number;
+    straightline_block_threshold?: number;
     expected_duration_seconds?: number;
   };
 }
@@ -177,7 +177,9 @@ export function calculateScoringV1(
   let current_streak = 1;
   let in_block = false;
   let max_streak_reached = 0;
-  const max_allowed_streak = config.validity_rules?.max_straightline_streak_allowed || 12;
+  const straightlineBlockThreshold = config.validity_rules?.straightline_block_threshold;
+  const hasStraightlineThreshold = Number.isInteger(straightlineBlockThreshold)
+    && (straightlineBlockThreshold ?? 0) >= 2;
   
   const allValues = scorableResponses.map(r => r.response_value);
   for (let i = 1; i < allValues.length; i++) {
@@ -185,7 +187,7 @@ export function calculateScoringV1(
       current_streak++;
       if (current_streak > max_streak_reached) max_streak_reached = current_streak;
       
-      if (current_streak >= max_allowed_streak && !in_block) {
+      if (hasStraightlineThreshold && current_streak >= straightlineBlockThreshold! && !in_block) {
         straightline_blocks++;
         in_block = true;
       }
@@ -228,10 +230,10 @@ export function calculateScoringV1(
   // --- Spec 08 Validity Evaluator ---
   let level: 'VALID' | 'QUESTIONABLE' | 'INVALID' | 'UNDETERMINED' = 'VALID';
   
-  // Missing metadata is when expected_duration_seconds is missing AND expected_answers is missing/empty.
+  // Every validity signal requires explicit package metadata. Do not silently fall back to a default.
   const hasDuration = config.validity_rules?.expected_duration_seconds !== undefined && config.validity_rules.expected_duration_seconds > 0;
   const hasExpectedAnswers = config.validity_rules?.expected_answers && Object.keys(config.validity_rules.expected_answers).length > 0;
-  const hasMissingMetadata = !hasDuration && !hasExpectedAnswers;
+  const hasMissingMetadata = !hasDuration || !hasExpectedAnswers || !hasStraightlineThreshold;
 
   if (hasMissingMetadata) {
     level = 'UNDETERMINED';
@@ -243,7 +245,8 @@ export function calculateScoringV1(
     if (attention_failures >= 2) isInvalid = true;
     else if (attention_failures === 1) isQuestionable = true;
 
-    if (max_streak_reached >= max_allowed_streak) isQuestionable = true;
+    if (straightline_blocks >= 2) isInvalid = true;
+    else if (straightline_blocks === 1) isQuestionable = true;
 
     if (speeding_percentage !== null) {
       if (speeding_percentage >= 40) isInvalid = true;

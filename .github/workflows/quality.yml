@@ -13,6 +13,16 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      E2E_ENV: ${{ secrets.E2E_ENV }}
+      E2E_ALLOW_STAGING_TEST_WRITES: ${{ secrets.E2E_ALLOW_STAGING_TEST_WRITES }}
+      E2E_BASE_URL: ${{ secrets.E2E_BASE_URL }}
+      E2E_SUPABASE_URL: ${{ secrets.E2E_SUPABASE_URL }}
+      E2E_SUPABASE_PROJECT_REF: ${{ secrets.E2E_SUPABASE_PROJECT_REF }}
+      E2E_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.E2E_SUPABASE_PUBLISHABLE_KEY }}
+      E2E_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.E2E_SUPABASE_SERVICE_ROLE_KEY }}
+      E2E_PRODUCTION_SUPABASE_PROJECT_REF: ${{ secrets.E2E_PRODUCTION_SUPABASE_PROJECT_REF }}
+      E2E_PRODUCTION_BASE_URL: ${{ secrets.E2E_PRODUCTION_BASE_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,7 +33,10 @@ jobs:
       - run: npm run check:env
       - run: npm run typecheck
       - run: npm run lint
+      - run: npm run test:unit
       - run: npm run build
-      # Tạm thời vô hiệu hóa E2E tests trên Github Actions vì chưa cấu hình Secrets
-      # - run: node ./node_modules/@playwright/test/cli.js install --with-deps chromium
-      # - run: npm run test:e2e
+      - name: Run staging E2E tests when the dedicated staging secrets are configured
+        if: env.E2E_ENV == 'staging' && env.E2E_ALLOW_STAGING_TEST_WRITES == 'true' && env.E2E_BASE_URL != '' && env.E2E_SUPABASE_URL != '' && env.E2E_SUPABASE_PROJECT_REF != '' && env.E2E_SUPABASE_PUBLISHABLE_KEY != '' && env.E2E_SUPABASE_SERVICE_ROLE_KEY != '' && env.E2E_PRODUCTION_SUPABASE_PROJECT_REF != '' && env.E2E_PRODUCTION_BASE_URL != ''
+        run: |
+          node ./node_modules/@playwright/test/cli.js install --with-deps chromium
+          npm run test:e2e:staging

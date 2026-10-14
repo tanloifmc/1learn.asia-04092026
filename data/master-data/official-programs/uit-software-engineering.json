@@ -1,0 +1,34 @@
+{
+  "source": {
+    "name": "UIT official admissions page — Ngành Kỹ thuật Phần mềm",
+    "url": "https://tuyensinh.uit.edu.vn/nganh-dao-tao/nganh-ky-thuat-phan-mem",
+    "type": "official_program_page",
+    "version": "retrieved-live-2026-09-23"
+  },
+  "universitySlug": "truong-dai-hoc-cong-nghe-thong-tin-dai-hoc-quoc-gia-tp-ho-chi-minh-qsc",
+  "majorCode": "7480103",
+  "requiredText": [
+    "Ngành Kỹ thuật Phần mềm",
+    "Trường Đại học Công nghệ Thông tin, ĐHQG-HCM (UIT)",
+    "Chương trình Cử nhân Kỹ thuật phần mềm",
+    "7480103",
+    "Kỹ sư và chuyên viên phát triển phần mềm"
+  ],
+  "program": {
+    "name": "Cử nhân Kỹ thuật phần mềm",
+    "degreeLevel": "undergraduate",
+    "campus": "Trường Đại học Công nghệ Thông tin, ĐHQG-HCM, TP. HCM",
+    "type": "full_time",
+    "originalMajorCode": "7480103",
+    "originalMajorName": "Ngành Kỹ thuật Phần mềm",
+    "claim": "Trang tuyển sinh chính thức UIT xác nhận chương trình Cử nhân Kỹ thuật phần mềm chính quy tập trung 4 năm, mã ngành 7480103, đào tạo tại Trường Đại học Công nghệ Thông tin, ĐHQG-HCM."
+  },
+  "careerMappings": [
+    {
+      "careerCode": "ONET_15_1252_00",
+      "relationshipType": "primary",
+      "relevanceScore": 1,
+      "claim": "Trang tuyển sinh chính thức UIT nêu người tốt nghiệp có thể làm kỹ sư và chuyên viên phát triển phần mềm; điều này hỗ trợ quan hệ chính giữa nghề Software Developers và ngành Kỹ thuật phần mềm."
+    }
+  ]
+}

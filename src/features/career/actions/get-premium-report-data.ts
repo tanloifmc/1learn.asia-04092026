@@ -11,6 +11,7 @@ export interface MajorWithUniversities {
   fieldName: string | null;
   relevanceScore: number;
   universities: {
+    programId: string;
     universityId: string;
     universityName: string;
     shortName: string | null;
@@ -32,52 +33,72 @@ export interface CareerChainItem {
   majors: MajorWithUniversities[];
 }
 
-export async function getPremiumReportData(studentId: string): Promise<{
+export type CareerCatalogStatus = "available" | "insufficient";
+
+export interface PremiumReportData {
   careerChain: CareerChainItem[];
   studentGrade: number | null;
   gapAnalysis: { skill: string; hasIt: boolean }[];
+  careerCatalogStatus: CareerCatalogStatus;
   narratives?: PremiumNarrativeResult;
-} | null> {
+}
+
+export async function getPremiumReportData(studentId: string): Promise<PremiumReportData | null> {
   const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || user.id !== studentId) return null;
+
+  const { data: studentProfile } = await supabase
+    .from("student_profiles")
+    .select("grade")
+    .eq("id", studentId)
+    .maybeSingle();
 
   // 1. Get latest match run
   const { data: matchRun } = await supabase
     .from("match_runs")
-    .select("id")
+    .select("id, status")
     .eq("student_id", studentId)
-    .eq("status", "completed")
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  if (!matchRun) return null;
+  if (!matchRun || matchRun.status !== "completed") {
+    return {
+      careerChain: [],
+      studentGrade: studentProfile?.grade || null,
+      gapAnalysis: [],
+      careerCatalogStatus: "insufficient",
+    };
+  }
 
   // 2. Fetch top 5 career matches with full career data
   const { data: rawMatches } = await supabase
     .from("career_matches")
     .select(`
       match_score,
-      careers(id, name, code, category, description, skills, education_paths)
+      careers(id, name, code, career_domain_code, description, skills, education_paths)
     `)
     .eq("run_id", matchRun.id)
     .order("rank", { ascending: true })
     .limit(5);
 
-  if (!rawMatches || rawMatches.length === 0) return null;
-
-  // 3. Get student grade for scoring context
-  const { data: studentProfile } = await supabase
-    .from("student_profiles")
-    .select("grade, gpa_range")
-    .eq("id", studentId)
-    .maybeSingle();
+  if (!rawMatches || rawMatches.length === 0) {
+    return {
+      careerChain: [],
+      studentGrade: studentProfile?.grade || null,
+      gapAnalysis: [],
+      careerCatalogStatus: "insufficient",
+    };
+  }
 
   // 4. For each career, run major matching then fetch universities
   const careerChain: CareerChainItem[] = [];
 
   for (const m of rawMatches) {
     const career = m.careers as any;
-    if (!career) continue;
+    if (!career?.id) continue;
 
     // Run major engine for this single career
     const careerInput: CareerMatchInput[] = [{
@@ -97,8 +118,10 @@ export async function getPremiumReportData(studentId: string): Promise<{
       // Get major details
       const { data: majorData } = await supabase
         .from("majors")
-        .select("name, fields(name)")
+        .select("id, name, fields(name)")
         .eq("code", mm.major_code)
+        .eq("status", "published")
+        .eq("is_production_eligible", true)
         .maybeSingle();
 
       if (!majorData) continue;
@@ -107,32 +130,36 @@ export async function getPremiumReportData(studentId: string): Promise<{
       const { data: uniMajors } = await supabase
         .from("university_majors")
         .select(`
-          universities(id, name, short_name, type, province),
-          admission_data(total_score)
+          id,
+          universities(id, name, short_name, type, location_region),
+          admission_data(cutoff_score)
         `)
-        .eq("major_id", (await supabase.from("majors").select("id").eq("code", mm.major_code).maybeSingle()).data?.id)
+        .eq("major_id", majorData.id)
+        .eq("status", "published")
+        .eq("is_production_eligible", true)
         .limit(20);
 
       // Aggregate universities with min/max scores
-      const uniMap = new Map<string, { uni: any; scores: number[] }>();
+      const uniMap = new Map<string, { programId: string; uni: any; scores: number[] }>();
       for (const um of (uniMajors || [])) {
         const uni = um.universities as any;
         if (!uni) continue;
-        if (!uniMap.has(uni.id)) {
-          uniMap.set(uni.id, { uni, scores: [] });
+        if (!uniMap.has(um.id)) {
+          uniMap.set(um.id, { programId: um.id, uni, scores: [] });
         }
-        const admScore = (um.admission_data as any)?.total_score;
-        if (admScore != null) uniMap.get(uni.id)!.scores.push(admScore);
+        const admScore = (um.admission_data as any)?.cutoff_score;
+        if (admScore != null) uniMap.get(um.id)!.scores.push(admScore);
       }
 
       const universities = Array.from(uniMap.values())
         .slice(0, 4)
-        .map(({ uni, scores }) => ({
+        .map(({ programId, uni, scores }) => ({
+          programId,
           universityId: uni.id,
           universityName: uni.name,
           shortName: uni.short_name,
           type: uni.type,
-          province: uni.province,
+          province: uni.location_region,
           minScore: scores.length > 0 ? Math.min(...scores) : null,
           maxScore: scores.length > 0 ? Math.max(...scores) : null,
         }));
@@ -154,7 +181,7 @@ export async function getPremiumReportData(studentId: string): Promise<{
       careerName: career.name,
       careerCode: career.code,
       matchScore: Math.round(m.match_score),
-      category: career.category,
+      category: career.career_domain_code,
       description: career.description,
       requiredSkills,
       majors: majorsWithUnis,
@@ -180,5 +207,6 @@ export async function getPremiumReportData(studentId: string): Promise<{
     careerChain,
     studentGrade: studentProfile?.grade || null,
     gapAnalysis,
+    careerCatalogStatus: careerChain.length > 0 ? "available" : "insufficient",
   };
 }

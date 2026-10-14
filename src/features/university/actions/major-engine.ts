@@ -23,93 +23,41 @@ export async function runMajorMatching(
 
   const supabase = customClient || await createClient();
 
-  // 1. Fetch careers mapping to ensure we have education_paths if not provided in input
-  // Extract career codes from input
-  const careerCodes = careerMatches.map(c => c.career_code);
-  let careerDataMap = new Map<string, any>();
+  const inputByCareerId = new Map(careerMatches.map((match) => [match.career_id, match]));
+  const { data: mappings, error: mappingError } = await supabase
+    .from("career_major_mappings")
+    .select("career_id, relevance_score, majors!inner(code, status, is_production_eligible)")
+    .in("career_id", careerMatches.map((match) => match.career_id))
+    .eq("status", "published")
+    .eq("is_production_eligible", true)
+    .eq("majors.status", "published")
+    .eq("majors.is_production_eligible", true);
 
-  // If input doesn't have education_paths populated, fetch from DB
-  const needsFetch = careerMatches.some(c => !c.education_paths);
-  if (needsFetch) {
-    const { data: careersData, error } = await supabase
-      .from('careers')
-      .select('code, education_paths')
-      .in('code', careerCodes);
-
-    if (error) {
-      return { success: false, status: 'error', error: error.message };
-    }
-
-    if (careersData) {
-      for (const c of careersData) {
-        careerDataMap.set(c.code, c.education_paths || []);
-      }
-    }
+  if (mappingError) {
+    return { success: false, status: "error", error: mappingError.message };
   }
 
-  // 1.5 Extract ALL potential major codes to verify existence
-  const potentialMajorCodes = new Set<string>();
-  for (const cm of careerMatches) {
-    const paths = cm.education_paths || careerDataMap.get(cm.career_code) || [];
-    for (const path of paths) {
-      if (path && path.major_code) {
-        potentialMajorCodes.add(path.major_code);
-      }
-    }
-  }
-
-  // Verify major existence in authoritative majors table
-  const validMajorCodes = new Set<string>();
-  if (potentialMajorCodes.size > 0) {
-    const { data: validMajors, error: majorErr } = await supabase
-      .from('majors')
-      .select('code')
-      .in('code', Array.from(potentialMajorCodes));
-
-    if (majorErr) {
-      return { success: false, status: 'error', error: majorErr.message };
-    }
-
-    if (validMajors) {
-      validMajors.forEach((m: { code: string }) => validMajorCodes.add(m.code));
-    }
-  }
-
-  // 2. Aggregate Majors
+  // Aggregate only source-backed career → major relationships. The legacy
+  // education_paths JSON remains descriptive content and is not an authority
+  // for student recommendations.
   const majorMap = new Map<string, SupportingCareer[]>();
 
-  for (const cm of careerMatches) {
-    // Determine mapping paths
-    const paths = cm.education_paths || careerDataMap.get(cm.career_code) || [];
-    
-    // De-duplicate majors within a single career (in case DB has dupes)
-    const uniqueMajorCodes = new Set<string>();
-    
-    for (const path of paths) {
-      if (!path || !path.major_code) continue;
-      
-      const majorCode = path.major_code;
+  for (const mapping of mappings ?? []) {
+    const careerMatch = inputByCareerId.get(mapping.career_id);
+    const major = mapping.majors as { code: string | null } | null;
+    const mappingWeight = Number(mapping.relevance_score);
+    if (!careerMatch || !major?.code || !Number.isFinite(mappingWeight) || mappingWeight <= 0) continue;
 
-      // Contract Check: Must exist in validMajorCodes
-      if (!validMajorCodes.has(majorCode)) continue;
-
-      if (uniqueMajorCodes.has(majorCode)) continue;
-      uniqueMajorCodes.add(majorCode);
-
-      // Contract check: use weight = 1 as authoritative rule V1.0
-      const mappingWeight = 1; 
-
-      if (!majorMap.has(majorCode)) {
-        majorMap.set(majorCode, []);
-      }
-
-      majorMap.get(majorCode)!.push({
-        career_id: cm.career_id,
-        career_code: cm.career_code,
-        career_match_score: cm.match_score,
-        mapping_weight: mappingWeight,
-      });
+    if (!majorMap.has(major.code)) {
+      majorMap.set(major.code, []);
     }
+
+    majorMap.get(major.code)!.push({
+      career_id: careerMatch.career_id,
+      career_code: careerMatch.career_code,
+      career_match_score: careerMatch.match_score,
+      mapping_weight: mappingWeight,
+    });
   }
 
   // 3. No Mapping Fallback

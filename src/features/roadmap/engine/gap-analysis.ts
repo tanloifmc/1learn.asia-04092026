@@ -14,6 +14,7 @@ export interface Gap {
   currentValue: string | null;
   hasGap: boolean;
   gapMagnitude: number; // 0 if no gap, higher means bigger gap
+  alternatives?: TargetRequirement[];
 }
 
 // Mapping from requirement_code to subject_code in academic_records
@@ -34,15 +35,41 @@ export class GapAnalysisEngine {
    * Compares the student's current state against the target requirements
    */
   analyze(requirements: TargetRequirement[], studentState: StudentState): Gap[] {
-    return requirements.map(req => {
-      const { currentValue, hasGap, gapMagnitude } = this.evaluateRequirement(req, studentState);
+    const independentRequirements = requirements.filter((requirement) => !requirement.satisfaction_group);
+    const alternativeGroups = new Map<string, TargetRequirement[]>();
+
+    for (const requirement of requirements) {
+      if (!requirement.satisfaction_group) continue;
+      const group = alternativeGroups.get(requirement.satisfaction_group) ?? [];
+      group.push(requirement);
+      alternativeGroups.set(requirement.satisfaction_group, group);
+    }
+
+    const individualGaps = independentRequirements.map((requirement) => this.toGap(requirement, studentState));
+    const alternativeGaps = Array.from(alternativeGroups.values()).map((alternatives) => {
+      const evaluated = alternatives.map((requirement) => this.toGap(requirement, studentState));
+      const satisfied = evaluated.find((gap) => !gap.hasGap);
+      const representative = satisfied ?? evaluated
+        .slice()
+        .sort((left, right) => left.gapMagnitude - right.gapMagnitude || left.requirement.requirement_code.localeCompare(right.requirement.requirement_code))[0];
+      if (!representative) {
+        throw new Error("Alternative requirement group unexpectedly contains no requirements.");
+      }
+
       return {
-        requirement: req,
-        currentValue,
-        hasGap,
-        gapMagnitude
+        ...representative,
+        hasGap: !satisfied,
+        gapMagnitude: satisfied ? 0 : representative.gapMagnitude,
+        alternatives,
       };
     });
+
+    return [...individualGaps, ...alternativeGaps];
+  }
+
+  private toGap(requirement: TargetRequirement, state: StudentState): Gap {
+    const { currentValue, hasGap, gapMagnitude } = this.evaluateRequirement(requirement, state);
+    return { requirement, currentValue, hasGap, gapMagnitude };
   }
 
   private evaluateRequirement(req: TargetRequirement, state: StudentState): { currentValue: string | null, hasGap: boolean, gapMagnitude: number } {

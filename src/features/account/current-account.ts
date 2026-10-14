@@ -5,10 +5,10 @@ import { cache } from "react";
 export const getCurrentAccount = cache(async () => {
   if (!hasPublicSupabaseConfig()) return null;
   const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-  const claims = claimsData?.claims;
-  const userId = claims?.sub;
-  if (!userId) return null;
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  const user = userData.user;
+  if (userError || !user) return null;
+  const userId = user.id;
 
   const [{ data: profile }, { data: roles }] = await Promise.all([
     supabase.from("profiles").select("id, display_name, avatar_url, phone, locale, timezone").eq("id", userId).single(),
@@ -17,7 +17,7 @@ export const getCurrentAccount = cache(async () => {
 
   return {
     userId,
-    email: typeof claims.email === "string" ? claims.email : null,
+    email: user.email ?? null,
     profile,
     roles: roles?.map(({ role }) => role) ?? [],
   };

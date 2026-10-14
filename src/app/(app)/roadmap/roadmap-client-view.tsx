@@ -172,6 +172,7 @@ export function RoadmapClientView({ initialRoadmap }: { initialRoadmap: Roadmap 
                           <button 
                             onClick={() => handleTaskCheck(task.id, task.status)}
                             disabled={updatingTask === task.id}
+                            aria-label={`${task.status === "completed" ? "Đánh dấu chưa hoàn thành" : "Hoàn thành"}: ${task.title}`}
                             className={`mt-1 flex-shrink-0 transition-all ${
                               updatingTask === task.id ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                             } ${task.status === 'completed' ? 'text-[#B89862] scale-110' : 'text-[#0E1B3D]/20 hover:text-[#B89862]'}`}

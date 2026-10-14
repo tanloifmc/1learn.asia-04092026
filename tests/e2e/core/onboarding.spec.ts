@@ -23,11 +23,18 @@ test.describe("Student Onboarding Flow", () => {
     await page.fill('input[type="password"]', testUser.password);
     await page.click('button[type="submit"]');
 
+    await expect.poll(async () => {
+      const cookies = await page.context().cookies(page.url());
+      return cookies.filter((cookie) => /^sb-.*-auth-token/.test(cookie.name)).length;
+    }, { timeout: 10_000 }).toBeGreaterThan(0);
+
     // Wait for redirect to onboarding (because onboarding_completed_at is null)
     await page.waitForURL("**/onboarding");
 
     // --- STEP 1: Basic Info ---
     await expect(page.getByText("Bước 1 / 4")).toBeVisible();
+    await page.fill('input[name="display_name"]', "E2E Test Student");
+    await page.fill('input[name="birth_year"]', "2008");
     await page.fill('input[name="grade"]', "10");
     await page.fill('input[name="region"]', "Hà Nội");
     await page.getByRole('button', { name: 'Tiếp tục' }).click();
@@ -36,7 +43,7 @@ test.describe("Student Onboarding Flow", () => {
     await expect(page.getByText("Bước 2 / 4")).toBeVisible();
     await page.fill('input[name="strong_subjects"]', "Toán, Lý");
     await page.fill('input[name="weak_subjects"]', "Hóa");
-    await page.click('text=Giỏi (Excellent)');
+    await page.locator('input[name="gpa_range"][value="excellent"]').check({ force: true });
     await page.getByRole('button', { name: 'Tiếp tục' }).click();
 
     // --- STEP 3: Interests ---
@@ -46,18 +53,18 @@ test.describe("Student Onboarding Flow", () => {
 
     // --- STEP 4: Future Goals ---
     await expect(page.getByText("Bước 4 / 4")).toBeVisible();
-    await page.click('text=Du học');
-    await page.click('text=4'); // Family support level
+    await page.locator('input[name="study_location_pref"][value="abroad"]').check({ force: true });
+    await page.locator('input[name="family_support_level"][value="4"]').check({ force: true });
     await page.getByRole('button', { name: 'Hoàn thành & Bắt đầu' }).click();
 
-    // Wait for redirect to home
-    await page.waitForURL("**/home");
-    await expect(page.getByText("Tổng quan")).toBeVisible(); // Navigation should say Tổng quan instead of Nhà của tôi
+    // The completed student returns to the canonical dashboard route.
+    await page.waitForURL("**/dashboard");
+    await expect(page.getByText("Tổng quan")).toBeVisible();
 
     // --- DB Verification & Reload test ---
-    // Reload the page to ensure we stay on /home and don't get kicked back to onboarding
+    // Reload the page to ensure we stay on the dashboard and don't get kicked back to onboarding.
     await page.reload();
-    await page.waitForURL("**/home");
+    await page.waitForURL("**/dashboard");
 
     // Verify DB integrity manually via server-side checks
     const { data: profile } = await adminClient
@@ -89,5 +96,20 @@ test.describe("Student Onboarding Flow", () => {
     expect(interests?.length).toBe(2); // Máy tính, Đọc sách
     expect(interests![0].interest_area).toBe("Máy tính");
     expect(interests![0].interest_level).toBe(5);
+
+    const { data: onboardingEvents, error: analyticsError } = await adminClient
+      .from('analytics_events')
+      .select('event_name, event_version, source, properties')
+      .eq('user_id', testUser.id)
+      .eq('event_name', 'ONBOARDING_COMPLETED');
+
+    expect(analyticsError).toBeNull();
+    expect(onboardingEvents).toHaveLength(1);
+    expect(onboardingEvents![0]).toMatchObject({
+      event_name: 'ONBOARDING_COMPLETED',
+      event_version: 'v1',
+      source: 'server',
+      properties: { grade_level: '10', has_interests: true },
+    });
   });
 });

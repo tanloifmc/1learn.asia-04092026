@@ -16,7 +16,8 @@ describe('Phase 1 Pipeline Tests', () => {
     validity_rules: {
       expected_answers: { 'VQ_A01': 4, 'VQ_A02': 1 },
       max_attention_failures_allowed: 1,
-      max_straightline_streak_allowed: 12
+      straightline_block_threshold: 8,
+      expected_duration_seconds: 600
     }
   };
 

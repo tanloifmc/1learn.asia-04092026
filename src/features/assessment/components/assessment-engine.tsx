@@ -100,6 +100,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
   const [savingQuestions, setSavingQuestions] = useState<Record<string, boolean>>({});
   const [isSubmitting, startTransition] = useTransition();
   const [isComplete, setIsComplete] = useState(false);
+  const [requiresRetake, setRequiresRetake] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Group questions by module
@@ -160,6 +161,10 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
       try {
         const result = await calculateAndCompleteSession(sessionId);
         if (result.success) {
+          if (result.requiresRetake) {
+            setRequiresRetake(true);
+            return;
+          }
           setIsComplete(true);
           setTimeout(() => {
             router.push('/me/bao-cao');
@@ -194,6 +199,26 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
             <div key={i} className="w-2 h-2 rounded-full bg-[#B89862] animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
           ))}
         </div>
+      </div>
+    );
+  }
+
+  if (requiresRetake) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6">
+        <div className="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center mb-8">
+          <CheckCircle2 className="w-12 h-12 text-amber-700" />
+        </div>
+        <h2 className="font-serif text-4xl text-[#0E1B3D] mb-4">Cần làm lại bài đánh giá</h2>
+        <p className="text-[#0E1B3D]/60 text-lg mb-8 max-w-xl">
+          Hệ thống đã lưu bài làm nhưng chưa thể xác nhận độ tin cậy của kết quả. Em hãy làm lại cẩn thận để nhận được báo cáo định hướng phù hợp.
+        </p>
+        <button
+          onClick={() => router.push('/me/kham-pha?new=1')}
+          className="px-8 py-4 rounded-full bg-[#0E1B3D] text-white font-bold hover:bg-[#B89862] transition-colors"
+        >
+          Làm lại bài đánh giá
+        </button>
       </div>
     );
   }
@@ -354,6 +379,7 @@ export function AssessmentEngine({ sessionId, questions, initialAnswers = {} }: 
                           key={option.value}
                           onClick={() => handleSelect(q.id, option.value)}
                           disabled={isSaving}
+                          aria-label={`Câu ${q.question_code}, đáp án ${option.value}`}
                           className={`relative flex flex-col items-center p-2 sm:p-3 md:p-4 rounded-xl border-2 transition-all duration-200 group active:scale-90 ${
                             isSelected
                               ? `${selectedBorderClass} ${selectedBgClass}`

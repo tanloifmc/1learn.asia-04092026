@@ -36,6 +36,13 @@ export class TimelinePlanner {
       const gap = gaps[i];
       if (!gap.hasGap) continue;
 
+      const alternativeLabel = gap.alternatives
+        ?.map((requirement) => requirement.requirement_code)
+        .join(", ");
+      const requirementLabel = alternativeLabel
+        ? `một trong các yêu cầu thay thế (${alternativeLabel})`
+        : gap.requirement.requirement_code;
+
       // Determine task types based on gap type and grade context
       let taskType = 'skill_building';
       let evidenceType = 'none';
@@ -59,16 +66,20 @@ export class TimelinePlanner {
       taskDueDate.setMonth(currentDate.getMonth() + currentMonthOffset);
 
       milestones.push({
-        title: `Đạt được ${gap.requirement.requirement_code}`,
-        description: `Bù đắp khoảng trống cho ${gap.requirement.requirement_code}. Hiện tại: ${gap.currentValue || 'Chưa có'}, Mục tiêu: ${gap.requirement.requirement_value} ${gap.requirement.unit}`,
+        title: `Đạt được ${requirementLabel}`,
+        description: alternativeLabel
+          ? `Hoàn thành một lựa chọn được chấp nhận: ${alternativeLabel}. Hiện tại: ${gap.currentValue || 'Chưa có minh chứng'}.`
+          : `Bù đắp khoảng trống cho ${gap.requirement.requirement_code}. Hiện tại: ${gap.currentValue || 'Chưa có'}, Mục tiêu: ${gap.requirement.requirement_value} ${gap.requirement.unit}`,
         priority: gap.priorityLevel,
         sourceRequirementId: gap.requirement.id,
         targetDate: targetDate,
         orderIndex: i,
         tasks: [
           {
-            title: `Xây dựng nền tảng cho ${gap.requirement.requirement_code}`,
-            description: `Bắt đầu xây dựng kiến thức nền tảng cần thiết cho ${gap.requirement.requirement_code}.`,
+            title: `Xây dựng nền tảng cho ${requirementLabel}`,
+            description: alternativeLabel
+              ? `Chọn một lộ trình phù hợp trong các yêu cầu thay thế: ${alternativeLabel}.`
+              : `Bắt đầu xây dựng kiến thức nền tảng cần thiết cho ${gap.requirement.requirement_code}.`,
             taskType: taskType,
             priority: gap.priorityLevel,
             sourceRequirementId: gap.requirement.id,
@@ -79,7 +90,7 @@ export class TimelinePlanner {
             evidenceType: 'none'
           },
           {
-            title: `Kiểm tra thử hoặc nộp minh chứng cho ${gap.requirement.requirement_code}`,
+            title: `Kiểm tra thử hoặc nộp minh chứng cho ${requirementLabel}`,
             description: `Đánh giá tiến độ của bạn so với mục tiêu yêu cầu.`,
             taskType: 'assessment',
             priority: gap.priorityLevel,

@@ -13,7 +13,7 @@ export const metadata = {
   description: "Quản lý mục tiêu học tập và nghề nghiệp cá nhân hóa.",
 };
 
-function ReadinessMeter({ score }: { score: number }) {
+function ProgressMeter({ score }: { score: number }) {
   const pct = Math.min(Math.max(score || 0, 0), 100);
   const r = 52;
   const circ = 2 * Math.PI * r;
@@ -37,7 +37,7 @@ function ReadinessMeter({ score }: { score: number }) {
           <span className="text-xs text-[#0E1B3D]/40 font-bold">%</span>
         </div>
       </div>
-      <p className="mt-2 text-sm font-bold text-[#0E1B3D]/60 uppercase tracking-wider">Sẵn sàng</p>
+      <p className="mt-2 text-sm font-bold text-[#0E1B3D]/60 uppercase tracking-wider">Tiến độ</p>
     </div>
   );
 }
@@ -54,9 +54,9 @@ export default async function GoalPage() {
     .from("student_goals")
     .select(`
       id, target_year, readiness_score, created_at,
-      careers(id, name, category, description),
+      careers(id, name, career_domain_code, description),
       majors(id, name, code),
-      universities(id, name, short_name, province, type)
+      universities(id, name, short_name, location_region, type)
     `)
     .eq("student_id", user.id)
     .eq("is_primary", true)
@@ -67,16 +67,16 @@ export default async function GoalPage() {
   let milestones: any[] = [];
   if (goal) {
     const { data: roadmap } = await supabase
-      .from("student_roadmaps")
+      .from("roadmaps")
       .select("id")
       .eq("student_id", user.id)
-      .eq("is_active", true)
+      .eq("status", "active")
       .maybeSingle();
 
     if (roadmap) {
       const { data: ms } = await supabase
         .from("roadmap_milestones")
-        .select("id, title, description, target_date, status, milestone_type, phase")
+        .select("id, title, description, target_date, status, priority")
         .eq("roadmap_id", roadmap.id)
         .order("target_date", { ascending: true })
         .limit(20);
@@ -87,7 +87,7 @@ export default async function GoalPage() {
   const completedCount = milestones.filter(m => m.status === "completed").length;
   const totalCount = milestones.length;
   const milestoneProgress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-  const readinessScore = goal?.readiness_score ?? milestoneProgress;
+  const roadmapProgress = milestoneProgress;
 
   // ── No goal state ──────────────────────────────────────────────────────────
   if (!goal) {
@@ -124,7 +124,7 @@ export default async function GoalPage() {
 
   // Group milestones by phase
   const byPhase = milestones.reduce((acc: Record<string, any[]>, m) => {
-    const phase = m.phase || "Khác";
+    const phase = m.priority ? `Ưu tiên ${m.priority}` : "Lộ trình";
     if (!acc[phase]) acc[phase] = [];
     acc[phase].push(m);
     return acc;
@@ -146,8 +146,8 @@ export default async function GoalPage() {
           <h1 className="font-serif text-4xl md:text-5xl text-white mb-4 leading-tight">
             {career?.name || "Mục tiêu nghề nghiệp"}
           </h1>
-          {career?.category && (
-            <span className="inline-block px-3 py-1 bg-[#B89862]/20 text-[#B89862] rounded-full text-xs font-bold mb-4">{career.category}</span>
+          {career?.career_domain_code && (
+            <span className="inline-block px-3 py-1 bg-[#B89862]/20 text-[#B89862] rounded-full text-xs font-bold mb-4">{career.career_domain_code}</span>
           )}
           <p className="text-white/60 max-w-2xl leading-relaxed">{career?.description || "Mục tiêu nghề nghiệp đã được thiết lập."}</p>
         </div>
@@ -177,9 +177,9 @@ export default async function GoalPage() {
             <Building2 className="w-6 h-6 text-[#B89862] mb-4" />
             <p className="text-[#0E1B3D]/50 text-xs font-bold uppercase tracking-wider mb-1">Trường đại học</p>
             <p className="font-bold text-[#0E1B3D] leading-tight">{university?.name || "Chưa chọn"}</p>
-            {university?.province && (
+            {university?.location_region && (
               <p className="text-[#0E1B3D]/40 text-xs mt-1 flex items-center gap-1">
-                <MapPin className="w-3 h-3" />{university.province}
+                <MapPin className="w-3 h-3" />{university.location_region}
               </p>
             )}
           </div>
@@ -188,15 +188,15 @@ export default async function GoalPage() {
         {/* ── READINESS + TIMELINE ────────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          {/* Readiness Meter */}
+          {/* Roadmap progress */}
           <div className="bg-white rounded-3xl p-6 md:p-8 border border-[#0E1B3D]/8 shadow-md flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 md:gap-8">
-            <ReadinessMeter score={readinessScore} />
+            <ProgressMeter score={roadmapProgress} />
             <div className="flex-1">
-              <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">Độ sẵn sàng</h3>
+              <h3 className="font-serif text-xl text-[#0E1B3D] mb-2">Tiến độ lộ trình</h3>
               <p className="text-[#0E1B3D]/60 text-sm leading-relaxed mb-4">
-                {readinessScore >= 70
+                {roadmapProgress >= 70
                   ? "Bạn đang tiến rất tốt! Tiếp tục duy trì đà này."
-                  : readinessScore >= 40
+                  : roadmapProgress >= 40
                   ? "Bạn đang đi đúng hướng. Hoàn thiện thêm các mốc còn lại."
                   : "Hãy bắt đầu với các mốc đầu tiên để xây dựng đà."}
               </p>

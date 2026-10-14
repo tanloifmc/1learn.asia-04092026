@@ -123,12 +123,16 @@ export default async function ReportPage() {
     // Report is missing. Did they actually complete the assessment?
     const { data: result } = await supabase
       .from("assessment_results")
-      .select("id")
+      .select("id, confidence")
       .eq("student_id", user.id)
       .eq("is_current", true)
       .maybeSingle();
 
     if (result) {
+      const confidence = result.confidence as { level?: string; is_usable?: boolean } | null;
+      if (!confidence?.is_usable || !["VALID", "QUESTIONABLE"].includes(confidence.level ?? "")) {
+        return <AssessmentRetakeState />;
+      }
       // Assessment completed, but report failed to generate (e.g. timeout)
       return <ReportGeneratorState resultId={result.id} />;
     }
@@ -264,13 +268,25 @@ export default async function ReportPage() {
               <p className="text-amber-900 text-sm leading-relaxed">{aiNarrative.growthNarrative}</p>
             </div>
           </div>
-          <div className="bg-[#4A2545]/5 border border-[#4A2545]/15 rounded-2xl p-5">
-            <div className="flex items-center gap-2 mb-2">
-              <Briefcase className="w-4 h-4 text-[#4A2545]" />
-              <span className="font-bold text-[#4A2545] text-xs uppercase tracking-wide">Gợi ý nghề nghiệp</span>
+          {careerMatches.length > 0 ? (
+            <div className="bg-[#4A2545]/5 border border-[#4A2545]/15 rounded-2xl p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <Briefcase className="w-4 h-4 text-[#4A2545]" />
+                <span className="font-bold text-[#4A2545] text-xs uppercase tracking-wide">Hướng phát triển</span>
+              </div>
+              <p className="text-[#0E1B3D] text-sm leading-relaxed">{aiNarrative.careerNarrative}</p>
             </div>
-            <p className="text-[#0E1B3D] text-sm leading-relaxed">{aiNarrative.careerNarrative}</p>
-          </div>
+          ) : (
+            <div className="bg-[#4A2545]/5 border border-[#4A2545]/15 rounded-2xl p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <Shield className="w-4 h-4 text-[#4A2545]" />
+                <span className="font-bold text-[#4A2545] text-xs uppercase tracking-wide">Định hướng đang chờ dữ liệu kiểm chứng</span>
+              </div>
+              <p className="text-[#0E1B3D] text-sm leading-relaxed">
+                Hãy dùng hồ sơ năng lực này để quan sát sở thích, giá trị và điểm cần phát triển của bạn. 1learn sẽ chỉ ghép sang nghề, ngành và trường khi catalog có đủ nguồn chính thức đã được kiểm chứng.
+              </p>
+            </div>
+          )}
 
           {/* Disclaimer */}
           <div className="flex items-start gap-2 mt-5 p-4 bg-[#0E1B3D]/3 rounded-xl">
@@ -412,7 +428,7 @@ export default async function ReportPage() {
         </div>
 
         {/* ── CAREER MATCHES (Preview — Top 3 only) ──────────────────── */}
-        {careerMatches.length > 0 && (
+        {careerMatches.length > 0 ? (
           <Card className="p-6 md:p-10">
             <SectionLabel color="purple">Gợi ý nghề nghiệp</SectionLabel>
             <div className="flex items-start justify-between mb-5">
@@ -459,6 +475,16 @@ export default async function ReportPage() {
                 + {careerMatches.length - 3} nghề khác trong <Link href="/me/bao-cao/premium" className="text-[#B89862] font-bold hover:underline">Báo cáo Premium</Link>
               </p>
             )}
+          </Card>
+        ) : (
+          <Card className="p-6 md:p-10 border-amber-200 bg-amber-50/60">
+            <SectionLabel color="gold">Danh mục đang kiểm chứng</SectionLabel>
+            <h2 className="font-serif text-2xl font-bold text-[#0E1B3D] flex items-center gap-2 mb-3">
+              <Shield className="w-6 h-6 text-amber-600" /> Chưa đủ dữ liệu nghề nghiệp đã xác minh
+            </h2>
+            <p className="text-[#0E1B3D]/65 text-sm leading-relaxed max-w-3xl">
+              Hồ sơ năng lực của bạn đã được tạo. 1learn chưa đưa ra gợi ý nghề, ngành hoặc trường cho đến khi chuỗi dữ liệu liên quan có nguồn chính thức và được kiểm chứng. Chúng tôi ưu tiên độ chính xác hơn là một kết luận chưa có căn cứ.
+            </p>
           </Card>
         )}
 
@@ -521,6 +547,21 @@ export default async function ReportPage() {
         </div>
 
       </div>
+    </div>
+  );
+}
+
+function AssessmentRetakeState() {
+  return (
+    <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6">
+      <Shield className="w-12 h-12 text-amber-600 mb-5" />
+      <h1 className="font-serif text-3xl text-[#0E1B3D] mb-3">Chưa thể tạo báo cáo</h1>
+      <p className="max-w-xl text-[#0E1B3D]/60 mb-6">
+        Kết quả khảo sát hiện tại chưa đạt điều kiện chất lượng để đưa ra gợi ý định hướng. Hãy thực hiện lại bài đánh giá để nhận báo cáo đáng tin cậy hơn.
+      </p>
+      <Link href="/me/kham-pha?new=1" className="px-7 py-3 rounded-full bg-[#0E1B3D] text-white font-bold hover:bg-[#B89862] transition-colors">
+        Làm lại bài đánh giá
+      </Link>
     </div>
   );
 }

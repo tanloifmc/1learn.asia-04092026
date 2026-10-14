@@ -5,6 +5,7 @@ import { GapAnalysisEngine, StudentState } from './gap-analysis';
 import { PriorityEngine } from './priority-engine';
 import { TimelinePlanner } from './timeline-planner';
 import * as crypto from 'crypto';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export class RoadmapGenerator {
   private supabase: ReturnType<typeof createClient<Database>>;
@@ -56,23 +57,10 @@ export class RoadmapGenerator {
     let requirements = await this.requirementEngine.getVerifiedRequirements(targetType, targetId);
     
     if (requirements.length === 0) {
-      // Fallback: If no strict academic requirements exist, we still provide a general exploration roadmap
-      // instead of returning 'limited' because our primary goal is to advise fields of study.
-      requirements = [
-        {
-          id: 'default-req-1',
-          target_type: targetType,
-          target_id: targetId,
-          requirement_code: 'general_exploration',
-          requirement_type: 'skill',
-          comparison_operator: '>=',
-          requirement_value: '1',
-          unit: 'step',
-          importance: 'high',
-          status: 'published',
-          source: 'system_default'
-        } as any
-      ];
+      return {
+        status: 'insufficient_data',
+        message: 'Mục tiêu này chưa có yêu cầu đã được xác minh để tạo lộ trình đáng tin cậy.',
+      };
     }
 
     // 3. Process Gaps and Timeline
@@ -113,70 +101,46 @@ export class RoadmapGenerator {
       return { status: 'success', roadmapId: existingActive.data.id, message: 'Existing roadmap is up to date.' };
     }
 
-    // 5. Transaction: Archive old, Create new
-    // Supabase JS doesn't support generic RPC transactions easily without a Postgres function, 
-    // but we can do a sequence of updates. For strict concurrency, we should use a Postgres function.
-    // However, the partial unique index on (student_id) WHERE status = 'active' will prevent race conditions!
-    // If two requests try to insert an active roadmap, one will fail the unique constraint.
+    const serializeDate = (date: Date) => date.toISOString().slice(0, 10);
+    const adminClient = createAdminClient();
+    const { data: roadmapId, error: transactionError } = await (adminClient as any).rpc('replace_student_roadmap', {
+      p_student_id: studentId,
+      p_requirement_target_type: targetType,
+      p_requirement_target_id: targetId,
+      p_target: {
+        targetCareerId: targetDetails.target_career_id ?? null,
+        targetMajorId: targetDetails.target_major_id ?? null,
+        targetUniversityId: targetDetails.target_university_id ?? null,
+        targetProgramId: targetDetails.target_program_id ?? null,
+      },
+      p_metadata: {
+        generatorVersion: generatorVersionStr,
+        profileVersion,
+        academicDataVersion: new Date().toISOString(),
+      },
+      p_milestones: milestones.map((milestone) => ({
+        title: milestone.title,
+        description: milestone.description,
+        targetDate: serializeDate(milestone.targetDate),
+        priority: milestone.priority,
+        sourceRequirementId: milestone.sourceRequirementId,
+        orderIndex: milestone.orderIndex,
+        tasks: milestone.tasks.map((task) => ({
+          title: task.title,
+          description: task.description,
+          taskType: task.taskType,
+          priority: task.priority,
+          dueDate: serializeDate(task.dueDate),
+          estimatedEffort: task.estimatedEffort,
+          sourceRequirementId: task.sourceRequirementId,
+          evidenceRequired: task.evidenceRequired,
+          evidenceType: task.evidenceType,
+        })),
+      })),
+    });
 
-    // 5.1 Archive existing active roadmap
-    if (existingActive.data) {
-      await (this.supabase as any)
-        .from('roadmaps')
-        .update({ status: 'archived', archived_at: new Date().toISOString() })
-        .eq('id', existingActive.data.id);
-    }
-
-    // 5.2 Insert new roadmap
-    const roadmapInsert = await (this.supabase as any).from('roadmaps').insert({
-      student_id: studentId,
-      target_career_id: targetDetails.target_career_id,
-      target_major_id: targetDetails.target_major_id,
-      target_university_id: targetDetails.target_university_id,
-      target_program_id: targetDetails.target_program_id,
-      roadmap_version: 1,
-      generator_version: generatorVersionStr,
-      profile_version: profileVersion,
-      academic_data_version: new Date().toISOString(),
-      status: 'active'
-    }).select('id').single();
-
-    if (roadmapInsert.error) {
-      throw new Error(`Failed to insert roadmap: ${roadmapInsert.error.message}`);
-    }
-
-    const roadmapId = roadmapInsert.data.id;
-
-    // 5.3 Insert Milestones and Tasks
-    for (const ms of milestones) {
-      const msInsert = await (this.supabase as any).from('roadmap_milestones').insert({
-        roadmap_id: roadmapId,
-        title: ms.title,
-        description: ms.description,
-        target_date: ms.targetDate.toISOString().split('T')[0],
-        priority: ms.priority,
-        source_requirement_id: ms.sourceRequirementId,
-        order_index: ms.orderIndex
-      }).select('id').single();
-
-      if (msInsert.error) continue; // In production, handle better
-
-      const msId = msInsert.data.id;
-      
-      const tasksToInsert = ms.tasks.map((t: any) => ({
-        milestone_id: msId,
-        title: t.title,
-        description: t.description,
-        task_type: t.taskType,
-        priority: t.priority,
-        due_date: t.dueDate.toISOString().split('T')[0],
-        estimated_effort: t.estimatedEffort,
-        source_requirement_id: t.sourceRequirementId,
-        evidence_required: t.evidenceRequired,
-        evidence_type: t.evidenceType
-      }));
-
-      await (this.supabase as any).from('roadmap_tasks').insert(tasksToInsert);
+    if (transactionError || !roadmapId) {
+      throw new Error(`Failed to persist roadmap transaction: ${transactionError?.message ?? 'missing roadmap id'}`);
     }
 
     return { status: 'success', roadmapId, message: 'Roadmap generated successfully.' };

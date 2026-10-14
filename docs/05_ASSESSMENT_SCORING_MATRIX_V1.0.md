@@ -184,9 +184,8 @@ These are operational response-quality checks, NOT formal validity coefficients.
 ## 9. Straight-line detection
 Exclude quality-control items.
 Look at the sequence of scored items in the actual presented order.
-If the same response value occurs for: >= 12 consecutive scored questions
-set: `STRAIGHTLINE_SUSPECTED = true`
-This flag does not automatically invalidate the assessment.
+This section is superseded by the final locked policy in `core_architecture/08_VALIDITY_SPECIFICATION.md`.
+The package configuration must provide `straightline_block_threshold = 8`; one block is `QUESTIONABLE` and two or more blocks are `INVALID`.
 
 ## 10. Speeding
 V1 MUST store: started_at, completed_at, duration_seconds.
