@@ -7,15 +7,11 @@ function requireNonProductionEnvironment(name: string): string {
 }
 
 const e2eEnvironment = process.env.E2E_ENV;
-const isDiscoveryOrHelp = process.argv.some(
-  (arg) => arg === "--list" || arg === "-h" || arg === "--help" || arg === "--version"
-);
 
-// If running in test discovery/IDE mode without an environment, provide fallback configuration
-// instead of throwing an error immediately. When running actual tests, enforce strict security rules.
-if (!e2eEnvironment && isDiscoveryOrHelp) {
-  // Discovery mode allowed without error
-} else {
+// If an approved E2E environment is provided, enforce strict configuration checks now.
+// If no environment is set (e.g. IDE test explorer, language server, or static config check),
+// runtime test execution will fail closed via globalSetup.
+if (e2eEnvironment) {
   if (e2eEnvironment !== "development" && e2eEnvironment !== "staging") {
     throw new Error("E2E tests are restricted to an explicitly approved development or staging environment.");
   }
@@ -58,6 +54,7 @@ const e2eBaseUrl = process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000";
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  globalSetup: "./tests/e2e/helpers/global-setup.ts",
   testIgnore: [
     "**/full-student-flow.spec.ts",
     "**/full-student-journey.spec.ts",
